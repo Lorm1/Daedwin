@@ -1,0 +1,19 @@
+name: Daedwin
+version: 1.0
+main: me.george.daedwin.Daedwin
+prefix: Daedwin
+authors: [George_Angel]
+description: Myths of Daedwin
+commands:
+  mutechat:
+    description: Mutes the chat.
+    usage: /mutechat
+  clearchat:
+    description: Clears the chat.
+    usage: /clearchat
+  logout:
+    description: Attempts to log the player out safely.
+    usage: /logout
+  freeze:
+    description: Freeze a player in place (time- optional)
+    usage: /freeze <player> <time>(optional)
