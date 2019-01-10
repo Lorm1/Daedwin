@@ -18,7 +18,7 @@ public class CommandFly implements CommandExecutor {
 
         if (!player.isAdmin()) return true;
 
-        if (args.length == 1) {
+        if (args.length == 0) {
             if (!p.getAllowFlight()) {
                 p.setAllowFlight(true);
                 p.sendMessage(ChatColor.AQUA.toString() + ChatColor.BOLD + "FLYING - " + ChatColor.GREEN.toString() + ChatColor.BOLD + "ON");
@@ -27,8 +27,8 @@ public class CommandFly implements CommandExecutor {
                 p.setAllowFlight(false);
                 p.sendMessage(ChatColor.AQUA.toString() + ChatColor.BOLD + "FLYING - " + ChatColor.RED.toString() + ChatColor.BOLD + "OFF");
             }
-        } else if (args.length == 2) {
-            Player target = Bukkit.getPlayer(args[1]);
+        } else if (args.length == 1) {
+            Player target = Bukkit.getPlayer(args[0]);
 
             if (!target.isOnline() || target == null) {
                 p.sendMessage(ChatColor.RED + "That player is not online.");

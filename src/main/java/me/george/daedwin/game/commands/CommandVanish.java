@@ -18,7 +18,7 @@ public class CommandVanish implements CommandExecutor {
 
         if (!player.isAdmin()) return true;
 
-        if (args.length == 1) {
+        if (args.length == 0) {
             if (!Daedwin._hiddenPlayers.contains(p)) {
                 Daedwin._hiddenPlayers.add(p);
                 for (Player pl : Bukkit.getOnlinePlayers()) pl.hidePlayer(p);
@@ -32,8 +32,8 @@ public class CommandVanish implements CommandExecutor {
                 p.sendMessage(ChatColor.AQUA.toString() + ChatColor.BOLD + "VANISH - " + ChatColor.RED.toString() + ChatColor.BOLD + "OFF");
                 return true;
             }
-        } else if (args.length == 2) {
-            Player target = Bukkit.getPlayer(args[1]);
+        } else if (args.length == 1) {
+            Player target = Bukkit.getPlayer(args[0]);
 
             if (!target.isOnline() || target == null) {
                 p.sendMessage(ChatColor.RED + "That player is not online.");
