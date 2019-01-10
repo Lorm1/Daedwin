@@ -20,7 +20,7 @@ public class CommandCheckBan implements CommandExecutor {
             Player p = (Player) sender;
             DaedwinPlayer player = DaedwinPlayer.getDaedwinPlayers().get(p.getUniqueId());
 
-            if (!player.isAdmin()) return true;
+            if (!player.isStaff()) return true;
 
             if (args.length != 1) {
                 p.sendMessage(ChatColor.RED + "Invalid Usage.");

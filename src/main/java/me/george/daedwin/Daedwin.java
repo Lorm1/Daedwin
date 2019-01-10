@@ -59,7 +59,7 @@ public class Daedwin extends JavaPlugin {
 
         getLogger().info("Disabling Daedwin v." + Constants.SERVER_VERSION);
 
-        DaedwinPlayer.getDaedwinPlayers().clear();
+        clearCache();
     }
 
     private void registerEvents() {
@@ -83,6 +83,8 @@ public class Daedwin extends JavaPlugin {
         this.getCommand("shout").setExecutor(new CommandShout());
         this.getCommand("setrank").setExecutor(new CommandSetRank());
         this.getCommand("maintenance").setExecutor(new CommandMaintenance());
+        this.getCommand("vanish").setExecutor(new CommandVanish());
+        this.getCommand("fly").setExecutor(new CommandFly());
     }
 
     private void setupManagers() {
@@ -92,5 +94,10 @@ public class Daedwin extends JavaPlugin {
 
         punishmentManager.setupManagers();
         fileManager.setupWhitelist();
+    }
+
+    private void clearCache() {
+        DaedwinPlayer.getDaedwinPlayers().clear();
+        _hiddenPlayers.clear();
     }
 }

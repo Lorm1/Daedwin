@@ -8,6 +8,7 @@ import me.george.daedwin.game.LogoutManager;
 import me.george.daedwin.game.rank.Rank;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -84,6 +85,19 @@ public class PlayerConnection implements Listener {
                         daedwinPlayer.getRank().getPrefix() + " " + ChatColor.GRAY + p.getName() + ChatColor.GRAY + " has joined.");
             }
         }
+
+        if (daedwinPlayer.isAdmin()) {
+            Daedwin._hiddenPlayers.add(p);
+            p.setAllowFlight(true);
+            p.sendMessage(ChatColor.AQUA.toString() + ChatColor.BOLD + "VANISH - " + ChatColor.GREEN.toString() + ChatColor.BOLD + "ON");
+            p.sendMessage(ChatColor.AQUA.toString() + ChatColor.BOLD + "FLYING - " + ChatColor.GREEN.toString() + ChatColor.BOLD + "ON");
+        } else {
+            p.setGameMode(GameMode.SURVIVAL);
+        }
+
+        for (Player player : Daedwin._hiddenPlayers) {
+            p.hidePlayer(player);
+        }
     }
 
     @EventHandler
@@ -107,5 +121,9 @@ public class PlayerConnection implements Listener {
         LogoutManager.handleLogout(daedwinPlayer);
 
         DaedwinPlayer.getDaedwinPlayers().remove(daedwinPlayer.getPlayer().getUniqueId(), daedwinPlayer);
+
+        if (Daedwin._hiddenPlayers.contains(p)) {
+            Daedwin._hiddenPlayers.remove(p);
+        }
     }
 }

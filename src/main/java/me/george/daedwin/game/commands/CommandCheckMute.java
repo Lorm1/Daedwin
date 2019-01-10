@@ -21,7 +21,7 @@ public class CommandCheckMute implements CommandExecutor {
             Player p = (Player) sender;
             DaedwinPlayer player = DaedwinPlayer.getDaedwinPlayers().get(p.getUniqueId());
 
-            if (!player.isAdmin()) return true;
+            if (!player.isStaff()) return true;
 
             if (args.length != 1) {
                 p.sendMessage(ChatColor.RED + "Invalid Usage.");
@@ -42,10 +42,10 @@ public class CommandCheckMute implements CommandExecutor {
             p.sendMessage(ChatColor.GRAY + "Name: " + ChatColor.YELLOW + args[0]);
             p.sendMessage(ChatColor.GRAY + "UUID: " + ChatColor.YELLOW + targetUUID.toString());
 
-            sender.sendMessage(ChatColor.GRAY + "Banned: " + (Daedwin.getInstance().getPunishmentManager().getMuteManager().isMuted(targetUUID) ? ChatColor.GREEN + "✔" : ChatColor.RED + "✖"));
+            sender.sendMessage(ChatColor.GRAY + "Muted: " + (Daedwin.getInstance().getPunishmentManager().getMuteManager().isMuted(targetUUID) ? ChatColor.GREEN + "✔" : ChatColor.RED + "✖"));
 
             Bukkit.getScheduler().runTaskAsynchronously(Daedwin.getInstance(), () -> {
-                if(Daedwin.getInstance().getPunishmentManager().getBanManager().isBanned(targetUUID)){
+                if(Daedwin.getInstance().getPunishmentManager().getMuteManager().isMuted(targetUUID)){
                     p.sendMessage("");
                     p.sendMessage(ChatColor.AQUA.toString() + ChatColor.UNDERLINE + "Reason: " + ChatColor.WHITE + Daedwin.getInstance().getPunishmentManager().getMuteManager().getReason(targetUUID));
                     p.sendMessage(ChatColor.GOLD.toString() + ChatColor.UNDERLINE + "Duration: " + ChatColor.RED + Daedwin.getInstance().getPunishmentManager().getMuteManager().getTimeLeft(targetUUID));

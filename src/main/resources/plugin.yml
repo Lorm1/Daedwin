@@ -49,3 +49,10 @@ commands:
     description: Base maintenance command.
     usage: /maintenance <on|off|add|remove|clear> <player> (optional)
     aliases: [mm]
+  vanish:
+    description: Turns a player invisible.
+    usage: /vanish <player> (optional)
+    aliases: [invis, v, invisible]
+  fly:
+    description: Enables flying.
+    usage: /fly <player> (optional)

@@ -1,9 +1,11 @@
 package me.george.daedwin.game.chat;
 
+import me.george.daedwin.Daedwin;
 import me.george.daedwin.game.rank.Rank;
 import me.george.daedwin.game.player.DaedwinPlayer;
 import me.george.daedwin.utils.ChatUtils;
 import me.george.daedwin.utils.Utils;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
@@ -23,9 +25,20 @@ public class Chat implements Listener {
         Player p = e.getPlayer();
         DaedwinPlayer player = DaedwinPlayer.getDaedwinPlayers().get(p.getUniqueId());
 
+        e.setCancelled(true);
+
         Rank rank = player.getRank();
 
-        e.setCancelled(true);
+        if (player.getIsMuted()) {
+            Bukkit.getScheduler().runTaskAsynchronously(Daedwin.getInstance(), () -> {
+                if(Daedwin.getInstance().getPunishmentManager().getMuteManager().isMuted(p.getUniqueId())){
+                    p.sendMessage(ChatColor.RED + "You are muted.");
+                    p.sendMessage(ChatColor.GOLD.toString() + ChatColor.UNDERLINE + "Reason" + ChatColor.GOLD + ": " + ChatColor.WHITE + Daedwin.getInstance().getPunishmentManager().getMuteManager().getReason(p.getUniqueId()));
+                    p.sendMessage(ChatColor.RED.toString() + ChatColor.UNDERLINE + "Expires" + ChatColor.RED + ": " + ChatColor.GRAY + Daedwin.getInstance().getPunishmentManager().getMuteManager().getTimeLeft(p.getUniqueId()));
+                }
+            });
+            return;
+        }
 
         String message = e.getMessage();
 
@@ -63,6 +76,7 @@ public class Chat implements Listener {
                 p.playSound(p.getLocation(), Sound.AMBIENT_CAVE, 5, 5);
             }
         }
+
         Utils.log.info("CHAT: " + formattedMessage);
     }
 }
