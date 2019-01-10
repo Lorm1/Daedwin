@@ -1,6 +1,6 @@
 package me.george.daedwin.database;
 
-import me.george.daedwin.game.Rank;
+import me.george.daedwin.game.rank.Rank;
 import me.george.daedwin.game.player.DaedwinPlayer;
 import me.george.daedwin.utils.Utils;
 
@@ -75,6 +75,44 @@ public class DatabaseAPI {
             e.printStackTrace();
         }
         throw new NullPointerException("Player: " + playerName + " has never played before.");
+    }
+
+    public static Rank getPlayerRank(String playerName) {
+        if (!playerExists(playerName)) throw new NullPointerException("Player: " + playerName + " has never played before.");
+
+        PreparedStatement sts;
+        try {
+            sts = prepareStatement("SELECT RANK FROM player_info WHERE NAME = ?");
+            sts.setString(1, playerName);
+
+            ResultSet rs = sts.executeQuery();
+
+            if (rs.next()) {
+                return Rank.valueOf(rs.getString("RANK"));
+            }
+        } catch(SQLException e) {
+            e.printStackTrace();
+        }
+        throw new NullPointerException("Player: " + playerName + " has never played before.");
+    }
+
+    public static Rank getPlayerRank(UUID uuid) {
+        if (!playerExists(uuid)) throw new NullPointerException("Player with UUID: " + uuid.toString() + " has never played before.");
+
+        PreparedStatement sts;
+        try {
+            sts = prepareStatement("SELECT RANK FROM player_info WHERE UUID = ?");
+            sts.setString(1, uuid.toString());
+
+            ResultSet rs = sts.executeQuery();
+
+            if (rs.next()) {
+                return Rank.valueOf(rs.getString("RANK"));
+            }
+        } catch(SQLException e) {
+            e.printStackTrace();
+        }
+        throw new NullPointerException("Player with UUID: " + uuid.toString() + " has never played before.");
     }
 
     public static void loadPlayer(DaedwinPlayer daedwinPlayer) { // is online

@@ -33,10 +33,10 @@ public class FileManager {
     }
 
     public void setupWhitelist() {
-//        config.createSection("Player");
-
-        for (String adminName : Constants.ADMINS) {
-            addToWhitelist(adminName);
+        if (!Constants.ADMINS.isEmpty()) {
+            for (String adminName : Constants.ADMINS) {
+                addToWhitelist(adminName);
+            }
         }
     }
 

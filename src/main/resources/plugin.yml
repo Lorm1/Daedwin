@@ -12,6 +12,7 @@ commands:
   clearchat:
     description: Clears the chat.
     usage: /clearchat
+    aliases: [cc]
   logout:
     description: Attempts to log the player out safely.
     usage: /logout
@@ -20,7 +21,7 @@ commands:
     usage: /freeze <player> <time>(optional)
   ban:
     description: Bans a player.
-    usage: /ban <player> <duration/perm> <reason>
+    usage: /ban <player> <duration/perm>:<sec/min/h/w/m> <reason>
   unban:
     description: Unbans a player.
     usage: /unban <player>
@@ -30,3 +31,12 @@ commands:
   shout:
     description: Broadcasts a message across the whole server.
     usage: /shout <message>
+    aliases: [sh]
+  setrank:
+    description: Sets a player's rank.
+    usage: /setrank <player> <rank>
+    aliases: [sr]
+  maintenance:
+    description: Base maintenance command.
+    usage: /maintenance <on|off|add|remove|clear> <player> (optional)
+    aliases: [mm]

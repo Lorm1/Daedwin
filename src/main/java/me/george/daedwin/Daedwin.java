@@ -4,9 +4,11 @@ import me.george.daedwin.database.Database;
 import me.george.daedwin.game.chat.Chat;
 import me.george.daedwin.game.commands.*;
 import me.george.daedwin.game.maintenance.FileManager;
+import me.george.daedwin.game.player.DaedwinPlayer;
 import me.george.daedwin.game.player.PlayerConnection;
-import me.george.daedwin.game.player.Restrictions;
 import me.george.daedwin.game.punishment.ban.BanManager;
+import me.george.daedwin.game.rank.RankManager;
+import me.george.daedwin.game.world.Restrictions;
 import me.george.daedwin.utils.ConcurrentSet;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -22,11 +24,13 @@ public class Daedwin extends JavaPlugin {
 
     private FileManager fileManager;
     private BanManager banManager;
+    private RankManager rankManager;
 
     public FileManager getFileManager() {
         return fileManager;
     }
     public BanManager getBanManager() { return banManager; }
+    public RankManager getRankManager() { return rankManager; }
 
     public static Set<Player> _hiddenPlayers = new ConcurrentSet<>();
 
@@ -54,6 +58,8 @@ public class Daedwin extends JavaPlugin {
         // Database.getInstance().disconnect(); // Doesn't really serve much, it's fine to leave it open.
 
         getLogger().info("Disabling Daedwin v." + Constants.SERVER_VERSION);
+
+        DaedwinPlayer.getDaedwinPlayers().clear();
     }
 
     private void registerEvents() {
@@ -72,11 +78,14 @@ public class Daedwin extends JavaPlugin {
         this.getCommand("unban").setExecutor(new CommandUnban());
         this.getCommand("checkban").setExecutor(new CommandCheckBan());
         this.getCommand("shout").setExecutor(new CommandShout());
+        this.getCommand("setrank").setExecutor(new CommandSetRank());
+        this.getCommand("maintenance").setExecutor(new CommandMaintenance());
     }
 
     private void setupManagers() {
         fileManager = new FileManager(this);
         banManager = new BanManager(this);
+        rankManager = new RankManager(this);
 
         fileManager.setupWhitelist();
     }

@@ -1,10 +1,11 @@
 package me.george.daedwin.game.commands;
 
+import me.george.daedwin.Constants;
 import me.george.daedwin.Daedwin;
 import me.george.daedwin.database.DatabaseAPI;
+import me.george.daedwin.game.rank.Rank;
 import me.george.daedwin.game.player.DaedwinPlayer;
-import me.george.daedwin.utils.TimeUnit;
-import org.bukkit.Bukkit;
+import me.george.daedwin.game.punishment.TimeUnit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -24,7 +25,7 @@ public class CommandBan implements CommandExecutor {
 
             if (!player.isAdmin()) return true;
 
-            if (args.length <= 1) {
+            if (args.length < 1) {
                 p.sendMessage(ChatColor.RED + "Invalid Usage.");
                 return false;
             }
@@ -39,7 +40,24 @@ public class CommandBan implements CommandExecutor {
             UUID targetUUID = DatabaseAPI.getPlayerUUID(targetName);
 
             if (Daedwin.getInstance().getBanManager().isBanned(targetUUID)) {
-                p.sendMessage(ChatColor.RED + "That player is already banned!");
+                p.sendMessage(ChatColor.RED + "That player is already banned.");
+                return true;
+            }
+
+            if (Constants.ADMINS.contains(targetName) || DatabaseAPI.getPlayerRank(targetUUID).equals(Rank.ADMIN)) {
+                p.sendMessage(ChatColor.RED + "You cannot ban this player.");
+                return true;
+            }
+
+            boolean hasDuration = true;
+
+            if (args.length == 1) { // ban <player>
+                hasDuration = false; // perma
+
+                Daedwin.getInstance().getBanManager().ban(targetUUID, -1, "Unspecified");
+                p.sendMessage(ChatColor.RED + "Banned player " + ChatColor.YELLOW + targetName + " "
+                        + ChatColor.RED.toString() + ChatColor.UNDERLINE + "PERMANENTLY."
+                        + ChatColor.AQUA + " Reason: " + ChatColor.DARK_RED + "Unspecified");
                 return true;
             }
 
@@ -49,15 +67,17 @@ public class CommandBan implements CommandExecutor {
                 reason += args[i] + " ";
             }
 
-            if (args[1].equalsIgnoreCase("perm") || args[1] == null) {
-                Daedwin.getInstance().getBanManager().ban(targetUUID, -1, reason);
-                p.sendMessage(ChatColor.RED + "Banned player " + ChatColor.YELLOW + targetName
-                        + ChatColor.RED.toString() + ChatColor.UNDERLINE + " PERMANENTLY."
-                        + ChatColor.AQUA + " Reason: " + ChatColor.WHITE + (reason.equals("") ? "Not Specified" : reason));
+            if (args[1].equalsIgnoreCase("perm")) {
+                hasDuration = false;
+
+                Daedwin.getInstance().getBanManager().ban(targetUUID, -1, reason.equals("") ? "Unspecified" : reason);
+                p.sendMessage(ChatColor.RED + "Banned player " + ChatColor.YELLOW + targetName + " "
+                        + ChatColor.RED.toString() + ChatColor.UNDERLINE + "PERMANENTLY."
+                        + ChatColor.AQUA + " Reason: " + ChatColor.DARK_RED + (reason.equals("") ? "Unspecified" : reason));
                 return true;
             }
 
-            if (!args[1].contains(":")) {
+            if (!args[1].contains(":") && hasDuration) {
                 p.sendMessage(ChatColor.RED + "Invalid Usage.");
                 return false;
             }
@@ -81,14 +101,13 @@ public class CommandBan implements CommandExecutor {
             TimeUnit unit = TimeUnit.getFromShortcut(args[1].split(":")[1]);
             long banTime = unit.getToSecond() * duration;
 
-            String finalReason = reason;
-            Bukkit.getScheduler().runTaskAsynchronously(Daedwin.getInstance(), () -> Daedwin.getInstance().getBanManager().ban(targetUUID, banTime, finalReason));
+            Daedwin.getInstance().getBanManager().ban(targetUUID, banTime, reason.equals("") ? "Unspecified" : reason);
             p.sendMessage(ChatColor.RED + "Banned player " + ChatColor.YELLOW + targetName
-                    + ChatColor.RED.toString() + ChatColor.GOLD + "Duration: "
-                    + ChatColor.RED + banTime + ChatColor.AQUA + "Reason: "
-                    + ChatColor.WHITE + (reason.equals("") ? "Not Specified" : reason));
+                    + ChatColor.RED.toString() + ChatColor.GRAY + " Duration: "
+                    + ChatColor.RED + banTime + ChatColor.AQUA + " Reason: "
+                    + ChatColor.WHITE + (reason.equals("") ? "Unspecified" : reason));
         } else if (sender instanceof ConsoleCommandSender) {
-            if (args.length == 3) {
+            if (args.length < 1) {
                 sender.sendMessage(ChatColor.RED + "Invalid Usage.");
                 return false;
             }
@@ -107,6 +126,23 @@ public class CommandBan implements CommandExecutor {
                 return true;
             }
 
+            if (Constants.ADMINS.contains(targetName) || DatabaseAPI.getPlayerRank(targetUUID).equals(Rank.ADMIN)) {
+                sender.sendMessage(ChatColor.RED + "You cannot ban this player.");
+                return true;
+            }
+
+            boolean hasDuration = true;
+
+            if (args.length == 1) { // ban <player>
+                hasDuration = false; // perma
+
+                Daedwin.getInstance().getBanManager().ban(targetUUID, -1, "Unspecified");
+                sender.sendMessage(ChatColor.RED + "Banned player " + ChatColor.YELLOW + targetName + " "
+                        + ChatColor.RED.toString() + ChatColor.UNDERLINE + "PERMANENTLY."
+                        + ChatColor.AQUA + " Reason: " + ChatColor.DARK_RED + "Unspecified");
+                return true;
+            }
+
             String reason = "";
 
             for (int i = 2; i < args.length; i++) {
@@ -114,15 +150,16 @@ public class CommandBan implements CommandExecutor {
             }
 
             if (args[1].equalsIgnoreCase("perm")) {
-                String finalReason1 = reason;
-                Bukkit.getScheduler().runTaskAsynchronously(Daedwin.getInstance(), () -> Daedwin.getInstance().getBanManager().ban(targetUUID, -1, finalReason1));
-                sender.sendMessage(ChatColor.RED + "Banned player " + ChatColor.YELLOW + targetName
-                        + ChatColor.RED.toString() + ChatColor.UNDERLINE + "PERMANENTLY. "
-                        + ChatColor.AQUA + "Reason: " + ChatColor.WHITE + reason);
+                hasDuration = false;
+
+                Daedwin.getInstance().getBanManager().ban(targetUUID, -1, reason.equals("") ? "Unspecified" : reason);
+                sender.sendMessage(ChatColor.RED + "Banned player " + ChatColor.YELLOW + targetName + " "
+                        + ChatColor.RED.toString() + ChatColor.UNDERLINE + "PERMANENTLY."
+                        + ChatColor.AQUA + " Reason: " + ChatColor.DARK_RED + (reason.equals("") ? "Unspecified" : reason));
                 return true;
             }
 
-            if (!args[1].contains(":")) {
+            if (!args[1].contains(":") && hasDuration) {
                 sender.sendMessage(ChatColor.RED + "Invalid Usage.");
                 return false;
             }
@@ -146,12 +183,11 @@ public class CommandBan implements CommandExecutor {
             TimeUnit unit = TimeUnit.getFromShortcut(args[1].split(":")[1]);
             long banTime = unit.getToSecond() * duration;
 
-            String finalReason = reason;
-            Bukkit.getScheduler().runTaskAsynchronously(Daedwin.getInstance(), () -> Daedwin.getInstance().getBanManager().ban(targetUUID, banTime, finalReason));
+            Daedwin.getInstance().getBanManager().ban(targetUUID, banTime, reason.equals("") ? "Unspecified" : reason);
             sender.sendMessage(ChatColor.RED + "Banned player " + ChatColor.YELLOW + targetName
-                    + ChatColor.RED.toString() + ChatColor.GOLD + "Duration: "
-                    + ChatColor.RED + banTime + ChatColor.AQUA + "Reason: "
-                    + ChatColor.WHITE + reason);
+                    + ChatColor.RED.toString() + ChatColor.GRAY + " Duration: "
+                    + ChatColor.RED + banTime + ChatColor.AQUA + " Reason: "
+                    + ChatColor.DARK_RED + (reason.equals("") ? "Unspecified" : reason));
         }
         return true;
     }

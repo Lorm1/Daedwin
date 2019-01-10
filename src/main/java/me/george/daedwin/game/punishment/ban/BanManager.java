@@ -2,7 +2,7 @@ package me.george.daedwin.game.punishment.ban;
 
 import me.george.daedwin.Daedwin;
 import me.george.daedwin.database.DatabaseAPI;
-import me.george.daedwin.utils.TimeUnit;
+import me.george.daedwin.game.punishment.TimeUnit;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -48,10 +48,10 @@ public class BanManager {
 
         if (Bukkit.getPlayer(uuid) != null) {
             Player target = Bukkit.getPlayer(uuid);
-            String banMessage = ChatColor.RED.toString() + ChatColor.UNDERLINE + "You have been Banned.\n"
-                    + ChatColor.AQUA.toString() + ChatColor.UNDERLINE
-                    + "Reason: " + ChatColor.WHITE + reason + "\n \n"
-                    + ChatColor.GOLD + "Duration: " + ChatColor.RED + getTimeLeft(uuid);
+            String banMessage = ChatColor.DARK_PURPLE.toString() + ChatColor.BOLD + "Myths of Daedwin\n\n" + ChatColor.RED.toString() + ChatColor.UNDERLINE + "You have been Banned.\n\n"
+                    + ChatColor.BLUE.toString() + ChatColor.UNDERLINE + "Reason" + ChatColor.AQUA + ": "
+                    + ChatColor.DARK_RED + reason + "\n\n"
+                    + ChatColor.GRAY.toString() + ChatColor.UNDERLINE + "Expires: " + ChatColor.RED + getTimeLeft(uuid);
 
             target.kickPlayer(banMessage);
         }
@@ -119,9 +119,9 @@ public class BanManager {
     }
 
     public String getTimeLeft(UUID uuid) {
-        if (!isBanned(uuid)) return "&cNot banned.";
+        if (!isBanned(uuid)) return "Not banned.";
 
-        if (getEnd(uuid) == -1) return "&cPermanent.";
+        if (getEnd(uuid) == -1) return "Permanent";
 
         long time = (getEnd(uuid) - System.currentTimeMillis()) / 1000;
         int seconds = 0;
@@ -161,16 +161,16 @@ public class BanManager {
             time -= TimeUnit.SECONDS.getToSecond();
         }
 
-        return months + "" + TimeUnit.MONTHS.getName() + ", "
-                + weeks + "" + TimeUnit.WEEKS.getName()
-                + days + "" + TimeUnit.DAYS.getName()
-                + hours + "" + TimeUnit.HOURS.getName()
-                + minutes + "" + TimeUnit.MINUTES.getName()
-                + seconds + "" + TimeUnit.SECONDS.getName();
+        return months + " " + TimeUnit.MONTHS.getName() + ", "
+                + weeks + " " + TimeUnit.WEEKS.getName() + ", "
+                + days + " " + TimeUnit.DAYS.getName() + ", "
+                + hours + " " + TimeUnit.HOURS.getName() + ", "
+                + minutes + " " + TimeUnit.MINUTES.getName() + ", "
+                + seconds + " " + TimeUnit.SECONDS.getName();
     }
 
     public String getReason(UUID uuid) {
-        if (!isBanned(uuid)) return "&cNot banned.";
+        if (!isBanned(uuid)) return "Not banned.";
 
         PreparedStatement sts = DatabaseAPI.prepareStatement("SELECT * FROM banned_players WHERE UUID=?");
         try {
@@ -183,6 +183,6 @@ public class BanManager {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return "&cNot banned.";
+        return "Not banned.";
     }
 }

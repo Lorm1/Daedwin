@@ -1,6 +1,6 @@
 package me.george.daedwin.game.chat;
 
-import me.george.daedwin.game.Rank;
+import me.george.daedwin.game.rank.Rank;
 import me.george.daedwin.game.player.DaedwinPlayer;
 import me.george.daedwin.utils.ChatUtils;
 import me.george.daedwin.utils.Utils;
@@ -63,5 +63,6 @@ public class Chat implements Listener {
                 p.playSound(p.getLocation(), Sound.AMBIENT_CAVE, 5, 5);
             }
         }
+        Utils.log.info("CHAT: " + formattedMessage);
     }
 }

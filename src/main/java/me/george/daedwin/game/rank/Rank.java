@@ -1,4 +1,4 @@
-package me.george.daedwin.game;
+package me.george.daedwin.game.rank;
 
 import org.bukkit.ChatColor;
 
@@ -29,7 +29,7 @@ public enum Rank {
             case MOD:
                 return ChatColor.DARK_PURPLE;
             case DONATOR:
-                return ChatColor.GRAY;
+                return ChatColor.GREEN;
             case TESTER:
                 return ChatColor.WHITE;
             case DEFAULT:

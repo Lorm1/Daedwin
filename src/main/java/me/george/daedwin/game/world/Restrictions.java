@@ -1,6 +1,7 @@
-package me.george.daedwin.game.player;
+package me.george.daedwin.game.world;
 
 import me.george.daedwin.game.commands.CommandFreeze;
+import me.george.daedwin.game.player.DaedwinPlayer;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
 import org.bukkit.Material;

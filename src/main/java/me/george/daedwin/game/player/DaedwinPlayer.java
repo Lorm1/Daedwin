@@ -3,7 +3,7 @@ package me.george.daedwin.game.player;
 import lombok.Getter;
 import lombok.Setter;
 import me.george.daedwin.Constants;
-import me.george.daedwin.game.Rank;
+import me.george.daedwin.game.rank.Rank;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.OfflinePlayer;
@@ -42,17 +42,17 @@ public class DaedwinPlayer {
 //    @Setter
 //    Boolean isBanned;
 
-    @Getter
-    @Setter
-    Boolean isMuted;
+//    @Getter
+//    @Setter
+//    Boolean isMuted;
 
     @Getter
     @Setter
     Boolean isDonator;
 
-    @Getter
-    @Setter
-    String muteReason/*, banReason*/;
+//    @Getter
+//    @Setter
+//    String muteReason/*, banReason*/;
 
     @Getter
     @Setter

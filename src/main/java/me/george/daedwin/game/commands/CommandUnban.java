@@ -38,7 +38,7 @@ public class CommandUnban implements CommandExecutor {
             UUID targetUUID = DatabaseAPI.getPlayerUUID(targetName);
 
             Bukkit.getScheduler().runTaskAsynchronously(Daedwin.getInstance(), () -> Daedwin.getInstance().getBanManager().unban(targetUUID));
-            p.sendMessage(ChatColor.RED + "Unbanned player" + targetName);
+            p.sendMessage(ChatColor.RED + "Unbanned player " + targetName);
 
         } else if (sender instanceof ConsoleCommandSender) {
             if (args.length != 1) {
@@ -56,7 +56,7 @@ public class CommandUnban implements CommandExecutor {
             UUID targetUUID = DatabaseAPI.getPlayerUUID(targetName);
 
             Bukkit.getScheduler().runTaskAsynchronously(Daedwin.getInstance(), () -> Daedwin.getInstance().getBanManager().unban(targetUUID));
-            sender.sendMessage(ChatColor.RED + "Unbanned player" + targetName);
+            sender.sendMessage(ChatColor.RED + "Unbanned player " + targetName);
         }
         return true;
     }
