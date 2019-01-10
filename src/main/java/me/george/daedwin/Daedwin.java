@@ -77,6 +77,9 @@ public class Daedwin extends JavaPlugin {
         this.getCommand("ban").setExecutor(new CommandBan());
         this.getCommand("unban").setExecutor(new CommandUnban());
         this.getCommand("checkban").setExecutor(new CommandCheckBan());
+        this.getCommand("mute").setExecutor(new CommandMute());
+        this.getCommand("unmute").setExecutor(new CommandUnmute());
+        this.getCommand("checkmute").setExecutor(new CommandCheckMute());
         this.getCommand("shout").setExecutor(new CommandShout());
         this.getCommand("setrank").setExecutor(new CommandSetRank());
         this.getCommand("maintenance").setExecutor(new CommandMaintenance());

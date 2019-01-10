@@ -1,0 +1,58 @@
+package me.george.daedwin.game.commands;
+
+import me.george.daedwin.Daedwin;
+import me.george.daedwin.database.DatabaseAPI;
+import me.george.daedwin.game.player.DaedwinPlayer;
+import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
+import org.bukkit.command.Command;
+import org.bukkit.command.CommandExecutor;
+import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
+
+import java.util.UUID;
+
+public class CommandCheckMute implements CommandExecutor {
+
+    @Override
+    public boolean onCommand(CommandSender sender, Command command, String s, String[] args) {
+
+        if (sender instanceof Player) {
+            Player p = (Player) sender;
+            DaedwinPlayer player = DaedwinPlayer.getDaedwinPlayers().get(p.getUniqueId());
+
+            if (!player.isAdmin()) return true;
+
+            if (args.length != 1) {
+                p.sendMessage(ChatColor.RED + "Invalid Usage.");
+                return false;
+            }
+
+            String targetName = args[0];
+
+            if (!DatabaseAPI.playerExists(targetName)) {
+                p.sendMessage(ChatColor.RED + "That player has never played before.");
+                return true;
+            }
+
+            UUID targetUUID = DatabaseAPI.getPlayerUUID(targetName);
+
+            p.sendMessage(ChatColor.GRAY.toString() + ChatColor.STRIKETHROUGH + "&m---------------------------------------------------");
+
+            p.sendMessage(ChatColor.GRAY + "Name: " + ChatColor.YELLOW + args[0]);
+            p.sendMessage(ChatColor.GRAY + "UUID: " + ChatColor.YELLOW + targetUUID.toString());
+
+            sender.sendMessage(ChatColor.GRAY + "Banned: " + (Daedwin.getInstance().getPunishmentManager().getMuteManager().isMuted(targetUUID) ? ChatColor.GREEN + "✔" : ChatColor.RED + "✖"));
+
+            Bukkit.getScheduler().runTaskAsynchronously(Daedwin.getInstance(), () -> {
+                if(Daedwin.getInstance().getPunishmentManager().getBanManager().isBanned(targetUUID)){
+                    p.sendMessage("");
+                    p.sendMessage(ChatColor.AQUA.toString() + ChatColor.UNDERLINE + "Reason: " + ChatColor.WHITE + Daedwin.getInstance().getPunishmentManager().getMuteManager().getReason(targetUUID));
+                    p.sendMessage(ChatColor.GOLD.toString() + ChatColor.UNDERLINE + "Duration: " + ChatColor.RED + Daedwin.getInstance().getPunishmentManager().getMuteManager().getTimeLeft(targetUUID));
+                }
+                p.sendMessage(ChatColor.GRAY.toString() + ChatColor.STRIKETHROUGH + "---------------------------------------------------");
+            });
+        }
+        return true;
+    }
+}

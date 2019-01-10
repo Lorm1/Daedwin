@@ -16,6 +16,8 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerLoginEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 
+import java.sql.Timestamp;
+
 public class PlayerConnection implements Listener {
 
     @EventHandler
@@ -68,11 +70,12 @@ public class PlayerConnection implements Listener {
         Player p = e.getPlayer();
         DaedwinPlayer daedwinPlayer = new DaedwinPlayer(p);
 
+        e.setJoinMessage(null);
+
         DatabaseAPI.loadPlayer(daedwinPlayer);
 
         DaedwinPlayer.getDaedwinPlayers().put(p.getUniqueId(), daedwinPlayer);
 
-        e.setJoinMessage(null);
         for (Player player : Bukkit.getOnlinePlayers()) {
             DaedwinPlayer pl = DaedwinPlayer.getDaedwinPlayers().get(player.getUniqueId());
 
@@ -86,7 +89,12 @@ public class PlayerConnection implements Listener {
     @EventHandler
     public void onQuit(PlayerQuitEvent e) {
         Player p = e.getPlayer();
+
+        e.setQuitMessage(null);
+
         DaedwinPlayer daedwinPlayer = DaedwinPlayer.getDaedwinPlayers().get(p.getUniqueId());
+
+        daedwinPlayer.setLastLogout(new Timestamp(System.currentTimeMillis()));
 
         LogoutManager.handleLogout(daedwinPlayer);
 

@@ -118,7 +118,7 @@ public class DatabaseAPI {
     public static void loadPlayer(DaedwinPlayer daedwinPlayer) { // is online
         try {
             if (!playerExists(daedwinPlayer.getPlayer().getUniqueId())) {
-                PreparedStatement ps = prepareStatement("INSERT INTO player_info(UUID, NAME, RANK, GOLD, ECASH, JOIN_DATE, LAST_LOGIN, LAST_LOGOUT, IS_BANNED) VALUES ('" + daedwinPlayer.getPlayer().getUniqueId().toString() + "'," + "'" + daedwinPlayer.getPlayer().getName() + "', DEFAULT, DEFAULT, DEFAULT, DEFAULT, DEFAULT, DEFAULT, DEFAULT);");
+                PreparedStatement ps = prepareStatement("INSERT INTO player_info(UUID, NAME, RANK, GOLD, ECASH, JOIN_DATE, LAST_LOGIN, LAST_LOGOUT, IS_BANNED, IS_MUTED) VALUES ('" + daedwinPlayer.getPlayer().getUniqueId().toString() + "'," + "'" + daedwinPlayer.getPlayer().getName() + "', DEFAULT, DEFAULT, DEFAULT, DEFAULT, DEFAULT, DEFAULT, DEFAULT, DEFAULT);");
                 ps.executeUpdate();
                 ps.close();
 
@@ -143,6 +143,7 @@ public class DatabaseAPI {
             Timestamp LAST_LOGOUT = rs.getTimestamp("LAST_LOGOUT");
 
             Boolean isPlayerBanned = rs.getBoolean("IS_BANNED");
+            Boolean isPlayerMuted = rs.getBoolean("IS_MUTED");
 
 //            Timestamp BAN_DURATION = rs.getTimestamp("BAN_DURATION");
 //
@@ -158,6 +159,7 @@ public class DatabaseAPI {
             daedwinPlayer.setJoinDate(joinDate);
             daedwinPlayer.setLastLogin(LAST_LOGIN);
             daedwinPlayer.setLastLogout(LAST_LOGOUT);
+            daedwinPlayer.setIsMuted(isPlayerMuted);
 
 //            rpgPlayer.setIsBanned(isPlayerBanned); // we can have it, but not necessary atm.
 
@@ -183,7 +185,7 @@ public class DatabaseAPI {
             ResultSet rs = statement.executeQuery();
 
             if (rs.next()) {
-                PreparedStatement ps = prepareStatement("UPDATE player_info SET NAME = ?, RANK = ?, GOLD = ?, ECASH = ?, JOIN_DATE = ?, LAST_LOGIN = ?, LAST_LOGOUT = ? WHERE UUID ='" + daedwinPlayer.getPlayer().getUniqueId().toString() + "';");
+                PreparedStatement ps = prepareStatement("UPDATE player_info SET NAME = ?, RANK = ?, GOLD = ?, ECASH = ?, JOIN_DATE = ?, LAST_LOGIN = ?, LAST_LOGOUT = ?, IS_MUTED = ? WHERE UUID ='" + daedwinPlayer.getPlayer().getUniqueId().toString() + "';");
 
                 ps.setString(1, daedwinPlayer.getPlayer().getName());
                 ps.setString(2, String.valueOf(daedwinPlayer.getRank()));
@@ -196,6 +198,7 @@ public class DatabaseAPI {
                 ps.setTimestamp(7, daedwinPlayer.getLastLogout());
 
 //                ps.setBoolean(8, daedwinPlayer.getIsB);
+                ps.setBoolean(9, daedwinPlayer.getIsMuted());
 
                 ps.executeUpdate();
                 ps.close();

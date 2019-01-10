@@ -42,9 +42,9 @@ public class DaedwinPlayer {
 //    @Setter
 //    Boolean isBanned;
 
-//    @Getter
-//    @Setter
-//    Boolean isMuted;
+    @Getter
+    @Setter
+    Boolean isMuted;
 
     @Getter
     @Setter
