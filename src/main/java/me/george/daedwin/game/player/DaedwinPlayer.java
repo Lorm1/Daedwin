@@ -3,7 +3,6 @@ package me.george.daedwin.game.player;
 import lombok.Getter;
 import lombok.Setter;
 import me.george.daedwin.Constants;
-import me.george.daedwin.game.LogoutManager;
 import me.george.daedwin.game.Rank;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -123,14 +122,6 @@ public class DaedwinPlayer {
     public boolean isDonator() {
         if (getRank().equals(Rank.DONATOR) || isAdmin()) return true;
         return false;
-    }
-
-    public void logout() {
-        LogoutManager.handleLogout(player);
-    }
-
-    public void logout(String message) {
-        LogoutManager.handleLogout(player, message);
     }
 
     public boolean isOnline() {

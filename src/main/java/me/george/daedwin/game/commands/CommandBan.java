@@ -3,7 +3,8 @@ package me.george.daedwin.game.commands;
 import me.george.daedwin.Daedwin;
 import me.george.daedwin.database.DatabaseAPI;
 import me.george.daedwin.game.player.DaedwinPlayer;
-import me.george.daedwin.game.punishment.ban.TimeUnit;
+import me.george.daedwin.utils.TimeUnit;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -23,7 +24,7 @@ public class CommandBan implements CommandExecutor {
 
             if (!player.isAdmin()) return true;
 
-            if (args.length == 3) {
+            if (args.length <= 1) {
                 p.sendMessage(ChatColor.RED + "Invalid Usage.");
                 return false;
             }
@@ -51,8 +52,8 @@ public class CommandBan implements CommandExecutor {
             if (args[1].equalsIgnoreCase("perm") || args[1] == null) {
                 Daedwin.getInstance().getBanManager().ban(targetUUID, -1, reason);
                 p.sendMessage(ChatColor.RED + "Banned player " + ChatColor.YELLOW + targetName
-                        + ChatColor.RED.toString() + ChatColor.UNDERLINE + "PERMANENTLY. "
-                        + ChatColor.AQUA + "Reason: " + ChatColor.WHITE + reason);
+                        + ChatColor.RED.toString() + ChatColor.UNDERLINE + " PERMANENTLY."
+                        + ChatColor.AQUA + " Reason: " + ChatColor.WHITE + (reason.equals("") ? "Not Specified" : reason));
                 return true;
             }
 
@@ -80,11 +81,12 @@ public class CommandBan implements CommandExecutor {
             TimeUnit unit = TimeUnit.getFromShortcut(args[1].split(":")[1]);
             long banTime = unit.getToSecond() * duration;
 
-            Daedwin.getInstance().getBanManager().ban(targetUUID, banTime, reason);
+            String finalReason = reason;
+            Bukkit.getScheduler().runTaskAsynchronously(Daedwin.getInstance(), () -> Daedwin.getInstance().getBanManager().ban(targetUUID, banTime, finalReason));
             p.sendMessage(ChatColor.RED + "Banned player " + ChatColor.YELLOW + targetName
                     + ChatColor.RED.toString() + ChatColor.GOLD + "Duration: "
                     + ChatColor.RED + banTime + ChatColor.AQUA + "Reason: "
-                    + ChatColor.WHITE + reason);
+                    + ChatColor.WHITE + (reason.equals("") ? "Not Specified" : reason));
         } else if (sender instanceof ConsoleCommandSender) {
             if (args.length == 3) {
                 sender.sendMessage(ChatColor.RED + "Invalid Usage.");
@@ -112,7 +114,8 @@ public class CommandBan implements CommandExecutor {
             }
 
             if (args[1].equalsIgnoreCase("perm")) {
-                Daedwin.getInstance().getBanManager().ban(targetUUID, -1, reason);
+                String finalReason1 = reason;
+                Bukkit.getScheduler().runTaskAsynchronously(Daedwin.getInstance(), () -> Daedwin.getInstance().getBanManager().ban(targetUUID, -1, finalReason1));
                 sender.sendMessage(ChatColor.RED + "Banned player " + ChatColor.YELLOW + targetName
                         + ChatColor.RED.toString() + ChatColor.UNDERLINE + "PERMANENTLY. "
                         + ChatColor.AQUA + "Reason: " + ChatColor.WHITE + reason);
@@ -143,7 +146,8 @@ public class CommandBan implements CommandExecutor {
             TimeUnit unit = TimeUnit.getFromShortcut(args[1].split(":")[1]);
             long banTime = unit.getToSecond() * duration;
 
-            Daedwin.getInstance().getBanManager().ban(targetUUID, banTime, reason);
+            String finalReason = reason;
+            Bukkit.getScheduler().runTaskAsynchronously(Daedwin.getInstance(), () -> Daedwin.getInstance().getBanManager().ban(targetUUID, banTime, finalReason));
             sender.sendMessage(ChatColor.RED + "Banned player " + ChatColor.YELLOW + targetName
                     + ChatColor.RED.toString() + ChatColor.GOLD + "Duration: "
                     + ChatColor.RED + banTime + ChatColor.AQUA + "Reason: "

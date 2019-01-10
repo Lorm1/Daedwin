@@ -2,6 +2,7 @@ package me.george.daedwin.game.punishment.ban;
 
 import me.george.daedwin.Daedwin;
 import me.george.daedwin.database.DatabaseAPI;
+import me.george.daedwin.utils.TimeUnit;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -36,6 +37,15 @@ public class BanManager {
             e.printStackTrace();
         }
 
+        PreparedStatement ps = DatabaseAPI.prepareStatement("UPDATE player_info SET IS_BANNED = ? WHERE UUID = ?");
+        try {
+            ps.setBoolean(1, true);
+            ps.setString(2, uuid.toString());
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
         if (Bukkit.getPlayer(uuid) != null) {
             Player target = Bukkit.getPlayer(uuid);
             String banMessage = ChatColor.RED.toString() + ChatColor.UNDERLINE + "You have been Banned.\n"
@@ -54,6 +64,15 @@ public class BanManager {
         try {
             sts.setString(1, uuid.toString());
             sts.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        PreparedStatement ps = DatabaseAPI.prepareStatement("UPDATE player_info SET IS_BANNED = ? WHERE UUID = ?");
+        try {
+            ps.setBoolean(1, false);
+            ps.setString(2, uuid.toString());
+            ps.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
         }

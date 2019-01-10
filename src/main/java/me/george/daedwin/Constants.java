@@ -13,9 +13,9 @@ public class Constants {
 
     public static List<String> ADMINS = Arrays.asList("George_Angel");
 
-    public static String MOTD = "                             &6&Daedwin &r\n                  &f&lDevelopment Stage";
+    public static String MOTD = "                   &5&lMyths of Daedwin &r\n                  &f&lDevelopment Stage";
     public static String setMOTD = null;
-    public static String MAINTENANCE_MOTD = "                             &6&Daedwin &r\n                  &c&lMaintenance Mode &f&l";
+    public static String MAINTENANCE_MOTD = "                   &5&lMyths of Daedwin &r\n                  &c&lMaintenance Mode &f&l";
 
     public static int PLAYER_SLOTS = 10;
 }

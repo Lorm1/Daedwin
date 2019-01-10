@@ -27,3 +27,6 @@ commands:
   checkban:
     description: Displays ban info about a player.
     usage: /checkban <player>
+  shout:
+    description: Broadcasts a message across the whole server.
+    usage: /shout <message>

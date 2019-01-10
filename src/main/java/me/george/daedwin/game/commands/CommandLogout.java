@@ -1,6 +1,7 @@
 package me.george.daedwin.game.commands;
 
 import me.george.daedwin.Daedwin;
+import me.george.daedwin.game.LogoutManager;
 import me.george.daedwin.game.player.DaedwinPlayer;
 import me.george.daedwin.utils.Countdown;
 import org.bukkit.ChatColor;
@@ -57,8 +58,8 @@ public class CommandLogout implements CommandExecutor {
                         p.playSound(p.getLocation(), Sound.UI_BUTTON_CLICK, 5F, 5F);
 
                         if (current == 0) { // disconnect the player after saving his data
-                            player.getPlayer().sendMessage(ChatColor.GREEN + "Logging out...");
-                            player.logout(ChatColor.GREEN + "You have safely " + ChatColor.GREEN + ChatColor.BOLD + "LOGGED OUT.");
+                            p.sendMessage(ChatColor.GREEN + "Logging out...");
+                            LogoutManager.handleLogout(DaedwinPlayer.getDaedwinPlayers().get(p.getUniqueId()), ChatColor.GREEN + "You have " + ChatColor.GREEN + ChatColor.BOLD + "Logged Out.");
                         }
                     }
                 }

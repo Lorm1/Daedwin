@@ -5,21 +5,16 @@ import me.george.daedwin.database.DatabaseAPI;
 import me.george.daedwin.game.player.DaedwinPlayer;
 import me.george.daedwin.utils.Utils;
 import org.bukkit.Bukkit;
-import org.bukkit.entity.Player;
-
-import java.sql.Timestamp;
 
 public class LogoutManager {
 
-    public static void handleLogout(Player player, String message) {
+    public static void handleLogout(DaedwinPlayer player, String message) {
         if (player == null) return;
 
-        Utils.log.info("Handling logout for " + player.getName() + " (" + player.getUniqueId().toString() + ")");
-
-        DaedwinPlayer wrapper = DaedwinPlayer.getDaedwinPlayers().get(player.getUniqueId());
+        DaedwinPlayer wrapper = DaedwinPlayer.getDaedwinPlayers().get(player.getPlayer().getUniqueId());
 
         if (wrapper == null) {
-            Bukkit.getLogger().info("null player wrapper for " + player.getName() + " during logout");
+            Bukkit.getLogger().info("Null player wrapper for " + player.getPlayer().getName() + " during logout");
             return;
         }
 
@@ -29,30 +24,23 @@ public class LogoutManager {
         Bukkit.getScheduler().runTaskAsynchronously(Daedwin.getInstance(), () -> {
             // Handle general unregistering of stuff here
 
-            DatabaseAPI.savePlayer(player.getUniqueId());
-
-            Utils.log.info("Saved information for name/uuid: " + player.getName() + "/" + player.getUniqueId().toString() + " on their logout.");
+            DatabaseAPI.savePlayer(wrapper);
         });
 
-        Timestamp timeStamp = new Timestamp(System.currentTimeMillis());
+//        DaedwinPlayer.getDaedwinPlayers().remove(wrapper.getPlayer().getUniqueId(), wrapper);
 
-        wrapper.setLastLogout(timeStamp);
-        wrapper.setPlayingStatus(false);
+        player.getPlayer().kickPlayer(message == null || message.equals("") ? "Disconnected" : message);
 
-        DaedwinPlayer.getDaedwinPlayers().remove(player.getUniqueId());
-
-        player.kickPlayer(message == null ? "Disconnected" : message);
+        Utils.log.info("Handled Logout for Player " + player.getPlayer().getName());
     }
 
-    public static void handleLogout(Player player) {
+    public static void handleLogout(DaedwinPlayer player) {
         if (player == null ) return;
 
-        Utils.log.info("Handling logout for " + player.getName() + " (" + player.getUniqueId().toString() + ")");
-
-        DaedwinPlayer wrapper = DaedwinPlayer.getDaedwinPlayers().get(player.getUniqueId());
+        DaedwinPlayer wrapper = DaedwinPlayer.getDaedwinPlayers().get(player.getPlayer().getUniqueId());
 
         if (wrapper == null) {
-            Bukkit.getLogger().info("Null player wrapper for " + player.getName() + " during logout.");
+            Bukkit.getLogger().info("Null player wrapper for " + player.getPlayer().getName() + " during logout.");
             return;
         }
 
@@ -62,18 +50,13 @@ public class LogoutManager {
         Bukkit.getScheduler().runTaskAsynchronously(Daedwin.getInstance(), () -> {
             // Handle general unregistering of stuff here and save player data
 
-            DatabaseAPI.savePlayer(player.getUniqueId());
-
-            Utils.log.info("Saved information for name/uuid: " + player.getName() + "/" + player.getUniqueId().toString() + " on their logout.");
+            DatabaseAPI.savePlayer(wrapper);
         });
 
-        Timestamp timeStamp = new Timestamp(System.currentTimeMillis());
+//        DaedwinPlayer.getDaedwinPlayers().remove(wrapper.getPlayer().getUniqueId(), wrapper);
 
-        wrapper.setLastLogout(timeStamp);
-        wrapper.setPlayingStatus(false);
+        player.getPlayer().kickPlayer("Disconnected");
 
-        DaedwinPlayer.getDaedwinPlayers().remove(player.getUniqueId());
-
-        player.kickPlayer("Disconnected");
+        Utils.log.info("Handled Logout for Player " + player.getPlayer().getName());
     }
 }

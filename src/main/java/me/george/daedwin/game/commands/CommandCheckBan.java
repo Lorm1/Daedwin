@@ -3,6 +3,7 @@ package me.george.daedwin.game.commands;
 import me.george.daedwin.Daedwin;
 import me.george.daedwin.database.DatabaseAPI;
 import me.george.daedwin.game.player.DaedwinPlayer;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -35,19 +36,22 @@ public class CommandCheckBan implements CommandExecutor {
 
             UUID targetUUID = DatabaseAPI.getPlayerUUID(targetName);
 
-            p.sendMessage(ChatColor.GRAY + "&m-----------------------------------------------------");
+            p.sendMessage(ChatColor.GRAY.toString() + ChatColor.STRIKETHROUGH + "&m---------------------------------------------------");
 
-            p.sendMessage(ChatColor.AQUA + "Name: " + ChatColor.YELLOW + args[0]);
-            p.sendMessage("§eUUID : §b" + targetUUID.toString());
-            sender.sendMessage("§eBanni : " + (Daedwin.getInstance().getBanManager().isBanned(targetUUID) ? ChatColor.GREEN + "✔" : ChatColor.RED + "✖"));
+            p.sendMessage(ChatColor.GRAY + "Name: " + ChatColor.YELLOW + args[0]);
+            p.sendMessage(ChatColor.GRAY + "UUID: " + ChatColor.YELLOW + targetUUID.toString());
 
-            if(Daedwin.getInstance().getBanManager().isBanned(targetUUID)){
-                p.sendMessage("");
-                p.sendMessage(ChatColor.AQUA.toString() + ChatColor.UNDERLINE + "Reason: " + ChatColor.WHITE + Daedwin.getInstance().getBanManager().getReason(targetUUID));
-                p.sendMessage(ChatColor.GOLD + "Duration: " + ChatColor.RED + Daedwin.getInstance().getBanManager().getTimeLeft(targetUUID));
-            }
+            sender.sendMessage(ChatColor.GRAY + "Banned: " + (Daedwin.getInstance().getBanManager().isBanned(targetUUID) ? ChatColor.GREEN + "✔" : ChatColor.RED + "✖"));
 
-            sender.sendMessage(ChatColor.GRAY + "&m-----------------------------------------------------");
+            Bukkit.getScheduler().runTaskAsynchronously(Daedwin.getInstance(), () -> {
+                if(Daedwin.getInstance().getBanManager().isBanned(targetUUID)){
+                    p.sendMessage("");
+                    p.sendMessage(ChatColor.AQUA.toString() + ChatColor.UNDERLINE + "Reason: " + ChatColor.WHITE + Daedwin.getInstance().getBanManager().getReason(targetUUID));
+                    p.sendMessage(ChatColor.GOLD.toString() + ChatColor.UNDERLINE + "Duration: " + ChatColor.RED + Daedwin.getInstance().getBanManager().getTimeLeft(targetUUID));
+                }
+
+                p.sendMessage(ChatColor.GRAY.toString() + ChatColor.STRIKETHROUGH + "---------------------------------------------------");
+            });
         }
         return true;
     }

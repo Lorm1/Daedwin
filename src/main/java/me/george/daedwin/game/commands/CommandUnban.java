@@ -3,6 +3,7 @@ package me.george.daedwin.game.commands;
 import me.george.daedwin.Daedwin;
 import me.george.daedwin.database.DatabaseAPI;
 import me.george.daedwin.game.player.DaedwinPlayer;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -36,7 +37,7 @@ public class CommandUnban implements CommandExecutor {
 
             UUID targetUUID = DatabaseAPI.getPlayerUUID(targetName);
 
-            Daedwin.getInstance().getBanManager().unban(targetUUID);
+            Bukkit.getScheduler().runTaskAsynchronously(Daedwin.getInstance(), () -> Daedwin.getInstance().getBanManager().unban(targetUUID));
             p.sendMessage(ChatColor.RED + "Unbanned player" + targetName);
 
         } else if (sender instanceof ConsoleCommandSender) {
@@ -54,7 +55,7 @@ public class CommandUnban implements CommandExecutor {
 
             UUID targetUUID = DatabaseAPI.getPlayerUUID(targetName);
 
-            Daedwin.getInstance().getBanManager().unban(targetUUID);
+            Bukkit.getScheduler().runTaskAsynchronously(Daedwin.getInstance(), () -> Daedwin.getInstance().getBanManager().unban(targetUUID));
             sender.sendMessage(ChatColor.RED + "Unbanned player" + targetName);
         }
         return true;

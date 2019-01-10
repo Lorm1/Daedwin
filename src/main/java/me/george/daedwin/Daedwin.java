@@ -67,14 +67,17 @@ public class Daedwin extends JavaPlugin {
         this.getCommand("freeze").setExecutor(new CommandFreeze());
         this.getCommand("logout").setExecutor(new CommandLogout());
         this.getCommand("mutechat").setExecutor(new CommandMuteChat());
-        this.getCommand("freeze").setExecutor(new CommandClearChat());
+        this.getCommand("clearchat").setExecutor(new CommandClearChat());
         this.getCommand("ban").setExecutor(new CommandBan());
         this.getCommand("unban").setExecutor(new CommandUnban());
         this.getCommand("checkban").setExecutor(new CommandCheckBan());
+        this.getCommand("shout").setExecutor(new CommandShout());
     }
 
     private void setupManagers() {
         fileManager = new FileManager(this);
         banManager = new BanManager(this);
+
+        fileManager.setupWhitelist();
     }
 }

@@ -3,9 +3,6 @@ package me.george.daedwin.database;
 import me.george.daedwin.game.Rank;
 import me.george.daedwin.game.player.DaedwinPlayer;
 import me.george.daedwin.utils.Utils;
-import org.bukkit.Bukkit;
-import org.bukkit.OfflinePlayer;
-import org.bukkit.entity.Player;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -80,22 +77,22 @@ public class DatabaseAPI {
         throw new NullPointerException("Player: " + playerName + " has never played before.");
     }
 
-    public static void loadPlayer(final UUID uuid, OfflinePlayer player) { // is offline -> login
+    public static void loadPlayer(DaedwinPlayer daedwinPlayer) { // is online
         try {
-            if (!playerExists(uuid)) {
-                PreparedStatement ps = prepareStatement("INSERT INTO player_info(UUID, NAME, RANK, GOLD, ECASH, JOIN_DATE, LAST_LOGIN, LAST_LOGOUT, IS_BANNED, BAN_DURATION, BAN_REASON, BANNED_BY) VALUES ('" + uuid.toString() + "'," + "'" + player.getName() + "', DEFAULT, DEFAULT, DEFAULT, DEFAULT, DEFAULT, DEFAULT, DEFAULT);");
+            if (!playerExists(daedwinPlayer.getPlayer().getUniqueId())) {
+                PreparedStatement ps = prepareStatement("INSERT INTO player_info(UUID, NAME, RANK, GOLD, ECASH, JOIN_DATE, LAST_LOGIN, LAST_LOGOUT, IS_BANNED) VALUES ('" + daedwinPlayer.getPlayer().getUniqueId().toString() + "'," + "'" + daedwinPlayer.getPlayer().getName() + "', DEFAULT, DEFAULT, DEFAULT, DEFAULT, DEFAULT, DEFAULT, DEFAULT);");
                 ps.executeUpdate();
+                ps.close();
 
-                Utils.log.info("Created Player " + player.getName() + " and added to the Database.");
+                Utils.log.info("Created Data for Player " + daedwinPlayer.getPlayer().getName() + " and added to the Database.");
             }
 
             PreparedStatement statement = prepareStatement("SELECT * FROM player_info WHERE UUID = ?");
-            statement.setString(1, uuid.toString());
+            statement.setString(1, daedwinPlayer.getPlayer().getUniqueId().toString());
 
             ResultSet rs = statement.executeQuery();
-            rs.next();
 
-            DaedwinPlayer rpgPlayer = new DaedwinPlayer(player);
+            rs.next();
 
             String playerName = rs.getString("NAME");
             String rank = rs.getString("RANK");
@@ -115,24 +112,23 @@ public class DatabaseAPI {
 //            String BANNED_BY = rs.getString("BANNED)_BY");
 
             // Load player data
-            rpgPlayer.setRank(Rank.valueOf(rank));
+            daedwinPlayer.setRank(Rank.valueOf(rank));
 
-            rpgPlayer.setGold(gold);
-            rpgPlayer.setEcash(ecash);
+            daedwinPlayer.setGold(gold);
+            daedwinPlayer.setEcash(ecash);
 
-            rpgPlayer.setJoinDate(joinDate);
-            rpgPlayer.setLastLogin(LAST_LOGIN);
-            rpgPlayer.setLastLogout(LAST_LOGOUT);
+            daedwinPlayer.setJoinDate(joinDate);
+            daedwinPlayer.setLastLogin(LAST_LOGIN);
+            daedwinPlayer.setLastLogout(LAST_LOGOUT);
 
-//            rpgPlayer.setIsBanned(isPlayerBanned);
-//
+//            rpgPlayer.setIsBanned(isPlayerBanned); // we can have it, but not necessary atm.
+
 //            if (isPlayerBanned) {
 //                rpgPlayer.setBanDuration(Daedwin.getInstance().getBanManager().getTimeLeft(rpgPlayer.getPlayer().getUniqueId()));
 //                rpgPlayer.setBanReason(Daedwin.getInstance().getBanManager().getReason(rpgPlayer.getPlayer().getUniqueId()));
 //            }
 
-            Utils.log.info("Loaded player " + player.getName());
-
+            Utils.log.info("Loaded data for Player " + daedwinPlayer.getPlayer().getName());
             rs.close();
             return;
         } catch (SQLException e) {
@@ -140,86 +136,18 @@ public class DatabaseAPI {
         }
     }
 
-    public static void loadPlayer(final UUID uuid) { // is online
+    public static void savePlayer(DaedwinPlayer daedwinPlayer) {
         try {
-            if (!playerExists(uuid)) {
-                PreparedStatement ps = prepareStatement("INSERT INTO player_info(UUID, NAME, RANK, GOLD, ECASH, JOIN_DATE, LAST_LOGIN, LAST_LOGOUT, IS_BANNED, BAN_DURATION, BAN_REASON, BANNED_BY) VALUES ('" + uuid.toString() + "'," + "'" + Bukkit.getPlayer(uuid).getName() + "', DEFAULT, DEFAULT, DEFAULT, DEFAULT, DEFAULT, DEFAULT, DEFAULT);");
-                ps.executeUpdate();
-
-                Utils.log.info("Created Player " + Bukkit.getPlayer(uuid).getName() + " and added to the Database.");
-            }
 
             PreparedStatement statement = prepareStatement("SELECT * FROM player_info WHERE UUID = ?");
-            statement.setString(1, uuid.toString());
-
-            ResultSet rs = statement.executeQuery();
-            rs.next();
-
-            DaedwinPlayer rpgPlayer;
-
-            if (!DaedwinPlayer.getDaedwinPlayers().containsKey(uuid)) {
-                rpgPlayer = new DaedwinPlayer(uuid);
-                DaedwinPlayer.getDaedwinPlayers().put(uuid, rpgPlayer);
-            } else { // for whatever reason
-                rpgPlayer = DaedwinPlayer.getDaedwinPlayers().get(uuid);
-            }
-
-            String playerName = rs.getString("NAME");
-            String rank = rs.getString("RANK");
-
-            int gold = rs.getInt("GOLD");
-            int ecash = rs.getInt("ECASH");
-
-            Timestamp joinDate = rs.getTimestamp("JOIN_DATE");
-            Timestamp LAST_LOGIN = new Timestamp(System.currentTimeMillis()); // login
-            Timestamp LAST_LOGOUT = rs.getTimestamp("LAST_LOGOUT");
-
-            Boolean isPlayerBanned = rs.getBoolean("IS_BANNED");
-
-//            Timestamp BAN_DURATION = rs.getTimestamp("BAN_DURATION");
-//
-//            String BAN_REASON = rs.getString("BAN_REASON");
-//            String BANNED_BY = rs.getString("BANNED)_BY");
-
-            // Load player data
-            rpgPlayer.setRank(Rank.valueOf(rank));
-
-            rpgPlayer.setGold(gold);
-            rpgPlayer.setEcash(ecash);
-
-            rpgPlayer.setJoinDate(joinDate);
-            rpgPlayer.setLastLogin(LAST_LOGIN);
-            rpgPlayer.setLastLogout(LAST_LOGOUT);
-
-//            rpgPlayer.setIsBanned(isPlayerBanned);
-
-//            if (isPlayerBanned) {
-//                rpgPlayer.setBanDuration(Daedwin.getInstance().getBanManager().getTimeLeft(rpgPlayer.getPlayer().getUniqueId()));
-//                rpgPlayer.setBanReason(Daedwin.getInstance().getBanManager().getReason(rpgPlayer.getPlayer().getUniqueId()));
-//            }
-
-            Utils.log.info("Loading " + Bukkit.getPlayer(uuid).getName() + "'s data...");
-
-            rs.close();
-            return;
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public static void savePlayer(UUID uuid) {
-        try {
-            Player player = Bukkit.getPlayer(uuid);
-            DaedwinPlayer daedwinPlayer = DaedwinPlayer.getDaedwinPlayers().get(player.getUniqueId());
-
-            PreparedStatement statement = prepareStatement("SELECT * FROM player_info WHERE UUID = ?");
+            statement.setString(1, daedwinPlayer.getPlayer().getUniqueId().toString());
 
             ResultSet rs = statement.executeQuery();
 
             if (rs.next()) {
-                PreparedStatement ps = prepareStatement("UPDATE player_info SET NAME = ?, RANK = ?, GOLD = ?, ECASH = ?, JOIN_DATE = ?, LAST_LOGIN = ?, LAST_LOGOUT = ?, IS_BANNED = ? WHERE UUID ='" + uuid.toString() + "';");
+                PreparedStatement ps = prepareStatement("UPDATE player_info SET NAME = ?, RANK = ?, GOLD = ?, ECASH = ?, JOIN_DATE = ?, LAST_LOGIN = ?, LAST_LOGOUT = ? WHERE UUID ='" + daedwinPlayer.getPlayer().getUniqueId().toString() + "';");
 
-                ps.setString(1, player.getName());
+                ps.setString(1, daedwinPlayer.getPlayer().getName());
                 ps.setString(2, String.valueOf(daedwinPlayer.getRank()));
 
                 ps.setInt(3, daedwinPlayer.getGold());
@@ -229,14 +157,15 @@ public class DatabaseAPI {
                 ps.setTimestamp(6, daedwinPlayer.getLastLogin());
                 ps.setTimestamp(7, daedwinPlayer.getLastLogout());
 
-//                ps.setBoolean(8, daedwinPlayer.getIsBanned());
+//                ps.setBoolean(8, daedwinPlayer.getIsB);
 
                 ps.executeUpdate();
                 ps.close();
-                System.out.println("Successfully saved " + player.getName() + " 's data.");
+
+                System.out.println("Successfully saved " + daedwinPlayer.getPlayer().getName() + "'s data.");
                 return;
             } else {
-                loadPlayer(uuid);
+                loadPlayer(daedwinPlayer);
             }
         } catch (Exception e) {
             e.printStackTrace();

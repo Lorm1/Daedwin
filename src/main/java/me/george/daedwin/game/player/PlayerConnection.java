@@ -3,16 +3,14 @@ package me.george.daedwin.game.player;
 import me.george.daedwin.Daedwin;
 import me.george.daedwin.Setup;
 import me.george.daedwin.database.DatabaseAPI;
+import me.george.daedwin.game.LogoutManager;
 import me.george.daedwin.utils.Utils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.player.AsyncPlayerPreLoginEvent;
-import org.bukkit.event.player.PlayerJoinEvent;
-import org.bukkit.event.player.PlayerLoginEvent;
-import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.event.player.*;
 
 public class PlayerConnection implements Listener {
 
@@ -25,21 +23,21 @@ public class PlayerConnection implements Listener {
     public void onLogin(PlayerLoginEvent e) {
         Player p = e.getPlayer();
 
-        if (Daedwin.getInstance().getBanManager().isBanned(p.getUniqueId())/*daedwinPlayer.isBanned*/) {
-            e.disallow(PlayerLoginEvent.Result.KICK_BANNED, ChatColor.RED + "You have been Banned. \n"
-                    + ChatColor.AQUA.toString() + ChatColor.BOLD + "Reason: "
-                    + ChatColor.WHITE + Daedwin.getInstance().getBanManager().getReason(p.getUniqueId())
-                    + "\n\n" + ChatColor.GOLD.toString() + ChatColor.UNDERLINE
-                    + "Duration: " + ChatColor.RED
-                    + Daedwin.getInstance().getBanManager().getTimeLeft(p.getUniqueId()));
-        }
+        Bukkit.getScheduler().runTaskAsynchronously(Daedwin.getInstance(), () -> {
+            if (Daedwin.getInstance().getBanManager().isBanned(p.getUniqueId())/*daedwinPlayer.isBanned*/) {
+                e.disallow(PlayerLoginEvent.Result.KICK_BANNED, ChatColor.RED + "You have been Banned. \n"
+                        + ChatColor.AQUA.toString() + ChatColor.BOLD + "Reason: "
+                        + ChatColor.WHITE + Daedwin.getInstance().getBanManager().getReason(p.getUniqueId())
+                        + "\n\n" + ChatColor.GOLD.toString() + ChatColor.UNDERLINE
+                        + "Duration: " + ChatColor.RED
+                        + Daedwin.getInstance().getBanManager().getTimeLeft(p.getUniqueId()));
+            }
+        });
 
         DaedwinPlayer daedwinPlayer = new DaedwinPlayer(p);
 
         if (daedwinPlayer == null) {
-            Utils.log.info("Could not load Player " + p.getName() + " in PlayerLoginEvent.");
-            Utils.log.info(p.getName() + " PlayerLoginEvent"); // debug
-            Utils.log.info(daedwinPlayer.getPlayer().getName() + " PlayerLoginEvent"); // debug
+            Utils.log.info("Could not load Player " + p.getName());
             return;
         }
 
@@ -60,10 +58,11 @@ public class PlayerConnection implements Listener {
     public void onJoin(PlayerJoinEvent e) {
         Player p = e.getPlayer();
 
-        Bukkit.getScheduler().runTaskAsynchronously(Daedwin.getInstance(), () ->
-                DatabaseAPI.loadPlayer(p.getUniqueId()));
+        DaedwinPlayer daedwinPlayer = new DaedwinPlayer(p);
 
-        DaedwinPlayer daedwinPlayer = DaedwinPlayer.getDaedwinPlayers().get(p.getUniqueId());
+        DatabaseAPI.loadPlayer(daedwinPlayer);
+
+        DaedwinPlayer.getDaedwinPlayers().put(p.getUniqueId(), daedwinPlayer);
     }
 
     @EventHandler
@@ -71,6 +70,8 @@ public class PlayerConnection implements Listener {
         Player p = e.getPlayer();
         DaedwinPlayer daedwinPlayer = DaedwinPlayer.getDaedwinPlayers().get(p.getUniqueId());
 
-        daedwinPlayer.logout();
+        LogoutManager.handleLogout(daedwinPlayer);
+
+        DaedwinPlayer.getDaedwinPlayers().remove(daedwinPlayer.getPlayer().getUniqueId(), daedwinPlayer);
     }
 }
