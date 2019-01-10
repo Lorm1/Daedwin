@@ -80,8 +80,8 @@ public class PlayerConnection implements Listener {
             DaedwinPlayer pl = DaedwinPlayer.getDaedwinPlayers().get(player.getUniqueId());
 
             if (pl.isStaff()) {
-                pl.getPlayer().sendMessage(daedwinPlayer.isStaff() ? daedwinPlayer.getRank().getPrefix() + " " + ChatColor.AQUA + p.getName() + ChatColor.GRAY + " has joined the game." :
-                        daedwinPlayer.getRank().getPrefix() + " " + ChatColor.GRAY + p.getName() + ChatColor.GRAY + " has joined the game.");
+                pl.getPlayer().sendMessage(daedwinPlayer.isStaff() ? daedwinPlayer.getRank().getPrefix() + " " + ChatColor.AQUA + p.getDisplayName() + ChatColor.GRAY + " has joined." :
+                        daedwinPlayer.getRank().getPrefix() + " " + ChatColor.GRAY + p.getName() + ChatColor.GRAY + " has joined.");
             }
         }
     }
@@ -89,10 +89,18 @@ public class PlayerConnection implements Listener {
     @EventHandler
     public void onQuit(PlayerQuitEvent e) {
         Player p = e.getPlayer();
+        DaedwinPlayer daedwinPlayer = DaedwinPlayer.getDaedwinPlayers().get(p.getUniqueId());
 
         e.setQuitMessage(null);
 
-        DaedwinPlayer daedwinPlayer = DaedwinPlayer.getDaedwinPlayers().get(p.getUniqueId());
+        for (Player player : Bukkit.getOnlinePlayers()) {
+            DaedwinPlayer pl = DaedwinPlayer.getDaedwinPlayers().get(player.getUniqueId());
+
+            if (pl.isStaff()) {
+                pl.getPlayer().sendMessage(daedwinPlayer.isStaff() ? daedwinPlayer.getRank().getPrefix() + " " + ChatColor.AQUA + p.getDisplayName() + ChatColor.GRAY + " has quit." :
+                        daedwinPlayer.getRank().getPrefix() + " " + ChatColor.GRAY + p.getName() + ChatColor.GRAY + " has quit.");
+            }
+        }
 
         daedwinPlayer.setLastLogout(new Timestamp(System.currentTimeMillis()));
 
