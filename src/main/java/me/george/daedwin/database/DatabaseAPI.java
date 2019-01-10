@@ -198,7 +198,7 @@ public class DatabaseAPI {
                 ps.setTimestamp(7, daedwinPlayer.getLastLogout());
 
 //                ps.setBoolean(8, daedwinPlayer.getIsB);
-                ps.setBoolean(9, daedwinPlayer.getIsMuted());
+                ps.setBoolean(8, daedwinPlayer.getIsMuted());
 
                 ps.executeUpdate();
                 ps.close();

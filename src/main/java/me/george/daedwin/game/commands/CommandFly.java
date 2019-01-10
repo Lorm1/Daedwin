@@ -43,7 +43,7 @@ public class CommandFly implements CommandExecutor {
             } else {
                 target.setAllowFlight(false);
                 p.sendMessage(ChatColor.RED + "Disabled flying for " + ChatColor.YELLOW + target.getName());
-                target.sendMessage(ChatColor.RED + "You can no longer fly." + ChatColor.YELLOW + p.getName());
+                target.sendMessage(ChatColor.RED + "You can no longer fly.");
                 return true;
             }
         } else {

@@ -33,6 +33,7 @@ public class Chat implements Listener {
             Bukkit.getScheduler().runTaskAsynchronously(Daedwin.getInstance(), () -> {
                 if(Daedwin.getInstance().getPunishmentManager().getMuteManager().isMuted(p.getUniqueId())){
                     p.sendMessage(ChatColor.RED.toString() + ChatColor.UNDERLINE + "You are muted.");
+                    p.sendMessage("");
                     p.sendMessage(ChatColor.GOLD.toString() + "Reason" + ChatColor.GOLD + ": " + ChatColor.GRAY + Daedwin.getInstance().getPunishmentManager().getMuteManager().getReason(p.getUniqueId()));
                     p.sendMessage(ChatColor.RED.toString() + "Expires" + ChatColor.RED + ": " + ChatColor.GRAY + Daedwin.getInstance().getPunishmentManager().getMuteManager().getTimeLeft(p.getUniqueId()));
                 }
