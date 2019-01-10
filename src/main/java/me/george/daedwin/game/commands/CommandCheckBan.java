@@ -41,13 +41,13 @@ public class CommandCheckBan implements CommandExecutor {
             p.sendMessage(ChatColor.GRAY + "Name: " + ChatColor.YELLOW + args[0]);
             p.sendMessage(ChatColor.GRAY + "UUID: " + ChatColor.YELLOW + targetUUID.toString());
 
-            sender.sendMessage(ChatColor.GRAY + "Banned: " + (Daedwin.getInstance().getBanManager().isBanned(targetUUID) ? ChatColor.GREEN + "✔" : ChatColor.RED + "✖"));
+            sender.sendMessage(ChatColor.GRAY + "Banned: " + (Daedwin.getInstance().getPunishmentManager().getBanManager().isBanned(targetUUID) ? ChatColor.GREEN + "✔" : ChatColor.RED + "✖"));
 
             Bukkit.getScheduler().runTaskAsynchronously(Daedwin.getInstance(), () -> {
-                if(Daedwin.getInstance().getBanManager().isBanned(targetUUID)){
+                if(Daedwin.getInstance().getPunishmentManager().getBanManager().isBanned(targetUUID)){
                     p.sendMessage("");
-                    p.sendMessage(ChatColor.AQUA.toString() + ChatColor.UNDERLINE + "Reason: " + ChatColor.WHITE + Daedwin.getInstance().getBanManager().getReason(targetUUID));
-                    p.sendMessage(ChatColor.GOLD.toString() + ChatColor.UNDERLINE + "Duration: " + ChatColor.RED + Daedwin.getInstance().getBanManager().getTimeLeft(targetUUID));
+                    p.sendMessage(ChatColor.AQUA.toString() + ChatColor.UNDERLINE + "Reason: " + ChatColor.WHITE + Daedwin.getInstance().getPunishmentManager().getBanManager().getReason(targetUUID));
+                    p.sendMessage(ChatColor.GOLD.toString() + ChatColor.UNDERLINE + "Duration: " + ChatColor.RED + Daedwin.getInstance().getPunishmentManager().getBanManager().getTimeLeft(targetUUID));
                 }
 
                 p.sendMessage(ChatColor.GRAY.toString() + ChatColor.STRIKETHROUGH + "---------------------------------------------------");

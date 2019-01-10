@@ -29,12 +29,12 @@ public class PlayerConnection implements Listener {
 
         String banMessage = ChatColor.BLUE.toString() + ChatColor.BOLD.toString() + ChatColor.UNDERLINE + "Myths of Daedwin\n\n\n"
                 + ChatColor.RED.toString() + ChatColor.UNDERLINE + "You have been Banned.\n\n"
-                + ChatColor.GRAY.toString() + ChatColor.UNDERLINE + "Reason" + ChatColor.GRAY + ": " + ChatColor.WHITE + Daedwin.getInstance().getBanManager().getReason(p.getUniqueId()) + "\n\n"
-                + ChatColor.GOLD.toString() + ChatColor.UNDERLINE + "Expires" + ChatColor.GOLD + ": " + ChatColor.DARK_RED + Daedwin.getInstance().getBanManager().getTimeLeft(p.getUniqueId()) + "\n\n\n"
+                + ChatColor.GRAY.toString() + ChatColor.UNDERLINE + "Reason" + ChatColor.GRAY + ": " + ChatColor.WHITE + Daedwin.getInstance().getPunishmentManager().getBanManager().getReason(p.getUniqueId()) + "\n\n"
+                + ChatColor.GOLD.toString() + ChatColor.UNDERLINE + "Expires" + ChatColor.GOLD + ": " + ChatColor.DARK_RED + Daedwin.getInstance().getPunishmentManager().getBanManager().getTimeLeft(p.getUniqueId()) + "\n\n\n"
                 + ChatColor.GRAY + "Find out more at: " + ChatColor.BLUE.toString() + ChatColor.UNDERLINE + Constants.SITE_NAME;
 
 //        Bukkit.getScheduler().runTaskAsynchronously(Daedwin.getInstance(), () -> {
-            if (Daedwin.getInstance().getBanManager().isBanned(p.getUniqueId())/*daedwinPlayer.isBanned*/) {
+            if (Daedwin.getInstance().getPunishmentManager().getBanManager().isBanned(p.getUniqueId())/*daedwinPlayer.isBanned*/) {
                 e.disallow(PlayerLoginEvent.Result.KICK_OTHER, banMessage/*ChatColor.RED + "You have been Banned. \n"
                         + ChatColor.AQUA.toString() + ChatColor.BOLD + "Reason: "
                         + ChatColor.WHITE + Daedwin.getInstance().getBanManager().getReason(p.getUniqueId())

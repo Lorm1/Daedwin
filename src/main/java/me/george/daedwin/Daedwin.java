@@ -6,7 +6,7 @@ import me.george.daedwin.game.commands.*;
 import me.george.daedwin.game.maintenance.FileManager;
 import me.george.daedwin.game.player.DaedwinPlayer;
 import me.george.daedwin.game.player.PlayerConnection;
-import me.george.daedwin.game.punishment.ban.BanManager;
+import me.george.daedwin.game.punishment.PunishmentManager;
 import me.george.daedwin.game.rank.RankManager;
 import me.george.daedwin.game.world.Restrictions;
 import me.george.daedwin.utils.ConcurrentSet;
@@ -23,13 +23,13 @@ public class Daedwin extends JavaPlugin {
     }
 
     private FileManager fileManager;
-    private BanManager banManager;
+    private PunishmentManager punishmentManager;
     private RankManager rankManager;
 
     public FileManager getFileManager() {
         return fileManager;
     }
-    public BanManager getBanManager() { return banManager; }
+    public PunishmentManager getPunishmentManager() { return punishmentManager; }
     public RankManager getRankManager() { return rankManager; }
 
     public static Set<Player> _hiddenPlayers = new ConcurrentSet<>();
@@ -84,9 +84,10 @@ public class Daedwin extends JavaPlugin {
 
     private void setupManagers() {
         fileManager = new FileManager(this);
-        banManager = new BanManager(this);
+        punishmentManager = new PunishmentManager(this);
         rankManager = new RankManager(this);
 
+        punishmentManager.setupManagers();
         fileManager.setupWhitelist();
     }
 }

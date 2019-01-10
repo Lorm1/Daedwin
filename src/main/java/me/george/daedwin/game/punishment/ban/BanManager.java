@@ -1,7 +1,7 @@
 package me.george.daedwin.game.punishment.ban;
 
-import me.george.daedwin.Daedwin;
 import me.george.daedwin.database.DatabaseAPI;
+import me.george.daedwin.game.punishment.PunishmentManager;
 import me.george.daedwin.game.punishment.TimeUnit;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -14,7 +14,7 @@ import java.util.UUID;
 
 public class BanManager {
 
-    public BanManager(Daedwin daedwin) {
+    public BanManager(PunishmentManager punishmentManager) {
     }
 
     public void ban(UUID uuid, long endInSeconds, String reason) {
