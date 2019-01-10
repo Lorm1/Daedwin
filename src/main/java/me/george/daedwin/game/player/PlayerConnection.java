@@ -6,7 +6,6 @@ import me.george.daedwin.database.DatabaseAPI;
 import me.george.daedwin.utils.Utils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -15,35 +14,37 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerLoginEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 
-import java.util.UUID;
-
 public class PlayerConnection implements Listener {
 
     @EventHandler
     public void onAsyncLogin(AsyncPlayerPreLoginEvent e) {
-       UUID uuid = e.getUniqueId();
-       OfflinePlayer player = Bukkit.getOfflinePlayer(uuid);
 
-       DatabaseAPI.loadPlayer(uuid, player);
     }
 
     @EventHandler
     public void onLogin(PlayerLoginEvent e) {
         Player p = e.getPlayer();
-        DaedwinPlayer daedwinPlayer;
-        if (PlayerCache.offlineDaedwinPlayerCache.containsKey(p)) {
-            daedwinPlayer = PlayerCache.offlineDaedwinPlayerCache.get(p);
-        } else {
-            Utils.log.info("Could not load player data. PlayerLoginEvent error for player " + p.getName());
+
+        if (Daedwin.getInstance().getBanManager().isBanned(p.getUniqueId())/*daedwinPlayer.isBanned*/) {
+            e.disallow(PlayerLoginEvent.Result.KICK_BANNED, ChatColor.RED + "You have been Banned. \n"
+                    + ChatColor.AQUA.toString() + ChatColor.BOLD + "Reason: "
+                    + ChatColor.WHITE + Daedwin.getInstance().getBanManager().getReason(p.getUniqueId())
+                    + "\n\n" + ChatColor.GOLD.toString() + ChatColor.UNDERLINE
+                    + "Duration: " + ChatColor.RED
+                    + Daedwin.getInstance().getBanManager().getTimeLeft(p.getUniqueId()));
+        }
+
+        DaedwinPlayer daedwinPlayer = new DaedwinPlayer(p);
+
+        if (daedwinPlayer == null) {
+            Utils.log.info("Could not load Player " + p.getName() + " in PlayerLoginEvent.");
+            Utils.log.info(p.getName() + " PlayerLoginEvent"); // debug
+            Utils.log.info(daedwinPlayer.getPlayer().getName() + " PlayerLoginEvent"); // debug
             return;
         }
 
         if (Setup.MAINTENANCE_MODE && (daedwinPlayer.isAdmin() || !Daedwin.getInstance().getFileManager().getWhitelistedPlayers().contains(p.getName()))) {
-            e.disallow(PlayerLoginEvent.Result.KICK_OTHER, ChatColor.RED + "Daedwin is undergoing Maintenance.");
-        }
-
-        if (daedwinPlayer.isBanned) {
-            e.disallow(PlayerLoginEvent.Result.KICK_OTHER, ChatColor.RED + "You have been Banned. \n" + ChatColor.AQUA + "By: " + ChatColor.WHITE + daedwinPlayer.bannedBy + ChatColor.AQUA.toString() + ChatColor.BOLD + "Reason: " + ChatColor.WHITE + daedwinPlayer.getBanReason() + "\n\n" + ChatColor.GOLD.toString() + ChatColor.UNDERLINE + "Duration: " + ChatColor.RED + daedwinPlayer.getBanDuration().toString());
+            e.disallow(PlayerLoginEvent.Result.KICK_WHITELIST, ChatColor.RED + "Daedwin is undergoing Maintenance.");
         }
 
         if (e.getResult() == PlayerLoginEvent.Result.KICK_FULL) {
@@ -59,10 +60,10 @@ public class PlayerConnection implements Listener {
     public void onJoin(PlayerJoinEvent e) {
         Player p = e.getPlayer();
 
-        PlayerCache.offlineDaedwinPlayerCache.remove(p);
+        Bukkit.getScheduler().runTaskAsynchronously(Daedwin.getInstance(), () ->
+                DatabaseAPI.loadPlayer(p.getUniqueId()));
 
-        DaedwinPlayer daedwinPlayer = new DaedwinPlayer(p);
-        DaedwinPlayer.getDaedwinPlayers().put(p.getUniqueId(), daedwinPlayer);
+        DaedwinPlayer daedwinPlayer = DaedwinPlayer.getDaedwinPlayers().get(p.getUniqueId());
     }
 
     @EventHandler

@@ -4,6 +4,7 @@ main: me.george.daedwin.Daedwin
 prefix: Daedwin
 authors: [George_Angel]
 description: Myths of Daedwin
+
 commands:
   mutechat:
     description: Mutes the chat.
@@ -17,3 +18,12 @@ commands:
   freeze:
     description: Freeze a player in place (time- optional)
     usage: /freeze <player> <time>(optional)
+  ban:
+    description: Bans a player.
+    usage: /ban <player> <duration/perm> <reason>
+  unban:
+    description: Unbans a player.
+    usage: /unban <player>
+  checkban:
+    description: Displays ban info about a player.
+    usage: /checkban <player>

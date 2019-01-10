@@ -2,13 +2,11 @@ package me.george.daedwin;
 
 import me.george.daedwin.database.Database;
 import me.george.daedwin.game.chat.Chat;
-import me.george.daedwin.game.commands.CommandClearChat;
-import me.george.daedwin.game.commands.CommandFreeze;
-import me.george.daedwin.game.commands.CommandLogout;
-import me.george.daedwin.game.commands.CommandMuteChat;
-import me.george.daedwin.game.player.PlayerCache;
+import me.george.daedwin.game.commands.*;
+import me.george.daedwin.game.maintenance.FileManager;
 import me.george.daedwin.game.player.PlayerConnection;
 import me.george.daedwin.game.player.Restrictions;
+import me.george.daedwin.game.punishment.ban.BanManager;
 import me.george.daedwin.utils.ConcurrentSet;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -23,17 +21,19 @@ public class Daedwin extends JavaPlugin {
     }
 
     private FileManager fileManager;
+    private BanManager banManager;
 
     public FileManager getFileManager() {
         return fileManager;
     }
+    public BanManager getBanManager() { return banManager; }
 
     public static Set<Player> _hiddenPlayers = new ConcurrentSet<>();
 
     public void onEnable() {
         instance = this;
 
-        fileManager = new FileManager(this);
+        setupManagers();
 
         Database.getInstance().connect();
 
@@ -54,8 +54,6 @@ public class Daedwin extends JavaPlugin {
         // Database.getInstance().disconnect(); // Doesn't really serve much, it's fine to leave it open.
 
         getLogger().info("Disabling Daedwin v." + Constants.SERVER_VERSION);
-
-        PlayerCache.offlineDaedwinPlayerCache.clear();
     }
 
     private void registerEvents() {
@@ -70,5 +68,13 @@ public class Daedwin extends JavaPlugin {
         this.getCommand("logout").setExecutor(new CommandLogout());
         this.getCommand("mutechat").setExecutor(new CommandMuteChat());
         this.getCommand("freeze").setExecutor(new CommandClearChat());
+        this.getCommand("ban").setExecutor(new CommandBan());
+        this.getCommand("unban").setExecutor(new CommandUnban());
+        this.getCommand("checkban").setExecutor(new CommandCheckBan());
+    }
+
+    private void setupManagers() {
+        fileManager = new FileManager(this);
+        banManager = new BanManager(this);
     }
 }

@@ -1,5 +1,7 @@
-package me.george.daedwin;
+package me.george.daedwin.game.maintenance;
 
+import me.george.daedwin.Constants;
+import me.george.daedwin.Daedwin;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 

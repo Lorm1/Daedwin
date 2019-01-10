@@ -23,11 +23,11 @@ public class LogoutManager {
             return;
         }
 
+        if (Daedwin.getInstance()._hiddenPlayers.contains(player))
+            Daedwin.getInstance()._hiddenPlayers.remove(player);
+
         Bukkit.getScheduler().runTaskAsynchronously(Daedwin.getInstance(), () -> {
             // Handle general unregistering of stuff here
-
-            if (Daedwin.getInstance()._hiddenPlayers.contains(player))
-                Daedwin.getInstance()._hiddenPlayers.remove(player);
 
             DatabaseAPI.savePlayer(player.getUniqueId());
 
@@ -56,11 +56,11 @@ public class LogoutManager {
             return;
         }
 
+        if (Daedwin.getInstance()._hiddenPlayers.contains(player))
+            Daedwin.getInstance()._hiddenPlayers.remove(player);
+
         Bukkit.getScheduler().runTaskAsynchronously(Daedwin.getInstance(), () -> {
             // Handle general unregistering of stuff here and save player data
-
-            if (Daedwin.getInstance()._hiddenPlayers.contains(player))
-                Daedwin.getInstance()._hiddenPlayers.remove(player);
 
             DatabaseAPI.savePlayer(player.getUniqueId());
 

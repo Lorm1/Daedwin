@@ -10,7 +10,6 @@ import org.bukkit.Location;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 
-import java.sql.Time;
 import java.sql.Timestamp;
 import java.util.Map;
 import java.util.UUID;
@@ -40,9 +39,9 @@ public class DaedwinPlayer {
     @Setter
     Integer level, health, experience;
 
-    @Getter
-    @Setter
-    Boolean isBanned;
+//    @Getter
+//    @Setter
+//    Boolean isBanned;
 
     @Getter
     @Setter
@@ -50,15 +49,11 @@ public class DaedwinPlayer {
 
     @Getter
     @Setter
-    String bannedBy, mutedBy;
-
-    @Getter
-    @Setter
     Boolean isDonator;
 
     @Getter
     @Setter
-    String muteReason, banReason;
+    String muteReason/*, banReason*/;
 
     @Getter
     @Setter
@@ -72,9 +67,9 @@ public class DaedwinPlayer {
     @Setter
     Boolean playingStatus;
 
-    @Getter
-    @Setter
-    Time banDuration;
+//    @Getter
+//    @Setter
+//    String banDuration;
 
     public DaedwinPlayer(UUID uuid) {
         this.uuid = uuid;
