@@ -94,7 +94,7 @@ public class Daedwin extends JavaPlugin {
         this.getCommand("whois").setExecutor(new CommandWhoIs());
         this.getCommand("gamemode").setExecutor(new CommandGameMode());
         this.getCommand("god").setExecutor(new CommandGodMode());
-        this.getCommand("spawnmob").setExecutor(new CommandSpawnMob());
+        this.getCommand("spawnmob").setExecutor(new CommandSpawnEntity());
     }
 
     private void setupServer() {

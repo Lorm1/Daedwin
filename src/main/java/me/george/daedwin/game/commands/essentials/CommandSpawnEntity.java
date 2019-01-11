@@ -7,14 +7,17 @@ import org.bukkit.World;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
 
-public class CommandSpawnMob implements CommandExecutor {
+public class CommandSpawnEntity implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String s, String[] args) {
+        if (!(sender instanceof ConsoleCommandSender)) return true;
+
         Player player = (Player) sender;
         if (args.length < 1 || args.length > 2) { // /spawnmob
             player.sendMessage(ChatColor.RED + "Invalid Usage.");
@@ -49,7 +52,9 @@ public class CommandSpawnMob implements CommandExecutor {
             Entity entity = (Entity) world.spawnEntity(front, entityType);
         }
 
-        player.sendMessage(ChatColor.GREEN + "Spawned Entity: " + ChatColor.RED + entityType.name() + ChatColor.DARK_GREEN + ". Amount: " + ChatColor.GOLD + amount);
+        player.sendMessage(ChatColor.GREEN.toString() + ChatColor.BOLD + "Spawned Entity: " + ChatColor.RED.toString() + ChatColor.UNDERLINE + entityType.name()
+                + ChatColor.GREEN.toString() + ChatColor.BOLD + "  Amount: "
+                + ChatColor.RED.toString() + ChatColor.BOLD + amount);
         return true;
     }
 }
