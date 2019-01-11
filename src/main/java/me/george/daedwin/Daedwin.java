@@ -86,6 +86,8 @@ public class Daedwin extends JavaPlugin {
         this.getCommand("fly").setExecutor(new CommandFly());
         this.getCommand("nick").setExecutor(new CommandNick());
         this.getCommand("kick").setExecutor(new CommandKick());
+        this.getCommand("feed").setExecutor(new CommandFeed());
+        this.getCommand("heal").setExecutor(new CommandHeal());
     }
 
     private void setupServer() {
