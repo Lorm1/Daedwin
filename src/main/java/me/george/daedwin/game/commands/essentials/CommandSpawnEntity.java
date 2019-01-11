@@ -23,7 +23,7 @@ public class CommandSpawnEntity implements CommandExecutor {
 
         if (!daedwinPlayer.isAdmin()) return true;
 
-        if (args.length < 1 || args.length > 2) { // /spawnmob
+        if (args.length == 0 || args.length > 2) {
             player.sendMessage(ChatColor.RED + "Invalid Usage.");
             return false;
         }
@@ -38,10 +38,20 @@ public class CommandSpawnEntity implements CommandExecutor {
             return true;
         }
 
-        EntityType entityType = EntityType.valueOf(args[0].toUpperCase()); // /spawnmob <mob>
+        EntityType entityType = EntityType.valueOf(args[0].toUpperCase());
         Entity entity = null;
 
         int amount = 1;
+
+        if (args.length == 1) { // /spawnmob <mob>
+            try {
+                String typeName = entity.getType().toString().toUpperCase();
+                entityType = EntityType.valueOf(typeName);
+            } catch (Exception e) {
+                player.sendMessage(ChatColor.RED + "Invalid Entity.");
+                return false;
+            }
+        }
 
         if (args.length == 2) { // /spawnmob <mob> <amount>
             try {

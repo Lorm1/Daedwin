@@ -6,9 +6,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Entity;
-import org.bukkit.entity.EntityType;
-import org.bukkit.entity.Player;
+import org.bukkit.entity.*;
 
 public class CommandClearMobs implements CommandExecutor {
     @Override
@@ -25,15 +23,16 @@ public class CommandClearMobs implements CommandExecutor {
             return false;
         }
 
-        int radius = 50;
+        int radius = 25;
 
         EntityType entityType;
+        Entity entity = null;
         int counter = 0;
 
         if (args.length == 0) { // /clearmobs
-            for (Entity entity : Utils.getNearbyEntities(p.getLocation(), radius)) {
-                if (!entity.equals(EntityType.PLAYER)) {
-                    entity.remove();
+            for (Entity en : Utils.getNearbyEntities(p.getLocation(), radius)) {
+                if (!(en instanceof Player) && !(en == null) && !(en instanceof NPC) && !(en instanceof Villager)) {
+                    en.remove();
                     counter++;
                 }
             }
@@ -49,9 +48,9 @@ public class CommandClearMobs implements CommandExecutor {
                 return false;
             }
 
-            for (Entity entity : Utils.getNearbyEntities(p.getLocation(), radius)) {
-                if (!entity.equals(EntityType.PLAYER)) {
-                    entity.remove();
+            for (Entity en : Utils.getNearbyEntities(p.getLocation(), radius)) {
+                if (!(en instanceof Player) && !(en == null) && !(en instanceof NPC) && !(en instanceof Villager)) {
+                    en.remove();
                     counter++;
                 }
             }
@@ -60,7 +59,6 @@ public class CommandClearMobs implements CommandExecutor {
                     + ChatColor.GREEN.toString() + ChatColor.BOLD + " Entities in a " + ChatColor.RED.toString() + ChatColor.BOLD
                     + radius + ChatColor.GREEN.toString() + ChatColor.BOLD + " block radius.");
         } else if (args.length == 2) { // clearmobs <radius> <entity>
-            String mobName = args[0];
             try {
                 radius = Integer.parseInt(args[0]);
             } catch (NumberFormatException e) {
@@ -69,16 +67,17 @@ public class CommandClearMobs implements CommandExecutor {
             }
 
             try {
-                entityType = EntityType.valueOf(mobName.toUpperCase());
-            } catch (IllegalArgumentException e) {
-                p.sendMessage(ChatColor.RED + "Invalid Entity Type.");
+                String typeName = entity.getType().toString().toUpperCase();
+                entityType = EntityType.valueOf(typeName);
+            } catch (Exception e) {
+                p.sendMessage(ChatColor.RED + "Invalid Entity.");
                 return false;
             }
 
-            for (Entity entity : Utils.getNearbyEntities(p.getLocation(), radius)) {
-                if (!entity.equals(EntityType.PLAYER)) {
-                    if (entityType.equals(entity)) {
-                        entity.remove();
+            for (Entity en : Utils.getNearbyEntities(p.getLocation(), radius)) {
+                if (entityType.equals(en.getType())) {
+                    if (!(en instanceof Player) && !(en == null)) {
+                        en.remove();
                         counter++;
                     }
                 }
@@ -87,7 +86,6 @@ public class CommandClearMobs implements CommandExecutor {
             p.sendMessage(ChatColor.GREEN.toString() + ChatColor.BOLD + "Cleared " + ChatColor.RED.toString() + ChatColor.BOLD + counter
                     + ChatColor.GREEN.toString() + ChatColor.BOLD + " Entities in a " + ChatColor.RED.toString() + ChatColor.BOLD
                     + radius + ChatColor.GREEN.toString() + ChatColor.BOLD + " block radius.");
-
         }
         return true;
     }
