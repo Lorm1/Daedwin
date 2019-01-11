@@ -43,27 +43,22 @@ public class CommandClearMobs implements CommandExecutor {
                     + radius + ChatColor.GREEN.toString() + ChatColor.BOLD + " block radius.");
         } else if (args.length == 1) { // clearmobs <radius>
             try {
-                try {
-                    radius = Integer.parseInt(args[0]);
-                } catch (NumberFormatException e) {
-                    p.sendMessage(ChatColor.RED + "Invalid Radius.");
-                    return false;
-                }
-
-                for (Entity entity : Utils.getNearbyEntities(p.getLocation(), radius)) {
-                    if (!entity.equals(EntityType.PLAYER)) {
-                        entity.remove();
-                        counter++;
-                    }
-                }
-
-                p.sendMessage(ChatColor.GREEN.toString() + ChatColor.BOLD + "Cleared " + ChatColor.RED.toString() + ChatColor.BOLD + counter
-                        + ChatColor.GREEN.toString() + ChatColor.BOLD + " Entities in a " + ChatColor.RED.toString() + ChatColor.BOLD
-                        + radius + ChatColor.GREEN.toString() + ChatColor.BOLD + " block radius.");
-            } catch (IllegalArgumentException e) {
-                p.sendMessage(ChatColor.RED + "Invalid Entity Type");
+                radius = Integer.parseInt(args[0]);
+            } catch (NumberFormatException e) {
+                p.sendMessage(ChatColor.RED + "Invalid Radius.");
                 return false;
             }
+
+            for (Entity entity : Utils.getNearbyEntities(p.getLocation(), radius)) {
+                if (!entity.equals(EntityType.PLAYER)) {
+                    entity.remove();
+                    counter++;
+                }
+            }
+
+            p.sendMessage(ChatColor.GREEN.toString() + ChatColor.BOLD + "Cleared " + ChatColor.RED.toString() + ChatColor.BOLD + counter
+                    + ChatColor.GREEN.toString() + ChatColor.BOLD + " Entities in a " + ChatColor.RED.toString() + ChatColor.BOLD
+                    + radius + ChatColor.GREEN.toString() + ChatColor.BOLD + " block radius.");
         } else if (args.length == 2) { // clearmobs <radius> <entity>
             String mobName = args[0];
             try {
@@ -72,25 +67,27 @@ public class CommandClearMobs implements CommandExecutor {
                 p.sendMessage(ChatColor.RED + "Invalid Radius.");
                 return false;
             }
+
             try {
                 entityType = EntityType.valueOf(mobName.toUpperCase());
-
-                for (Entity entity : Utils.getNearbyEntities(p.getLocation(), radius)) {
-                    if (!entity.equals(EntityType.PLAYER)) {
-                        if (entityType.equals(entity)) {
-                            entity.remove();
-                            counter++;
-                        }
-                    }
-                }
-
-                p.sendMessage(ChatColor.GREEN.toString() + ChatColor.BOLD + "Cleared " + ChatColor.RED.toString() + ChatColor.BOLD + counter
-                        + ChatColor.GREEN.toString() + ChatColor.BOLD + " Entities in a " + ChatColor.RED.toString() + ChatColor.BOLD
-                        + radius + ChatColor.GREEN.toString() + ChatColor.BOLD + " block radius.");
             } catch (IllegalArgumentException e) {
                 p.sendMessage(ChatColor.RED + "Invalid Entity Type.");
                 return false;
             }
+
+            for (Entity entity : Utils.getNearbyEntities(p.getLocation(), radius)) {
+                if (!entity.equals(EntityType.PLAYER)) {
+                    if (entityType.equals(entity)) {
+                        entity.remove();
+                        counter++;
+                    }
+                }
+            }
+
+            p.sendMessage(ChatColor.GREEN.toString() + ChatColor.BOLD + "Cleared " + ChatColor.RED.toString() + ChatColor.BOLD + counter
+                    + ChatColor.GREEN.toString() + ChatColor.BOLD + " Entities in a " + ChatColor.RED.toString() + ChatColor.BOLD
+                    + radius + ChatColor.GREEN.toString() + ChatColor.BOLD + " block radius.");
+
         }
         return true;
     }
