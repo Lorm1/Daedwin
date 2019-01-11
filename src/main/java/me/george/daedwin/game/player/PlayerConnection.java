@@ -37,15 +37,15 @@ public class PlayerConnection implements Listener {
                 + ChatColor.GRAY + "Find out more at: " + ChatColor.BLUE.toString() + ChatColor.UNDERLINE + Constants.SITE_NAME;
 
 //        Bukkit.getScheduler().runTaskAsynchronously(Daedwin.getInstance(), () -> {
-            if (Daedwin.getInstance().getPunishmentManager().getBanManager().isBanned(p.getUniqueId())/*daedwinPlayer.isBanned*/) {
-                e.disallow(PlayerLoginEvent.Result.KICK_OTHER, banMessage/*ChatColor.RED + "You have been Banned. \n"
+        if (Daedwin.getInstance().getPunishmentManager().getBanManager().isBanned(p.getUniqueId())/*daedwinPlayer.isBanned*/) {
+            e.disallow(PlayerLoginEvent.Result.KICK_OTHER, banMessage/*ChatColor.RED + "You have been Banned. \n"
                         + ChatColor.AQUA.toString() + ChatColor.BOLD + "Reason: "
                         + ChatColor.WHITE + Daedwin.getInstance().getBanManager().getReason(p.getUniqueId())
                         + "\n\n" + ChatColor.GOLD.toString() + ChatColor.UNDERLINE
                         + "Duration: " + ChatColor.RED
                         + Daedwin.getInstance().getBanManager().getTimeLeft(p.getUniqueId())*/);
-                return;
-            }
+            return;
+        }
 //        });
 
         if (Setup.MAINTENANCE_MODE && !Daedwin.getInstance().getFileManager().getWhitelistedPlayers().contains(p.getName().toLowerCase())) {

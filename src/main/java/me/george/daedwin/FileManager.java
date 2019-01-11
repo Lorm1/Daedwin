@@ -1,7 +1,5 @@
-package me.george.daedwin.game.maintenance;
+package me.george.daedwin;
 
-import me.george.daedwin.Constants;
-import me.george.daedwin.Daedwin;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 
@@ -12,24 +10,29 @@ import java.util.List;
 
 public class FileManager {
 
-    private File file;
-    private YamlConfiguration config;
+    private File whitelistFile;
+    private File nicknameFile;
+
+    private YamlConfiguration whitelistConfig;
+    private YamlConfiguration nicknameConfig;
 
     private List<String> whitelistedPlayers = new ArrayList<>();
 
     public FileManager(Daedwin daedwin) {
 
-        file = new File(daedwin.getDataFolder(), "whitelisted.yml");
+        whitelistFile = new File(daedwin.getDataFolder(), "whitelisted.yml");
 
-        if (!file.exists()) {
+        if (!whitelistFile.exists()) {
             try {
-                file.createNewFile();
+                whitelistFile.createNewFile();
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
 
-        config = YamlConfiguration.loadConfiguration(file);
+        whitelistConfig = YamlConfiguration.loadConfiguration(whitelistFile);
+
+        setupWhitelist();
     }
 
     public void setupWhitelist() {
@@ -44,8 +47,8 @@ public class FileManager {
         if (!getWhitelistedPlayers().contains(player.getName())) {
             getWhitelistedPlayers().add(player.getName());
 
-            config.set("Player", getWhitelistedPlayers());
-            save();
+            whitelistConfig.set("Player", getWhitelistedPlayers());
+            saveWhitelist();
         }
     }
 
@@ -53,8 +56,8 @@ public class FileManager {
         if (!getWhitelistedPlayers().contains(playerName)) {
             getWhitelistedPlayers().add(playerName);
 
-            config.set("Player", getWhitelistedPlayers());
-            save();
+            whitelistConfig.set("Player", getWhitelistedPlayers());
+            saveWhitelist();
         }
     }
 
@@ -62,8 +65,8 @@ public class FileManager {
         if (getWhitelistedPlayers().contains(player.getName())) {
             getWhitelistedPlayers().remove(player.getName());
 
-            config.set("Player", getWhitelistedPlayers());
-            save();
+            whitelistConfig.set("Player", getWhitelistedPlayers());
+            saveWhitelist();
         }
     }
 
@@ -71,8 +74,8 @@ public class FileManager {
         if (getWhitelistedPlayers().contains(playerName)) {
             getWhitelistedPlayers().remove(playerName);
 
-            config.set("Player", getWhitelistedPlayers());
-            save();
+            whitelistConfig.set("Player", getWhitelistedPlayers());
+            saveWhitelist();
         }
     }
 
@@ -80,9 +83,9 @@ public class FileManager {
         return whitelistedPlayers;
     }
 
-    private void save() {
+    private void saveWhitelist() {
         try {
-            config.save(file);
+            whitelistConfig.save(whitelistFile);
         } catch (IOException e) {
             e.printStackTrace();
         }

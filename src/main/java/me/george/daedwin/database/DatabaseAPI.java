@@ -1,8 +1,10 @@
 package me.george.daedwin.database;
 
-import me.george.daedwin.game.rank.Rank;
+import me.george.daedwin.Daedwin;
 import me.george.daedwin.game.player.DaedwinPlayer;
+import me.george.daedwin.game.rank.Rank;
 import me.george.daedwin.utils.Utils;
+import org.bukkit.ChatColor;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -167,6 +169,15 @@ public class DatabaseAPI {
 //                rpgPlayer.setBanDuration(Daedwin.getInstance().getBanManager().getTimeLeft(rpgPlayer.getPlayer().getUniqueId()));
 //                rpgPlayer.setBanReason(Daedwin.getInstance().getBanManager().getReason(rpgPlayer.getPlayer().getUniqueId()));
 //            }
+
+            String nick = Daedwin.getInstance().getConfig().getString(daedwinPlayer.getName());
+            if (nick == null) {
+                return;
+            }
+            nick = ChatColor.translateAlternateColorCodes('&', nick);
+            daedwinPlayer.getPlayer().setDisplayName(nick);
+            daedwinPlayer.getPlayer().setPlayerListName(nick);
+            daedwinPlayer.setNickname(nick);
 
             Utils.log.info("Loaded data for Player " + daedwinPlayer.getPlayer().getName());
             rs.close();

@@ -19,4 +19,8 @@ public class Setup implements Listener {
 
         e.setMaxPlayers(Constants.PLAYER_SLOTS);
     }
+
+    public static void setupTablist() {
+
+    }
 }

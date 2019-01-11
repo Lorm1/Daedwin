@@ -28,11 +28,12 @@ public class MuteManager {
             end = -1;
         }
 
-        PreparedStatement sts = DatabaseAPI.prepareStatement("INSERT INTO muted_players (UUID, MUTE_REASON, MUTE_DURATION) VALUES (?, ?, ?)");
+        PreparedStatement sts = DatabaseAPI.prepareStatement("INSERT INTO muted_players (UUID, NAME, MUTE_REASON, MUTE_DURATION) VALUES (?, ?, ?, ?)");
         try {
             sts.setString(1, uuid.toString());
-            sts.setString(2, reason);
-            sts.setLong(3, end);
+            sts.setString(2, Bukkit.getPlayer(uuid) != null ? Bukkit.getPlayer(uuid).getName() : Bukkit.getOfflinePlayer(uuid).getName());
+            sts.setString(3, reason);
+            sts.setLong(4, end);
             sts.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();

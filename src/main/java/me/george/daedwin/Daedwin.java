@@ -3,7 +3,6 @@ package me.george.daedwin;
 import me.george.daedwin.database.Database;
 import me.george.daedwin.game.chat.Chat;
 import me.george.daedwin.game.commands.*;
-import me.george.daedwin.game.maintenance.FileManager;
 import me.george.daedwin.game.player.DaedwinPlayer;
 import me.george.daedwin.game.player.PlayerConnection;
 import me.george.daedwin.game.punishment.PunishmentManager;
@@ -37,7 +36,7 @@ public class Daedwin extends JavaPlugin {
     public void onEnable() {
         instance = this;
 
-        setupManagers();
+        setupServer();
 
         Database.getInstance().connect();
 
@@ -85,15 +84,18 @@ public class Daedwin extends JavaPlugin {
         this.getCommand("maintenance").setExecutor(new CommandMaintenance());
         this.getCommand("vanish").setExecutor(new CommandVanish());
         this.getCommand("fly").setExecutor(new CommandFly());
+        this.getCommand("nick").setExecutor(new CommandNick());
+        this.getCommand("kick").setExecutor(new CommandKick());
     }
 
+    private void setupServer() {
+        setupManagers();
+        Setup.setupTablist();
+    }
     private void setupManagers() {
         fileManager = new FileManager(this);
         punishmentManager = new PunishmentManager(this);
         rankManager = new RankManager(this);
-
-        punishmentManager.setupManagers();
-        fileManager.setupWhitelist();
     }
 
     private void clearCache() {

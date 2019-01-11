@@ -56,3 +56,9 @@ commands:
   fly:
     description: Enables flying.
     usage: /fly <player> (optional)
+  nick:
+    description: Gives a nickname to a player.
+    usage: /nick <player> (optional) <nickname>
+  kick:
+    description: Kicks a player.
+    usage: /kick <player> <reason> (optional)

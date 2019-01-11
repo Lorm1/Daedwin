@@ -8,6 +8,7 @@ import me.george.daedwin.game.punishment.mute.MuteManager;
 public class PunishmentManager {
 
     public PunishmentManager(Daedwin daedwin) {
+        setupManagers();
     }
 
     @Getter

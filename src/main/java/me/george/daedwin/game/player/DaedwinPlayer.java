@@ -66,6 +66,8 @@ public class DaedwinPlayer {
     @Setter
     Boolean playingStatus;
 
+    String nickName;
+
 //    @Getter
 //    @Setter
 //    String banDuration;
@@ -85,6 +87,17 @@ public class DaedwinPlayer {
     }
 
 
+    public void setNickname(String name) {
+        this.nickName = name;
+    }
+
+    public String getNickname() {
+        return this.nickName;
+    }
+
+    public String getName() {
+        return this.getPlayer().getName();
+    }
     public void addGold(int gold) {
         assert gold >= 0;
         setGold(getGold() + gold);
