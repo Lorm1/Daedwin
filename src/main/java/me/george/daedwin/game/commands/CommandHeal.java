@@ -20,7 +20,7 @@ public class CommandHeal implements CommandExecutor {
 
         if (args.length == 0) { // /heal
             p.setHealth(20);
-            p.sendMessage(ChatColor.GREEN + "You have been healed.");
+            p.sendMessage(ChatColor.AQUA + "You have been healed.");
         } else if (args.length == 1) { // /heal <player>
             Player target = Bukkit.getPlayer(args[0]);
 
@@ -30,7 +30,7 @@ public class CommandHeal implements CommandExecutor {
             }
 
             target.setHealth(20);
-            target.sendMessage(ChatColor.GREEN + "You have been healed.");
+            target.sendMessage(ChatColor.AQUA + "You have been healed.");
 
             p.sendMessage(ChatColor.GREEN + "Healed player " + ChatColor.YELLOW + target.getName());
         } else {

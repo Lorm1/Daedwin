@@ -17,7 +17,7 @@ commands:
     description: Attempts to log the player out safely.
     usage: /logout
   freeze:
-    description: Freeze a player in place (time- optional)
+    description: Freeze a player in place (time; optional)
     usage: /freeze <player> <time>(optional)
   ban:
     description: Bans a player.
@@ -47,24 +47,27 @@ commands:
     aliases: [sr]
   maintenance:
     description: Base maintenance command.
-    usage: /maintenance <on|off|add|remove|clear> <player> (optional)
+    usage: /maintenance <on/off/add/remove/clear> <player>(optional)
     aliases: [mm]
   vanish:
     description: Turns a player invisible.
-    usage: /vanish <player> (optional)
+    usage: /vanish <player>(optional)
     aliases: [invis, v, invisible]
   fly:
     description: Enables flying.
-    usage: /fly <player> (optional)
+    usage: /fly <player>(optional)
   nick:
     description: Gives a nickname to a player.
-    usage: /nick <player> (optional) <nickname>
+    usage: /nick <player>(optional) <nickname>
   kick:
     description: Kicks a player.
-    usage: /kick <player> <reason> (optional)
+    usage: /kick <player> <reason>(optional)
   feed:
     description: Completely feeds a player.
-    usage: /feed <player> (optional)
+    usage: /feed <player>(optional)
   heal:
     description: Completely heals a player.
-    usage: /heal <player> (optional)
+    usage: /heal <player>(optional)
+  speed:
+    description: Changes the player's walking or flying speed.
+    usage: /speed <fly/walk> <0-10>(speed)
