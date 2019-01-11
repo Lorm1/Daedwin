@@ -55,7 +55,7 @@ public class Chat implements Listener {
 
         String checkedMessage = ChatUtils.checkForBannedWords(message);
 
-        String formattedMessage = rank.getPrefix() + " " + ChatColor.GRAY + p.getName() + ": " + ChatColor.WHITE + checkedMessage;
+        String formattedMessage = rank.getPrefix() + " " + ChatColor.GRAY + p.getDisplayName() /*cus of nickname*/ + ": " + ChatColor.WHITE + checkedMessage;
 
         Set<Player> nearbyPlayers = new HashSet<Player>();
 
