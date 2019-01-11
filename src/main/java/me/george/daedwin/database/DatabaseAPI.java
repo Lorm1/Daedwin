@@ -228,7 +228,7 @@ public class DatabaseAPI {
         }
     }
 
-    public static void doWhoIs(UUID toGet, Player player) {
+    public static void lookup(UUID toGet, Player player) {
         try {
             if (playerExists(toGet)) {
                 PreparedStatement statement = prepareStatement("SELECT * FROM player_info WHERE UUID = ?");

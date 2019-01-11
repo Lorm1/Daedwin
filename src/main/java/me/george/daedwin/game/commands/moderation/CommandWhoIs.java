@@ -34,7 +34,7 @@ public class CommandWhoIs implements CommandExecutor {
 
             UUID targetUUID = DatabaseAPI.getPlayerUUID(targetName);
 
-            DatabaseAPI.doWhoIs(targetUUID, p);
+            DatabaseAPI.lookup(targetUUID, p);
         }
         return true;
     }

@@ -23,7 +23,7 @@ public class CommandTeleport implements CommandExecutor {
             Player target = Bukkit.getPlayer(args[0]);
             if (target.isOnline()) {
                 p.teleport(target.getLocation());
-                p.sendMessage(ChatColor.GREEN + "Teleported you to " + ChatColor.YELLOW + target.getName());
+                p.sendMessage(ChatColor.GREEN + "Teleported you to " + ChatColor.YELLOW + target.getDisplayName());
             } else {
                 p.sendMessage(ChatColor.RED + "That player is offline.");
                 return true;
@@ -41,9 +41,9 @@ public class CommandTeleport implements CommandExecutor {
             }
 
             target1.teleport(target2.getLocation());
-            target1.sendMessage(ChatColor.YELLOW + p.getName() + ChatColor.GRAY + " has teleported you to " + ChatColor.GOLD + target2.getName());
+            target1.sendMessage(ChatColor.YELLOW + p.getDisplayName() + ChatColor.GRAY + " has teleported you to " + ChatColor.GOLD + target2.getDisplayName());
 
-            p.sendMessage(ChatColor.GREEN + "Teleported " + ChatColor.YELLOW + target1.getName() + ChatColor.GREEN + " to " + ChatColor.GOLD + target2.getName());
+            p.sendMessage(ChatColor.GREEN + "Teleported " + ChatColor.YELLOW + target1.getDisplayName() + ChatColor.GREEN + " to " + ChatColor.GOLD + target2.getDisplayName());
         } else {
             p.sendMessage(ChatColor.RED + "Invalid Usage.");
             return false;
