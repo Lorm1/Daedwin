@@ -33,7 +33,7 @@ public class CommandKick implements CommandExecutor {
 
                 DaedwinPlayer daedwinTarget = DaedwinPlayer.getDaedwinPlayers().get(target.getUniqueId());
 
-                LogoutManager.handleLogout(daedwinTarget, "You have been kicked.");
+                LogoutManager.handleLogout(daedwinTarget, "You have been Kicked.");
 
                 for (Player pl : Bukkit.getOnlinePlayers()) {
                     DaedwinPlayer pla = DaedwinPlayer.getDaedwinPlayers().get(pl.getUniqueId());
@@ -45,7 +45,7 @@ public class CommandKick implements CommandExecutor {
                 }
             } else if (args.length > 1) {
                 Player target = Bukkit.getPlayer(args[0]);
-                if (!target.isOnline() || target == null) {
+                if (target == null) {
                     p.sendMessage(ChatColor.RED + "That player is not online.");
                     return true;
                 }
@@ -78,14 +78,14 @@ public class CommandKick implements CommandExecutor {
                 return false;
             } else if (args.length == 1) {
                 Player target = Bukkit.getPlayer(args[0]);
-                if (!target.isOnline() || target == null) {
+                if (target == null) {
                     sender.sendMessage(ChatColor.RED + "That player is not online.");
                     return true;
                 }
 
                 DaedwinPlayer daedwinTarget = DaedwinPlayer.getDaedwinPlayers().get(target.getUniqueId());
 
-                LogoutManager.handleLogout(daedwinTarget, "You have been kicked.");
+                LogoutManager.handleLogout(daedwinTarget, "You have been Kicked.");
 
                 for (Player pl : Bukkit.getOnlinePlayers()) {
                     DaedwinPlayer pla = DaedwinPlayer.getDaedwinPlayers().get(pl.getUniqueId());
@@ -97,7 +97,7 @@ public class CommandKick implements CommandExecutor {
                 }
             } else if (args.length > 1) {
                 Player target = Bukkit.getPlayer(args[0]);
-                if (!target.isOnline() || target == null) {
+                if (target == null) {
                     sender.sendMessage(ChatColor.RED + "That player is not online.");
                     return true;
                 }

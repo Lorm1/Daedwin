@@ -30,6 +30,9 @@ public class CommandNick implements CommandExecutor {
             if (nick.equalsIgnoreCase("off")) {
                 Daedwin.getInstance().getConfig().set(p.getName(), null);
                 Daedwin.getInstance().saveConfig();
+                player.setNickname(null);
+                p.setDisplayName(p.getName());
+                p.setPlayerListName(p.getName());
                 p.sendMessage(ChatColor.GREEN + "You have reset your nickname.");
                 return true;
             }
@@ -43,7 +46,7 @@ public class CommandNick implements CommandExecutor {
             Daedwin.getInstance().saveConfig();
         } else if(args.length >= 2) {
             Player target = Bukkit.getPlayer(args[0]);
-            if (!target.isOnline() || target == null) {
+            if (target == null) {
                 p.sendMessage(ChatColor.RED + "That player is offline.");
                 return true;
             }
@@ -52,9 +55,14 @@ public class CommandNick implements CommandExecutor {
 
             nick = nick.replaceAll("&", "§");
 
+            DaedwinPlayer targetPlayer = DaedwinPlayer.getDaedwinPlayers().get(target.getUniqueId());
+
             if (nick.equalsIgnoreCase("off")) {
                 Daedwin.getInstance().getConfig().set(target.getName(), null);
                 Daedwin.getInstance().saveConfig();
+                targetPlayer.setNickname(null);
+                target.setDisplayName(target.getName());
+                target.setPlayerListName(target.getName());
                 p.sendMessage(ChatColor.GREEN + "Removed " + ChatColor.YELLOW + target.getName() + ChatColor.GREEN + "'s nickname.");
                 return true;
             }
@@ -62,7 +70,6 @@ public class CommandNick implements CommandExecutor {
             p.sendMessage(ChatColor.GREEN + "You have changed " + ChatColor.YELLOW + target.getName() + ChatColor.GREEN + "'s nickname to " + nick);
             target.sendMessage(ChatColor.GREEN + "Your nickname is now " + nick);
 
-            DaedwinPlayer targetPlayer = DaedwinPlayer.getDaedwinPlayers().get(target.getUniqueId());
             targetPlayer.setNickname(nick);
             target.setDisplayName(nick);
             target.setPlayerListName(nick);

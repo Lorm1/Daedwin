@@ -171,16 +171,18 @@ public class DatabaseAPI {
 //            }
 
             String nick = Daedwin.getInstance().getConfig().getString(daedwinPlayer.getName());
-            if (nick == null) {
-                return;
+            if (nick != null) {
+                nick = ChatColor.translateAlternateColorCodes('&', nick);
+
+                daedwinPlayer.getPlayer().setDisplayName(nick);
+                daedwinPlayer.getPlayer().setPlayerListName(nick);
+                daedwinPlayer.setNickname(nick);
             }
-            nick = ChatColor.translateAlternateColorCodes('&', nick);
-            daedwinPlayer.getPlayer().setDisplayName(nick);
-            daedwinPlayer.getPlayer().setPlayerListName(nick);
-            daedwinPlayer.setNickname(nick);
+
+            rs.close();
 
             Utils.log.info("Loaded data for Player " + daedwinPlayer.getPlayer().getName());
-            rs.close();
+
             return;
         } catch (SQLException e) {
             e.printStackTrace();

@@ -10,7 +10,7 @@ public class Constants {
 
     public static Logger log = Logger.getLogger("Daedwin");
 
-    public static List<String> ADMINS = Arrays.asList("");
+    public static List<String> ADMINS = Arrays.asList("George_Angel");
 
     public static String MOTD = "                   &9&lMyths of Daedwin &r\n                  &f&lDevelopment Stage";
     public static String MAINTENANCE_MOTD = "                   &9&lMyths of Daedwin &r\n                  &c&lMaintenance Mode &f&l";
