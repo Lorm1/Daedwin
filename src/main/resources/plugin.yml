@@ -62,3 +62,9 @@ commands:
   kick:
     description: Kicks a player.
     usage: /kick <player> <reason> (optional)
+  feed:
+    description: Completely feeds a player.
+    usage: /feed <player> (optional)
+  heal:
+    description: Completely heals a player.
+    usage: /heal <player> (optional)
