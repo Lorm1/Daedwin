@@ -86,3 +86,11 @@ commands:
     description: Spawns (an) entity/ies infront at the direction the player is facing.
     usage: /spawnentity <entity_type> <amount>(optional)
     aliases: [sm, spawnm, smob, spawnmob, spawne, sentity, se]
+  clearmobs:
+    description: Clears all mobs around an area. (Can specify)
+    usage: /clearmobs <radius> <entity>(optional)
+    aliases: [butcher, clearmob, cmobs, cmob, clear]
+  teleport:
+    description: Teleports a player to another player.
+    usage: /teleport <player1> <player2>(optional)
+    aliases: [tp, telep, tele, tport, tpo]
