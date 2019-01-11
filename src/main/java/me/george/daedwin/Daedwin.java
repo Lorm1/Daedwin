@@ -3,6 +3,8 @@ package me.george.daedwin;
 import me.george.daedwin.database.Database;
 import me.george.daedwin.game.chat.Chat;
 import me.george.daedwin.game.commands.*;
+import me.george.daedwin.game.commands.essentials.*;
+import me.george.daedwin.game.commands.moderation.*;
 import me.george.daedwin.game.player.DaedwinPlayer;
 import me.george.daedwin.game.player.PlayerConnection;
 import me.george.daedwin.game.punishment.PunishmentManager;
@@ -92,6 +94,7 @@ public class Daedwin extends JavaPlugin {
         this.getCommand("whois").setExecutor(new CommandWhoIs());
         this.getCommand("gamemode").setExecutor(new CommandGameMode());
         this.getCommand("god").setExecutor(new CommandGodMode());
+        this.getCommand("spawnmob").setExecutor(new CommandSpawnMob());
     }
 
     private void setupServer() {

@@ -82,3 +82,7 @@ commands:
     description: Toggles god mode for a player.
     usage: /godmode <player>(optional)
     aliases: [god]
+  spawnmob:
+    description: Spawns (an) entity/ies infront at the direction the player is facing.
+    usage: /spawnmob <entity_type> <amount>(optional)
+    aliases: [sm, spawnm, smob]

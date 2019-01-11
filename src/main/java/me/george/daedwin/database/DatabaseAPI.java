@@ -281,7 +281,7 @@ public class DatabaseAPI {
 
                 player.sendMessage(ChatColor.GRAY + "Name: " + ChatColor.YELLOW + playerName);
                 player.sendMessage(ChatColor.GRAY + "UUID: " + toGet.toString());
-                player.sendMessage(ChatColor.GRAY + "Nickname: " + (Bukkit.getPlayer(toGet).isOnline() ? (!DaedwinPlayer.getDaedwinPlayers().get(toGet).getHasNickname() ? ChatColor.RED + "✖" : DaedwinPlayer.getDaedwinPlayers().get(toGet).getNickname()) : "Unavailable"));
+                player.sendMessage(ChatColor.GRAY + "Nickname: " + (Bukkit.getPlayer(toGet).isOnline() ? DaedwinPlayer.getDaedwinPlayers().get(toGet).getNickname() : ChatColor.RED + "Unavailable (Player not Online)"));
 
                 player.sendMessage(ChatColor.GRAY + "Banned: " + (isPlayerBanned ? ChatColor.GREEN + "✔" + ChatColor.BLUE + " Reason: "
                         + ChatColor.WHITE + Daedwin.getInstance().getPunishmentManager().getBanManager().getReason(toGet) + ChatColor.GRAY + " - "+ ChatColor.GOLD + "Expires: "

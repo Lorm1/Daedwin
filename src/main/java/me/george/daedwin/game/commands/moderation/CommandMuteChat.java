@@ -1,4 +1,4 @@
-package me.george.daedwin.game.commands;
+package me.george.daedwin.game.commands.moderation;
 
 import me.george.daedwin.game.chat.Chat;
 import me.george.daedwin.game.player.DaedwinPlayer;
