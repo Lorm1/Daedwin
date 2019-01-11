@@ -30,7 +30,7 @@ public class CommandFly implements CommandExecutor {
         } else if (args.length == 1) {
             Player target = Bukkit.getPlayer(args[0]);
 
-            if (!target.isOnline() || target == null) {
+            if (target == null) {
                 p.sendMessage(ChatColor.RED + "That player is not online.");
                 return true;
             }

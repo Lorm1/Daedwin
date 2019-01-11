@@ -76,8 +76,8 @@ commands:
     usage: /whois <player>
   gamemode:
     description: Changes a player's gamemode.
-    usage: /gamemode <player>(optional) <gamemode>
-    alaises: [gm]
+    usage: /gamemode <gamemode> or /gamemode <gamemode> <player> <gamemode> GameMode values; (0/1/2/creative/survival/spectator>
+    aliases: [gm]
   godmode:
     description: Toggles god mode for a player.
     usage: /godmode <player>(optional)

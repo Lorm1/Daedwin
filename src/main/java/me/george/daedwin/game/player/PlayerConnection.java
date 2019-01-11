@@ -88,11 +88,15 @@ public class PlayerConnection implements Listener {
 
         if (daedwinPlayer.isAdmin()) {
             Daedwin._hiddenPlayers.add(p);
-            p.setAllowFlight(true);
+            p.setInvulnerable(true);
+            p.setGameMode(GameMode.CREATIVE);
             p.sendMessage(ChatColor.AQUA.toString() + ChatColor.BOLD + "VANISH - " + ChatColor.GREEN.toString() + ChatColor.BOLD + "ON");
-            p.sendMessage(ChatColor.AQUA.toString() + ChatColor.BOLD + "FLYING - " + ChatColor.GREEN.toString() + ChatColor.BOLD + "ON");
+            p.sendMessage(ChatColor.AQUA.toString() + ChatColor.BOLD + "GAMEMODE - " + ChatColor.LIGHT_PURPLE.toString() + ChatColor.BOLD + "CREATIVE");
+            p.sendMessage(ChatColor.AQUA.toString() + ChatColor.BOLD + "GOD MODE - " + ChatColor.GREEN.toString() + ChatColor.BOLD + "ON");
         } else {
             p.setGameMode(GameMode.SURVIVAL);
+            p.setFlying(false);
+            p.setInvulnerable(false);
         }
 
         for (Player player : Daedwin._hiddenPlayers) {
