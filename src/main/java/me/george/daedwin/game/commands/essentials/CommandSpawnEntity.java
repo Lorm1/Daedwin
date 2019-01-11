@@ -8,7 +8,6 @@ import org.bukkit.World;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
@@ -30,7 +29,7 @@ public class CommandSpawnEntity implements CommandExecutor {
 
         World world = player.getLocation().getWorld();
         Location playerEyeLocation = player.getEyeLocation();
-        Vector direction = playerEyeLocation.getDirection();
+        Vector direction = playerEyeLocation.getDirection().normalize();
         Location front = playerEyeLocation.add(direction);
 
         if (!EnumUtils.isValidEnum(EntityType.class, args[0].toUpperCase())) {
@@ -38,15 +37,13 @@ public class CommandSpawnEntity implements CommandExecutor {
             return true;
         }
 
-        EntityType entityType = EntityType.valueOf(args[0].toUpperCase());
-        Entity entity = null;
+        EntityType entityType = null;
 
         int amount = 1;
 
         if (args.length == 1) { // /spawnmob <mob>
             try {
-                String typeName = entity.getType().toString().toUpperCase();
-                entityType = EntityType.valueOf(typeName);
+                entityType = EntityType.valueOf(args[0].toUpperCase());
             } catch (Exception e) {
                 player.sendMessage(ChatColor.RED + "Invalid Entity.");
                 return false;
@@ -62,8 +59,7 @@ public class CommandSpawnEntity implements CommandExecutor {
             }
 
             try {
-                String typeName = entity.getType().toString().toUpperCase();
-                entityType = EntityType.valueOf(typeName);
+                entityType = EntityType.valueOf(args[0].toUpperCase());
             } catch (Exception e) {
                 player.sendMessage(ChatColor.RED + "Invalid Entity.");
                 return false;

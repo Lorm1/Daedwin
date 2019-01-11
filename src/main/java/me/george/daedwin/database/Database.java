@@ -1,7 +1,7 @@
 package me.george.daedwin.database;
 
 import me.george.daedwin.Daedwin;
-import org.bukkit.Bukkit;
+import me.george.daedwin.utils.Utils;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.sql.Connection;
@@ -59,7 +59,7 @@ public class Database {
                     openConnection();
                     Statement statement = connection.createStatement();
 
-                    System.out.println("[Database] Connected to Database: " + database.toUpperCase());
+                    Utils.log.info("Connected to Database: " + database.toUpperCase());
                 } catch (SQLException exception) {
                     exception.printStackTrace();
                 } catch (ClassNotFoundException e) {
@@ -75,7 +75,7 @@ public class Database {
         if (isConnected()) {
             try {
                 connection.close();
-                Bukkit.getConsoleSender().sendMessage("[Database] Disconnecting Database: " + database.toUpperCase());
+                Utils.log.info("Disconnecting Database: " + database.toUpperCase());
             } catch (SQLException e) {
                 e.printStackTrace();
             }

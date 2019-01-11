@@ -26,21 +26,9 @@ public class CommandClearMobs implements CommandExecutor {
         int radius = 25;
 
         EntityType entityType;
-        Entity entity = null;
         int counter = 0;
 
-        if (args.length == 0) { // /clearmobs
-            for (Entity en : Utils.getNearbyEntities(p.getLocation(), radius)) {
-                if (!(en instanceof Player) && !(en == null) && !(en instanceof NPC) && !(en instanceof Villager)) {
-                    en.remove();
-                    counter++;
-                }
-            }
-
-            p.sendMessage(ChatColor.GREEN.toString() + ChatColor.BOLD + "Cleared " + ChatColor.RED.toString() + ChatColor.BOLD + counter
-                    + ChatColor.GREEN.toString() + ChatColor.BOLD + " Entities in a " + ChatColor.RED.toString() + ChatColor.BOLD
-                    + radius + ChatColor.GREEN.toString() + ChatColor.BOLD + " block radius.");
-        } else if (args.length == 1) { // clearmobs <radius>
+        if (args.length >= 1) { // clearmobs <radius> <entity>(maybe)
             try {
                 radius = Integer.parseInt(args[0]);
             } catch (NumberFormatException e) {
@@ -48,45 +36,51 @@ public class CommandClearMobs implements CommandExecutor {
                 return false;
             }
 
+            if (radius > 500) {
+                p.sendMessage(ChatColor.RED + "Max Radius: 500");
+                return true;
+            }
+        }
+
+        if (args.length < 2) { // /clearmobs and /clearmobs <radius>
             for (Entity en : Utils.getNearbyEntities(p.getLocation(), radius)) {
                 if (!(en instanceof Player) && !(en == null) && !(en instanceof NPC) && !(en instanceof Villager)) {
                     en.remove();
                     counter++;
                 }
             }
+        }
 
-            p.sendMessage(ChatColor.GREEN.toString() + ChatColor.BOLD + "Cleared " + ChatColor.RED.toString() + ChatColor.BOLD + counter
-                    + ChatColor.GREEN.toString() + ChatColor.BOLD + " Entities in a " + ChatColor.RED.toString() + ChatColor.BOLD
-                    + radius + ChatColor.GREEN.toString() + ChatColor.BOLD + " block radius.");
-        } else if (args.length == 2) { // clearmobs <radius> <entity>
+        // clearmobs <radius> <entity>
+        if (args.length  == 2) {
             try {
-                radius = Integer.parseInt(args[0]);
-            } catch (NumberFormatException e) {
-                p.sendMessage(ChatColor.RED + "Invalid Radius.");
-                return false;
-            }
-
-            try {
-                String typeName = entity.getType().toString().toUpperCase();
-                entityType = EntityType.valueOf(typeName);
+                entityType = EntityType.valueOf(args[1].toUpperCase());
             } catch (Exception e) {
                 p.sendMessage(ChatColor.RED + "Invalid Entity.");
                 return false;
             }
 
             for (Entity en : Utils.getNearbyEntities(p.getLocation(), radius)) {
-                if (entityType.equals(en.getType())) {
-                    if (!(en instanceof Player) && !(en == null)) {
+                if (!(en instanceof Player) && !(en == null) && !(en instanceof Villager) && !(en instanceof NPC)) {
+                    if (entityType.equals(en.getType())) {
                         en.remove();
                         counter++;
-                    }
+                    } 
+                } else if ((en instanceof Villager) && entityType.equals(EntityType.VILLAGER)) { // only allow if the player has specified its a villager
+                    en.remove();
+                    counter++;
                 }
             }
-
-            p.sendMessage(ChatColor.GREEN.toString() + ChatColor.BOLD + "Cleared " + ChatColor.RED.toString() + ChatColor.BOLD + counter
-                    + ChatColor.GREEN.toString() + ChatColor.BOLD + " Entities in a " + ChatColor.RED.toString() + ChatColor.BOLD
-                    + radius + ChatColor.GREEN.toString() + ChatColor.BOLD + " block radius.");
         }
+
+        if (counter == 0) {
+            p.sendMessage(ChatColor.RED + "No Entities were Found.");
+            return true;
+        }
+
+        p.sendMessage(ChatColor.GREEN.toString() + ChatColor.BOLD + "Cleared " + ChatColor.RED.toString() + ChatColor.BOLD + counter
+                + ChatColor.GREEN.toString() + ChatColor.BOLD + " Entities in a " + ChatColor.RED.toString() + ChatColor.BOLD
+                + radius + ChatColor.GREEN.toString() + ChatColor.BOLD + " block radius.");
         return true;
     }
 }
