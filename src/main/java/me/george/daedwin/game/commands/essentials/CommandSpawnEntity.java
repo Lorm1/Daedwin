@@ -52,7 +52,8 @@ public class CommandSpawnEntity implements CommandExecutor {
             }
 
             try {
-                entityType = entity.getType();
+                String typeName = entity.getType().toString().toUpperCase();
+                entityType = EntityType.valueOf(typeName);
             } catch (Exception e) {
                 player.sendMessage(ChatColor.RED + "Invalid Entity.");
                 return false;
