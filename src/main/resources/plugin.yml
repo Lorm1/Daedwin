@@ -71,3 +71,14 @@ commands:
   speed:
     description: Changes the player's walking or flying speed.
     usage: /speed <fly/walk> <0-10>(speed)
+  whois:
+    description: Displays info about a player.
+    usage: /whois <player>
+  gamemode:
+    description: Changes a player's gamemode.
+    usage: /gamemode <player>(optional) <gamemode>
+    alaises: [gm]
+  godmode:
+    description: Toggles god mode for a player.
+    usage: /godmode <player>(optional)
+    aliases: [god]

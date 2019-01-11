@@ -56,7 +56,7 @@ public class CommandMute implements CommandExecutor {
 
                 Daedwin.getInstance().getPunishmentManager().getMuteManager().mute(targetUUID, -1, "Unspecified");
                 p.sendMessage(ChatColor.RED + "Muted player " + ChatColor.YELLOW + targetName + " "
-                        + ChatColor.AQUA + " Reason: " + ChatColor.DARK_RED + "Unspecified");
+                        + ChatColor.BLUE + " Reason: " + ChatColor.GRAY + "Unspecified");
                 return true;
             }
 
@@ -71,7 +71,7 @@ public class CommandMute implements CommandExecutor {
 
                 Daedwin.getInstance().getPunishmentManager().getMuteManager().mute(targetUUID, -1, reason.equals("") ? "Unspecified" : reason);
                 p.sendMessage(ChatColor.RED + "Muted player " + ChatColor.YELLOW + targetName + " "
-                        + ChatColor.AQUA + " Reason: " + ChatColor.DARK_RED + (reason.equals("") ? "Unspecified" : reason));
+                        + ChatColor.BLUE + " Reason: " + ChatColor.GRAY + (reason.equals("") ? "Unspecified" : reason));
                 return true;
             }
 
@@ -101,9 +101,9 @@ public class CommandMute implements CommandExecutor {
 
             Daedwin.getInstance().getPunishmentManager().getMuteManager().mute(targetUUID, muteTime, reason.equals("") ? "Unspecified" : reason);
             p.sendMessage(ChatColor.RED + "Muted player " + ChatColor.YELLOW + targetName
-                    + ChatColor.RED.toString() + ChatColor.GRAY + " Duration: "
-                    + ChatColor.RED + muteTime + ChatColor.AQUA + " Reason: "
-                    + ChatColor.WHITE + (reason.equals("") ? "Unspecified" : reason));
+                    + ChatColor.GOLD + " Duration: "
+                    + ChatColor.DARK_RED + muteTime + ChatColor.BLUE + " Reason: "
+                    + ChatColor.GRAY + (reason.equals("") ? "Unspecified" : reason));
         } else if (sender instanceof ConsoleCommandSender) {
             if (args.length < 1) {
                 sender.sendMessage(ChatColor.RED + "Invalid Usage.");
@@ -124,11 +124,6 @@ public class CommandMute implements CommandExecutor {
                 return true;
             }
 
-            if (Constants.ADMINS.contains(targetName) || DatabaseAPI.getPlayerRank(targetUUID).equals(Rank.ADMIN)) {
-                sender.sendMessage(ChatColor.RED + "You cannot mute this player.");
-                return true;
-            }
-
             boolean hasDuration = true;
 
             if (args.length == 1) { // mute <player>
@@ -136,7 +131,7 @@ public class CommandMute implements CommandExecutor {
 
                 Daedwin.getInstance().getPunishmentManager().getMuteManager().mute(targetUUID, -1, "Unspecified");
                 sender.sendMessage(ChatColor.RED + "Muted player " + ChatColor.YELLOW + targetName + " "
-                        + ChatColor.AQUA + " Reason: " + ChatColor.DARK_RED + "Unspecified");
+                        + ChatColor.BLUE + " Reason: " + ChatColor.GRAY + "Unspecified");
                 return true;
             }
 
@@ -151,7 +146,7 @@ public class CommandMute implements CommandExecutor {
 
                 Daedwin.getInstance().getPunishmentManager().getMuteManager().mute(targetUUID, -1, reason.equals("") ? "Unspecified" : reason);
                 sender.sendMessage(ChatColor.RED + "Muted player " + ChatColor.YELLOW + targetName + " "
-                        + ChatColor.AQUA + " Reason: " + ChatColor.DARK_RED + (reason.equals("") ? "Unspecified" : reason));
+                        + ChatColor.BLUE + " Reason: " + ChatColor.GRAY + (reason.equals("") ? "Unspecified" : reason));
                 return true;
             }
 
@@ -181,9 +176,9 @@ public class CommandMute implements CommandExecutor {
 
             Daedwin.getInstance().getPunishmentManager().getMuteManager().mute(targetUUID, muteTime, reason.equals("") ? "Unspecified" : reason);
             sender.sendMessage(ChatColor.RED + "Muted player " + ChatColor.YELLOW + targetName
-                    + ChatColor.RED.toString() + ChatColor.GRAY + " Duration: "
-                    + ChatColor.RED + muteTime + ChatColor.AQUA + " Reason: "
-                    + ChatColor.WHITE + (reason.equals("") ? "Unspecified" : reason));
+                    + ChatColor.GOLD + " Duration: "
+                    + ChatColor.DARK_RED + muteTime + ChatColor.BLUE + " Reason: "
+                    + ChatColor.GRAY + (reason.equals("") ? "Unspecified" : reason));
         }
         return true;
     }

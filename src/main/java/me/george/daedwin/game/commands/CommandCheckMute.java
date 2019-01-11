@@ -16,7 +16,6 @@ public class CommandCheckMute implements CommandExecutor {
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String s, String[] args) {
-
         if (sender instanceof Player) {
             Player p = (Player) sender;
             DaedwinPlayer player = DaedwinPlayer.getDaedwinPlayers().get(p.getUniqueId());
@@ -37,7 +36,7 @@ public class CommandCheckMute implements CommandExecutor {
 
             UUID targetUUID = DatabaseAPI.getPlayerUUID(targetName);
 
-            p.sendMessage(ChatColor.GRAY.toString() + ChatColor.STRIKETHROUGH + "&m---------------------------------------------------");
+            p.sendMessage(ChatColor.GRAY.toString() + ChatColor.STRIKETHROUGH + "---------------------------------------------------");
 
             p.sendMessage(ChatColor.GRAY + "Name: " + ChatColor.YELLOW + args[0]);
             p.sendMessage(ChatColor.GRAY + "UUID: " + ChatColor.YELLOW + targetUUID.toString());
@@ -47,8 +46,8 @@ public class CommandCheckMute implements CommandExecutor {
             Bukkit.getScheduler().runTaskAsynchronously(Daedwin.getInstance(), () -> {
                 if(Daedwin.getInstance().getPunishmentManager().getMuteManager().isMuted(targetUUID)){
                     p.sendMessage("");
-                    p.sendMessage(ChatColor.AQUA.toString() + ChatColor.UNDERLINE + "Reason: " + ChatColor.WHITE + Daedwin.getInstance().getPunishmentManager().getMuteManager().getReason(targetUUID));
-                    p.sendMessage(ChatColor.GOLD.toString() + ChatColor.UNDERLINE + "Duration: " + ChatColor.RED + Daedwin.getInstance().getPunishmentManager().getMuteManager().getTimeLeft(targetUUID));
+                    p.sendMessage(ChatColor.BLUE.toString() + ChatColor.UNDERLINE + "Reason" + ChatColor.BLUE + ": " + ChatColor.GRAY + Daedwin.getInstance().getPunishmentManager().getMuteManager().getReason(targetUUID));
+                    p.sendMessage(ChatColor.GOLD.toString() + ChatColor.UNDERLINE + "Expires" + ChatColor.GOLD + ": " + ChatColor.DARK_RED + Daedwin.getInstance().getPunishmentManager().getMuteManager().getTimeLeft(targetUUID));
                 }
                 p.sendMessage(ChatColor.GRAY.toString() + ChatColor.STRIKETHROUGH + "---------------------------------------------------");
             });

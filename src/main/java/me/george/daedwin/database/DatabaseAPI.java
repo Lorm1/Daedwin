@@ -4,7 +4,9 @@ import me.george.daedwin.Daedwin;
 import me.george.daedwin.game.player.DaedwinPlayer;
 import me.george.daedwin.game.rank.Rank;
 import me.george.daedwin.utils.Utils;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.entity.Player;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -222,6 +224,91 @@ public class DatabaseAPI {
                 loadPlayer(daedwinPlayer);
             }
         } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void doWhoIs(UUID toGet, Player player) {
+        try {
+            if (playerExists(toGet)) {
+                PreparedStatement statement = prepareStatement("SELECT * FROM player_info WHERE UUID = ?");
+                statement.setString(1, toGet.toString());
+
+                ResultSet rs = statement.executeQuery();
+
+                rs.next();
+
+                String playerName = rs.getString("NAME");
+                String rank = rs.getString("RANK");
+
+                Integer gold = rs.getInt("GOLD");
+                Integer ecash = rs.getInt("ECASH");
+
+                Timestamp joinDate = rs.getTimestamp("JOIN_DATE");
+                Timestamp LAST_LOGIN = new Timestamp(System.currentTimeMillis()); // login
+                Timestamp LAST_LOGOUT = rs.getTimestamp("LAST_LOGOUT");
+
+                Boolean isPlayerBanned = rs.getBoolean("IS_BANNED");
+                Boolean isPlayerMuted = rs.getBoolean("IS_MUTED");
+
+//                PreparedStatement ps = prepareStatement("SELECT * FROM BANNED_PLAYERS WHERE UUID = ?");
+//                ps.setString(1, toGet.toString());
+//
+//                ResultSet set = ps.executeQuery();
+//
+//                set.next();
+//
+//                String banReason = rs.getString("BAN_REASON");
+//                long banDuration = rs.getLong("BAN_DURATION");
+//
+//                PreparedStatement sts = prepareStatement("SELECT * FROM MUTED_PLAYERS WHERE UUID = ?");
+//                ps.setString(1, toGet.toString());
+//
+//                ResultSet resultSet = sts.executeQuery();
+//
+//                resultSet.next();
+//
+//                String muteReason = resultSet.getString("MUTE_REASON");
+//                long muteDuration = resultSet.getLong("MUTE_DURATION");
+
+                Utils.log.info("Retrieving and showing " + playerName + "'s data...");
+
+                player.sendMessage(ChatColor.AQUA + "Retrieving data for player " + ChatColor.YELLOW + playerName + ChatColor.AQUA + "...");
+
+                player.sendMessage(ChatColor.YELLOW.toString() + ChatColor.STRIKETHROUGH + "---------------------------------------------------");
+
+                player.sendMessage("");
+
+                player.sendMessage(ChatColor.GRAY + "Name: " + ChatColor.YELLOW + playerName);
+                player.sendMessage(ChatColor.GRAY + "UUID: " + toGet.toString());
+                player.sendMessage(ChatColor.GRAY + "Nickname: " + (Bukkit.getPlayer(toGet).isOnline() ? (!DaedwinPlayer.getDaedwinPlayers().get(toGet).getHasNickname() ? ChatColor.RED + "✖" : DaedwinPlayer.getDaedwinPlayers().get(toGet).getNickname()) : "Unavailable"));
+
+                player.sendMessage(ChatColor.GRAY + "Banned: " + (isPlayerBanned ? ChatColor.GREEN + "✔" + ChatColor.BLUE + " Reason: "
+                        + ChatColor.WHITE + Daedwin.getInstance().getPunishmentManager().getBanManager().getReason(toGet) + ChatColor.GRAY + " - "+ ChatColor.GOLD + "Expires: "
+                        + ChatColor.DARK_RED + Daedwin.getInstance().getPunishmentManager().getBanManager().getTimeLeft(toGet) : ChatColor.RED + "✖"));
+                player.sendMessage(ChatColor.GRAY + "Muted: " + (isPlayerMuted ? ChatColor.GREEN + "✔" + ChatColor.BLUE + " Reason: "
+                        + ChatColor.WHITE + Daedwin.getInstance().getPunishmentManager().getMuteManager().getReason(toGet) + ChatColor.GRAY + " - " + ChatColor.GOLD + "Expires: "
+                        + ChatColor.DARK_RED + Daedwin.getInstance().getPunishmentManager().getMuteManager().getTimeLeft(toGet) : ChatColor.RED + "✖"));
+
+                player.sendMessage(ChatColor.GRAY + "Rank: " + Rank.getColor(Rank.valueOf(rank)) + rank);
+                player.sendMessage(ChatColor.GRAY + "Gold: " + ChatColor.GOLD + gold.toString());
+                player.sendMessage(ChatColor.GRAY + "E-Cash: " + ChatColor.GREEN + ecash.toString());
+                player.sendMessage(ChatColor.GRAY + "Join Date: " + ChatColor.DARK_GREEN + joinDate.toString());
+                player.sendMessage(ChatColor.GRAY + "Last Seen: " + ChatColor.DARK_GREEN + LAST_LOGIN.toString());
+
+                player.sendMessage("");
+
+                player.sendMessage(ChatColor.YELLOW.toString() + ChatColor.STRIKETHROUGH + "---------------------------------------------------");
+
+                rs.close();
+//                set.close();
+//                resultSet.close();
+                return;
+            } else {
+                Utils.log.info("Could not grab and show this player's data as he has never played before.");
+                return;
+            }
+        } catch (SQLException e) {
             e.printStackTrace();
         }
     }

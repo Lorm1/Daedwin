@@ -50,9 +50,9 @@ public class MuteManager {
 
         if (Bukkit.getPlayer(uuid) != null) {
             Player target = Bukkit.getPlayer(uuid);
-            String muteMessage = ChatColor.RED.toString() + ChatColor.UNDERLINE + "You have been muted for: "
-                    + ChatColor.GOLD.toString() + ChatColor.UNDERLINE + reason
-                    + " " + ChatColor.RED + "Expires" + ChatColor.RED + ": " + ChatColor.GRAY + getTimeLeft(uuid);
+            String muteMessage = ChatColor.RED.toString() + ChatColor.UNDERLINE + "You have been muted for" + ChatColor.RED + ": "
+                    + ChatColor.WHITE + reason
+                    + " " + ChatColor.RED.toString() + ChatColor.UNDERLINE + "Expires" + ChatColor.RED + ": " + ChatColor.DARK_RED + getTimeLeft(uuid);
 
             target.sendMessage(muteMessage);
 

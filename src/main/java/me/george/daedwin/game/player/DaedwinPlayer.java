@@ -68,6 +68,9 @@ public class DaedwinPlayer {
 
     String nickName;
 
+    @Getter
+    Boolean hasNickname;
+
 //    @Getter
 //    @Setter
 //    String banDuration;
@@ -88,10 +91,16 @@ public class DaedwinPlayer {
 
 
     public void setNickname(String name) {
+        if (name != null && name != "") hasNickname = true;
         this.nickName = name;
     }
 
     public String getNickname() {
+        if (nickName == null) {
+            hasNickname = false;
+            return getPlayer().getName(); // no nickname
+        }
+        hasNickname = true;
         return this.nickName;
     }
 

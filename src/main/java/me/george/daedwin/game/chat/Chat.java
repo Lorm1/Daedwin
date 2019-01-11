@@ -34,8 +34,8 @@ public class Chat implements Listener {
                 if(Daedwin.getInstance().getPunishmentManager().getMuteManager().isMuted(p.getUniqueId())){
                     p.sendMessage(ChatColor.RED.toString() + ChatColor.UNDERLINE + "You are muted.");
                     p.sendMessage("");
-                    p.sendMessage(ChatColor.GOLD.toString() + "Reason" + ChatColor.GOLD + ": " + ChatColor.GRAY + Daedwin.getInstance().getPunishmentManager().getMuteManager().getReason(p.getUniqueId()));
-                    p.sendMessage(ChatColor.RED.toString() + "Expires" + ChatColor.RED + ": " + ChatColor.GRAY + Daedwin.getInstance().getPunishmentManager().getMuteManager().getTimeLeft(p.getUniqueId()));
+                    p.sendMessage(ChatColor.BLUE.toString() + "Reason" + ChatColor.BLUE + ": " + ChatColor.GRAY + Daedwin.getInstance().getPunishmentManager().getMuteManager().getReason(p.getUniqueId()));
+                    p.sendMessage(ChatColor.GOLD.toString() + "Expires" + ChatColor.GOLD + ": " + ChatColor.DARK_RED + Daedwin.getInstance().getPunishmentManager().getMuteManager().getTimeLeft(p.getUniqueId()));
                 }
             });
             return;

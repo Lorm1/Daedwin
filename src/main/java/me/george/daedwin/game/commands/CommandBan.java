@@ -126,11 +126,6 @@ public class CommandBan implements CommandExecutor {
                 return true;
             }
 
-            if (Constants.ADMINS.contains(targetName) || DatabaseAPI.getPlayerRank(targetUUID).equals(Rank.ADMIN)) {
-                sender.sendMessage(ChatColor.RED + "You cannot ban this player.");
-                return true;
-            }
-
             boolean hasDuration = true;
 
             if (args.length == 1) { // ban <player>
