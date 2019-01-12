@@ -94,3 +94,13 @@ commands:
     description: Teleports a player to another player.
     usage: /teleport <player1> <player2>(optional)
     aliases: [tp, telep, tele, tport, tpo]
+  warp:
+    description: Warps a player to a preset location in the world.
+    usage: /warp <location>
+  setwarp:
+    description: Creates a new warp.
+    usage: /setwarp <name>
+  delwarp:
+    description: Deletes an existing warp.
+    usage: /delwarp <name>
+    aliases: [deletewarp, dwarp, deletew]

@@ -1,4 +1,4 @@
-package me.george.daedwin.game.commands.moderation;
+package me.george.daedwin.game.commands.moderation.punishment.mute;
 
 import me.george.daedwin.Daedwin;
 import me.george.daedwin.database.DatabaseAPI;
@@ -13,7 +13,7 @@ import org.bukkit.entity.Player;
 
 import java.util.UUID;
 
-public class CommandUnban implements CommandExecutor {
+public class CommandUnmute implements CommandExecutor {
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String s, String[] args) {
@@ -37,8 +37,8 @@ public class CommandUnban implements CommandExecutor {
 
             UUID targetUUID = DatabaseAPI.getPlayerUUID(targetName);
 
-            Bukkit.getScheduler().runTaskAsynchronously(Daedwin.getInstance(), () -> Daedwin.getInstance().getPunishmentManager().getBanManager().unban(targetUUID));
-            p.sendMessage(ChatColor.RED + "Unbanned player " + targetName);
+            Bukkit.getScheduler().runTaskAsynchronously(Daedwin.getInstance(), () -> Daedwin.getInstance().getPunishmentManager().getMuteManager().unmute(targetUUID));
+            p.sendMessage(ChatColor.RED + "Unmuted player " + targetName);
 
         } else if (sender instanceof ConsoleCommandSender) {
             if (args.length != 1) {
@@ -55,8 +55,8 @@ public class CommandUnban implements CommandExecutor {
 
             UUID targetUUID = DatabaseAPI.getPlayerUUID(targetName);
 
-            Bukkit.getScheduler().runTaskAsynchronously(Daedwin.getInstance(), () -> Daedwin.getInstance().getPunishmentManager().getBanManager().unban(targetUUID));
-            sender.sendMessage(ChatColor.RED + "Unbanned player " + targetName);
+            Bukkit.getScheduler().runTaskAsynchronously(Daedwin.getInstance(), () -> Daedwin.getInstance().getPunishmentManager().getMuteManager().unmute(targetUUID));
+            sender.sendMessage(ChatColor.RED + "Unmuted player " + targetName);
         }
         return true;
     }

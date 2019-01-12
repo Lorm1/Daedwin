@@ -1,4 +1,4 @@
-package me.george.daedwin.game.commands.moderation;
+package me.george.daedwin.game.commands.moderation.punishment;
 
 import me.george.daedwin.game.LogoutManager;
 import me.george.daedwin.game.player.DaedwinPlayer;

@@ -2,9 +2,27 @@ package me.george.daedwin;
 
 import me.george.daedwin.database.Database;
 import me.george.daedwin.game.chat.Chat;
-import me.george.daedwin.game.commands.*;
+import me.george.daedwin.game.commands.CommandLogout;
 import me.george.daedwin.game.commands.essentials.*;
+import me.george.daedwin.game.commands.essentials.modes.CommandFly;
+import me.george.daedwin.game.commands.essentials.modes.CommandGameMode;
+import me.george.daedwin.game.commands.essentials.modes.CommandGodMode;
+import me.george.daedwin.game.commands.essentials.modes.CommandSpeed;
+import me.george.daedwin.game.commands.essentials.warps.CommandDelWarp;
+import me.george.daedwin.game.commands.essentials.warps.CommandSetWarp;
+import me.george.daedwin.game.commands.essentials.warps.CommandWarp;
 import me.george.daedwin.game.commands.moderation.*;
+import me.george.daedwin.game.commands.moderation.chat.CommandClearChat;
+import me.george.daedwin.game.commands.moderation.chat.CommandMuteChat;
+import me.george.daedwin.game.commands.moderation.chat.CommandShout;
+import me.george.daedwin.game.commands.moderation.punishment.CommandKick;
+import me.george.daedwin.game.commands.moderation.punishment.ban.CommandBan;
+import me.george.daedwin.game.commands.moderation.punishment.ban.CommandCheckBan;
+import me.george.daedwin.game.commands.moderation.punishment.ban.CommandUnban;
+import me.george.daedwin.game.commands.moderation.punishment.mute.CommandCheckMute;
+import me.george.daedwin.game.commands.moderation.punishment.mute.CommandMute;
+import me.george.daedwin.game.commands.moderation.punishment.mute.CommandUnmute;
+import me.george.daedwin.game.maintenance.FileManager;
 import me.george.daedwin.game.player.DaedwinPlayer;
 import me.george.daedwin.game.player.PlayerConnection;
 import me.george.daedwin.game.punishment.PunishmentManager;
@@ -22,7 +40,7 @@ public class Daedwin extends JavaPlugin {
     public static Daedwin getInstance() {
         return instance;
     }
-
+    
     private FileManager fileManager;
     private PunishmentManager punishmentManager;
     private RankManager rankManager;
@@ -97,6 +115,9 @@ public class Daedwin extends JavaPlugin {
         this.getCommand("spawnmob").setExecutor(new CommandSpawnEntity());
         this.getCommand("clearmobs").setExecutor(new CommandClearMobs());
         this.getCommand("teleport").setExecutor(new CommandTeleport());
+        this.getCommand("warp").setExecutor(new CommandWarp());
+        this.getCommand("setwarp").setExecutor(new CommandSetWarp());
+        this.getCommand("delwarp").setExecutor(new CommandDelWarp());
     }
 
     private void setupServer() {

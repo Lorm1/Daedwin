@@ -1,4 +1,4 @@
-package me.george.daedwin.game.commands.essentials;
+package me.george.daedwin.game.commands.essentials.modes;
 
 import me.george.daedwin.game.player.DaedwinPlayer;
 import org.bukkit.Bukkit;

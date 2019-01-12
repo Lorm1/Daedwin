@@ -37,7 +37,7 @@ public class CommandClearMobs implements CommandExecutor {
             }
 
             if (radius > 500) {
-                p.sendMessage(ChatColor.RED + "Max Radius: 500");
+                p.sendMessage(ChatColor.RED.toString() + ChatColor.UNDERLINE + "Max Radius" + ChatColor.RED + ": 500");
                 return true;
             }
         }
@@ -65,7 +65,7 @@ public class CommandClearMobs implements CommandExecutor {
                     if (entityType.equals(en.getType())) {
                         en.remove();
                         counter++;
-                    } 
+                    }
                 } else if ((en instanceof Villager) && entityType.equals(EntityType.VILLAGER)) { // only allow if the player has specified its a villager
                     en.remove();
                     counter++;

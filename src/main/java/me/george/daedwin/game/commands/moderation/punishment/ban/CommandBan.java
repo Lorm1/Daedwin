@@ -1,4 +1,4 @@
-package me.george.daedwin.game.commands.moderation;
+package me.george.daedwin.game.commands.moderation.punishment.ban;
 
 import me.george.daedwin.Constants;
 import me.george.daedwin.Daedwin;

@@ -1,4 +1,4 @@
-package me.george.daedwin.game.commands.moderation;
+package me.george.daedwin.game.commands.moderation.chat;
 
 import me.george.daedwin.Constants;
 import org.bukkit.Bukkit;
