@@ -109,3 +109,11 @@ commands:
     description: Displays all current online players.
     usage: /list
     aliases: [playerlist, plist, onlineplayers, onlinepl, playersonline, plonline]
+  invsee:
+    description: Accesses a player's inventory.
+    usage: /invsee <player>
+    aliases: [inventorysee, isee]
+  armorsee:
+    description: Accesses a player's armor.
+    usage: /armorsee <player>
+    aliases: [armsee]

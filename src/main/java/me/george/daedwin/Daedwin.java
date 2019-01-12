@@ -2,6 +2,8 @@ package me.george.daedwin;
 
 import me.george.daedwin.database.Database;
 import me.george.daedwin.game.chat.Chat;
+import me.george.daedwin.game.commands.moderation.inventory.CommandArmorSee;
+import me.george.daedwin.game.commands.moderation.inventory.CommandInvSee;
 import me.george.daedwin.game.commands.player.CommandList;
 import me.george.daedwin.game.commands.player.CommandLogout;
 import me.george.daedwin.game.commands.essentials.server.CommandMaintenance;
@@ -121,6 +123,8 @@ public class Daedwin extends JavaPlugin {
         this.getCommand("setwarp").setExecutor(new CommandSetWarp());
         this.getCommand("delwarp").setExecutor(new CommandDelWarp());
         this.getCommand("list").setExecutor(new CommandList());
+        this.getCommand("invsee").setExecutor(new CommandInvSee());
+        this.getCommand("armorsee").setExecutor(new CommandArmorSee());
     }
 
     private void setupServer() {
