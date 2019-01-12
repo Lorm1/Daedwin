@@ -40,7 +40,7 @@ public class Daedwin extends JavaPlugin {
     public static Daedwin getInstance() {
         return instance;
     }
-    
+
     private FileManager fileManager;
     private PunishmentManager punishmentManager;
     private RankManager rankManager;

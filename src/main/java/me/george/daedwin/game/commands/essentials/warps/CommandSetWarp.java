@@ -20,17 +20,17 @@ public class CommandSetWarp implements CommandExecutor {
         if (!player.isAdmin()) return true;
 
         if (args.length == 0) {
-            p.sendMessage(ChatColor.RED + "You did not specify a name.");
+            p.sendMessage(ChatColor.RED + "You did not specify a Warp.");
             return false;
         }
 
-        Daedwin.getInstance().getConfig().set("warps." + args[0] + ".world", p.getLocation().getWorld().getName());
-        Daedwin.getInstance().getConfig().set("warps." + args[0] + ".x", p.getLocation().getX());
-        Daedwin.getInstance().getConfig().set("warps." + args[0] + ".y", p.getLocation().getY());
-        Daedwin.getInstance().getConfig().set("warps." + args[0] + ".z", p.getLocation().getZ());
+        Daedwin.getInstance().getConfig().set("Warps." + args[0] + ".world", p.getLocation().getWorld().getName());
+        Daedwin.getInstance().getConfig().set("Warps." + args[0] + ".x", p.getLocation().getX());
+        Daedwin.getInstance().getConfig().set("Warps." + args[0] + ".y", p.getLocation().getY());
+        Daedwin.getInstance().getConfig().set("Warps." + args[0] + ".z", p.getLocation().getZ());
         Daedwin.getInstance().saveConfig();
 
-        p.sendMessage(ChatColor.GREEN + "Created warp " + ChatColor.YELLOW + args[0]);
+        p.sendMessage(ChatColor.GREEN + "Created Warp " + ChatColor.YELLOW + args[0]);
         return true;
     }
 }
