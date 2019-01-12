@@ -37,6 +37,7 @@ import me.george.daedwin.game.commands.player.moderation.warp.CommandSetWarp;
 import me.george.daedwin.game.commands.player.moderation.warp.CommandWarp;
 import me.george.daedwin.game.commands.server.CommandMaintenance;
 import me.george.daedwin.game.player.DaedwinPlayer;
+import me.george.daedwin.game.player.PlayerCommand;
 import me.george.daedwin.game.player.PlayerConnection;
 import me.george.daedwin.game.punishment.PunishmentManager;
 import me.george.daedwin.game.rank.RankManager;
@@ -101,6 +102,7 @@ public class Daedwin extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new Chat(), this);
         getServer().getPluginManager().registerEvents(new Restrictions(), this);
         getServer().getPluginManager().registerEvents(new Setup(), this);
+        getServer().getPluginManager().registerEvents(new PlayerCommand(), this);
     }
 
     private void registerCommands() {
