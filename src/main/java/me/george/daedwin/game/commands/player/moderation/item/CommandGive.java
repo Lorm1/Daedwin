@@ -84,6 +84,7 @@ public class CommandGive implements CommandExecutor {
                 item.setAmount(64);
                 target.getInventory().addItem(item);
                 target.sendMessage(ChatColor.DARK_RED.toString() + ChatColor.BOLD + "CONSOLE " + ChatColor.GREEN + " has given you " + ChatColor.GOLD + "64 " + ChatColor.RED + (item.getItemMeta().hasDisplayName() ? item.getItemMeta().getDisplayName() : item.getType().name().replace("_", "").toLowerCase()));
+                sender.sendMessage(ChatColor.GREEN + "Gave " + ChatColor.GOLD + "64 " + ChatColor.RED + (item.getItemMeta().hasDisplayName() ? item.getItemMeta().getDisplayName() : item.getType().name().replace("_", "").toLowerCase()) + ChatColor.GREEN + " to " + ChatColor.YELLOW + target.getDisplayName());
             } else if (args.length == 3) { // /give <player> <item> <amount>
                 Player target = Bukkit.getPlayer(args[0]);
                 if (target == null) {
@@ -109,6 +110,7 @@ public class CommandGive implements CommandExecutor {
                 item.setAmount(amount);
                 target.getInventory().addItem(item);
                 target.sendMessage(ChatColor.DARK_RED.toString() + ChatColor.BOLD + "CONSOLE " + ChatColor.GREEN + " has given you " + ChatColor.GOLD + amount + " " + ChatColor.RED + (item.getItemMeta().hasDisplayName() ? item.getItemMeta().getDisplayName() : item.getType().name().replace("_", "").toLowerCase()));
+                sender.sendMessage(ChatColor.GREEN + "Gave " + ChatColor.GOLD + amount + " " + ChatColor.RED + (item.getItemMeta().hasDisplayName() ? item.getItemMeta().getDisplayName() : item.getType().name().replace("_", "").toLowerCase()) + ChatColor.GREEN + " to " + ChatColor.YELLOW + target.getDisplayName());
             }
         }
         return true;
