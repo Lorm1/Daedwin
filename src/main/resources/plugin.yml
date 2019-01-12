@@ -100,7 +100,12 @@ commands:
   setwarp:
     description: Creates a new warp.
     usage: /setwarp <name>
+    aliases: [createwarp, cwarp, swarp, createw, setw]
   delwarp:
     description: Deletes an existing warp.
     usage: /delwarp <name>
-    aliases: [deletewarp, dwarp, deletew]
+    aliases: [deletewarp, dwarp, deletew, removewarp, rwarp, removew]
+  list:
+    description: Displays all current online players.
+    usage: /list
+    aliases: [playerlist, plist, onlineplayers, onlinepl, playersonline, plonline]

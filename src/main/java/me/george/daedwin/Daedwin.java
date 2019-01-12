@@ -2,7 +2,9 @@ package me.george.daedwin;
 
 import me.george.daedwin.database.Database;
 import me.george.daedwin.game.chat.Chat;
-import me.george.daedwin.game.commands.CommandLogout;
+import me.george.daedwin.game.commands.player.CommandList;
+import me.george.daedwin.game.commands.player.CommandLogout;
+import me.george.daedwin.game.commands.essentials.server.CommandMaintenance;
 import me.george.daedwin.game.commands.essentials.*;
 import me.george.daedwin.game.commands.essentials.modes.CommandFly;
 import me.george.daedwin.game.commands.essentials.modes.CommandGameMode;
@@ -118,6 +120,7 @@ public class Daedwin extends JavaPlugin {
         this.getCommand("warp").setExecutor(new CommandWarp());
         this.getCommand("setwarp").setExecutor(new CommandSetWarp());
         this.getCommand("delwarp").setExecutor(new CommandDelWarp());
+        this.getCommand("list").setExecutor(new CommandList());
     }
 
     private void setupServer() {

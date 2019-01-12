@@ -22,17 +22,21 @@ public class CommandDelWarp implements CommandExecutor {
         if (args.length == 0) {
             p.sendMessage(ChatColor.RED + "You did not specify a Warp.");
             return true;
+        } else if (args.length == 1) {
+
+            if (Daedwin.getInstance().getConfig().getConfigurationSection("Warps." + args[0]) == null) {
+                p.sendMessage(ChatColor.RED + "Warp " + args[0] + " does not exist.");
+                return true;
+            }
+
+            Daedwin.getInstance().getConfig().set("Warps." + args[0], null);
+            Daedwin.getInstance().saveConfig();
+
+            p.sendMessage(ChatColor.GREEN + "Removed warp " + ChatColor.YELLOW + args[0]);
+        } else {
+            p.sendMessage(ChatColor.RED + "Invalid Usage.");
+            return false;
         }
-
-        if (Daedwin.getInstance().getConfig().getConfigurationSection("Warps." + args[0]) == null) {
-            p.sendMessage(ChatColor.RED + "Warp " + args[0] + " does not exist.");
-            return true;
-        }
-
-        Daedwin.getInstance().getConfig().set("Warps." + args[0], null);
-        Daedwin.getInstance().saveConfig();
-
-        p.sendMessage(ChatColor.GREEN + "Removed warp " + ChatColor.YELLOW + args[0]);
         return true;
     }
 }

@@ -13,9 +13,24 @@ import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 public class CommandWarp implements CommandExecutor {
+
+    public List<String> getWarpList() {
+        ConfigurationSection section = Daedwin.getInstance().getConfig().getConfigurationSection("Warps");
+
+        ArrayList<String> list = new ArrayList<>();
+        Set<String> warps = section.getKeys(false);
+
+        for (String warpName : warps) {
+            if (!warpName.equals(null))
+                list.add(warpName);
+        }
+
+        return list;
+    }
 
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
@@ -31,15 +46,17 @@ public class CommandWarp implements CommandExecutor {
             return false;
         } else if (args.length == 1) { // /warp <name>
             if (args[0].equalsIgnoreCase("list")) {
-                ArrayList<String> list = new ArrayList<>();
-                ConfigurationSection section = Daedwin.getInstance().getConfig().getConfigurationSection("Warps");
-                Set<String> warps = section.getKeys(false);
-                for (String warpName : warps) {
-                    list.add(warpName);
-                }
-
                 p.sendMessage(ChatColor.BLUE.toString() + ChatColor.BOLD + "Warps:\n");
-                p.sendMessage(ChatColor.GRAY + list.iterator().next());
+                p.sendMessage(ChatColor.GRAY + getWarpList().toString());
+                return true;
+            }
+
+            if (args[0].equalsIgnoreCase("clearall") || args[0].equalsIgnoreCase("removeall") || args[0].equalsIgnoreCase("deleteall")) {
+                Daedwin.getInstance().getConfig().set("Warps", null);
+                Daedwin.getInstance().getConfig().createSection("Warps");
+                Daedwin.getInstance().saveConfig();
+
+                p.sendMessage(ChatColor.DARK_RED.toString() + ChatColor.BOLD + "Deleted ALL Warps.");
                 return true;
             }
 
