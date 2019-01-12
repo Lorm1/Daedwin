@@ -2,7 +2,7 @@ package me.george.daedwin.game.commands.server;
 
 import me.george.daedwin.Constants;
 import me.george.daedwin.Daedwin;
-import me.george.daedwin.Setup;
+import me.george.daedwin.server.Setup;
 import me.george.daedwin.game.player.DaedwinPlayer;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;

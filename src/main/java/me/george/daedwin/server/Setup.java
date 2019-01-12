@@ -1,5 +1,6 @@
-package me.george.daedwin;
+package me.george.daedwin.server;
 
+import me.george.daedwin.Constants;
 import org.bukkit.ChatColor;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -18,9 +19,5 @@ public class Setup implements Listener {
         }
 
         e.setMaxPlayers(Constants.PLAYER_SLOTS);
-    }
-
-    public static void setupTablist() {
-
     }
 }

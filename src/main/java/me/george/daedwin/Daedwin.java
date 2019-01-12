@@ -4,15 +4,9 @@ import me.george.daedwin.database.Database;
 import me.george.daedwin.game.chat.Chat;
 import me.george.daedwin.game.commands.entity.CommandClearMobs;
 import me.george.daedwin.game.commands.entity.CommandSpawnEntity;
-import me.george.daedwin.game.commands.player.moderation.mode.CommandFly;
-import me.george.daedwin.game.commands.player.moderation.mode.CommandGameMode;
-import me.george.daedwin.game.commands.player.moderation.mode.CommandGodMode;
-import me.george.daedwin.game.commands.player.moderation.mode.CommandSpeed;
-import me.george.daedwin.game.commands.player.moderation.warp.CommandDelWarp;
-import me.george.daedwin.game.commands.player.moderation.warp.CommandSetWarp;
-import me.george.daedwin.game.commands.player.moderation.warp.CommandWarp;
 import me.george.daedwin.game.commands.player.CommandList;
 import me.george.daedwin.game.commands.player.CommandLogout;
+import me.george.daedwin.game.commands.player.CommandMessage;
 import me.george.daedwin.game.commands.player.moderation.CommandNick;
 import me.george.daedwin.game.commands.player.moderation.CommandSetRank;
 import me.george.daedwin.game.commands.player.moderation.CommandTeleport;
@@ -23,6 +17,10 @@ import me.george.daedwin.game.commands.player.moderation.chat.CommandShout;
 import me.george.daedwin.game.commands.player.moderation.inventory.CommandArmorSee;
 import me.george.daedwin.game.commands.player.moderation.inventory.CommandInvSee;
 import me.george.daedwin.game.commands.player.moderation.item.CommandGive;
+import me.george.daedwin.game.commands.player.moderation.mode.CommandFly;
+import me.george.daedwin.game.commands.player.moderation.mode.CommandGameMode;
+import me.george.daedwin.game.commands.player.moderation.mode.CommandGodMode;
+import me.george.daedwin.game.commands.player.moderation.mode.CommandSpeed;
 import me.george.daedwin.game.commands.player.moderation.punishment.CommandKick;
 import me.george.daedwin.game.commands.player.moderation.punishment.ban.CommandBan;
 import me.george.daedwin.game.commands.player.moderation.punishment.ban.CommandCheckBan;
@@ -34,13 +32,17 @@ import me.george.daedwin.game.commands.player.moderation.state.CommandFeed;
 import me.george.daedwin.game.commands.player.moderation.state.CommandFreeze;
 import me.george.daedwin.game.commands.player.moderation.state.CommandHeal;
 import me.george.daedwin.game.commands.player.moderation.state.CommandVanish;
+import me.george.daedwin.game.commands.player.moderation.warp.CommandDelWarp;
+import me.george.daedwin.game.commands.player.moderation.warp.CommandSetWarp;
+import me.george.daedwin.game.commands.player.moderation.warp.CommandWarp;
 import me.george.daedwin.game.commands.server.CommandMaintenance;
-import me.george.daedwin.game.maintenance.FileManager;
 import me.george.daedwin.game.player.DaedwinPlayer;
 import me.george.daedwin.game.player.PlayerConnection;
 import me.george.daedwin.game.punishment.PunishmentManager;
 import me.george.daedwin.game.rank.RankManager;
 import me.george.daedwin.game.world.Restrictions;
+import me.george.daedwin.manager.FileManager;
+import me.george.daedwin.server.Setup;
 import me.george.daedwin.utils.ConcurrentSet;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -55,8 +57,8 @@ public class Daedwin extends JavaPlugin {
     }
 
     private FileManager fileManager;
-    private PunishmentManager punishmentManager;
     private RankManager rankManager;
+    private PunishmentManager punishmentManager;
 
     public FileManager getFileManager() {
         return fileManager;
@@ -135,16 +137,17 @@ public class Daedwin extends JavaPlugin {
         this.getCommand("invsee").setExecutor(new CommandInvSee());
         this.getCommand("armorsee").setExecutor(new CommandArmorSee());
         this.getCommand("give").setExecutor(new CommandGive());
+        this.getCommand("message").setExecutor(new CommandMessage());
     }
 
     private void setupServer() {
         setupManagers();
-        Setup.setupTablist();
     }
+
     private void setupManagers() {
         fileManager = new FileManager(this);
-        punishmentManager = new PunishmentManager(this);
         rankManager = new RankManager(this);
+        punishmentManager = new PunishmentManager(this);
     }
 
     private void clearCache() {

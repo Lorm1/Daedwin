@@ -1,4 +1,4 @@
-package me.george.daedwin.game.maintenance;
+package me.george.daedwin.manager;
 
 import me.george.daedwin.Constants;
 import me.george.daedwin.Daedwin;
