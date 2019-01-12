@@ -40,7 +40,7 @@ commands:
   shout:
     description: Broadcasts a message across the whole server.
     usage: /shout <message>
-    aliases: [sh]
+    aliases: [sh, broadcast]
   setrank:
     description: Sets a player's rank.
     usage: /setrank <player> <rank>
@@ -117,3 +117,7 @@ commands:
     description: Accesses a player's armor.
     usage: /armorsee <player>
     aliases: [armsee]
+  give:
+    description: Gives an item to player.
+    usage: Player; /give <item> <amount>(optional) Console; /give <player> <item> <amount>(optional)
+    aliases: [i, item, giveitem, itemgive, igive, givei, itemg, gitem]
