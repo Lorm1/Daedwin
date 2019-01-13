@@ -1,7 +1,7 @@
 package me.george.daedwin.game.commands.player;
 
 import me.george.daedwin.Daedwin;
-import me.george.daedwin.game.LogoutManager;
+import me.george.daedwin.manager.LogoutManager;
 import me.george.daedwin.game.player.DaedwinPlayer;
 import me.george.daedwin.utils.cooldown.Countdown;
 import org.bukkit.ChatColor;

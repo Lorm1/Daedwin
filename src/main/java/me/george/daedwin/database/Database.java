@@ -59,7 +59,7 @@ public class Database {
                     openConnection();
                     Statement statement = connection.createStatement();
 
-                    Utils.log.info("Connected to Database: " + database.toUpperCase());
+                    Utils.log.info("Connected to Database: " + database);
                 } catch (SQLException exception) {
                     exception.printStackTrace();
                 } catch (ClassNotFoundException e) {
@@ -75,7 +75,7 @@ public class Database {
         if (isConnected()) {
             try {
                 connection.close();
-                Utils.log.info("Disconnecting Database: " + database.toUpperCase());
+                Utils.log.info("Disconnecting Database: " + database);
             } catch (SQLException e) {
                 e.printStackTrace();
             }

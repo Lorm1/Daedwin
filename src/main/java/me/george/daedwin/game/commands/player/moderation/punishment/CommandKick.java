@@ -1,6 +1,6 @@
 package me.george.daedwin.game.commands.player.moderation.punishment;
 
-import me.george.daedwin.game.LogoutManager;
+import me.george.daedwin.manager.LogoutManager;
 import me.george.daedwin.game.player.DaedwinPlayer;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;

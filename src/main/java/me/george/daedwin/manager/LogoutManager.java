@@ -1,4 +1,4 @@
-package me.george.daedwin.game;
+package me.george.daedwin.manager;
 
 import me.george.daedwin.Daedwin;
 import me.george.daedwin.database.DatabaseAPI;

@@ -179,6 +179,9 @@ public class DatabaseAPI {
                 daedwinPlayer.getPlayer().setDisplayName(nick);
                 daedwinPlayer.getPlayer().setPlayerListName(nick);
                 daedwinPlayer.setNickname(nick);
+                daedwinPlayer.setHasNickname(true);
+            } else {
+                daedwinPlayer.setHasNickname(false);
             }
 
             rs.close();
@@ -222,6 +225,7 @@ public class DatabaseAPI {
                 return;
             } else {
                 loadPlayer(daedwinPlayer);
+                savePlayer(daedwinPlayer);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -270,8 +274,6 @@ public class DatabaseAPI {
 //
 //                String muteReason = resultSet.getString("MUTE_REASON");
 //                long muteDuration = resultSet.getLong("MUTE_DURATION");
-
-                Utils.log.info("Retrieving and showing " + playerName + "'s data...");
 
                 player.sendMessage(ChatColor.AQUA + "Retrieving data for player " + ChatColor.YELLOW + playerName + ChatColor.AQUA + "...");
 

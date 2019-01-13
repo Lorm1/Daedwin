@@ -69,6 +69,7 @@ public class DaedwinPlayer {
     String nickName;
 
     @Getter
+    @Setter
     Boolean hasNickname;
 
 //    @Getter

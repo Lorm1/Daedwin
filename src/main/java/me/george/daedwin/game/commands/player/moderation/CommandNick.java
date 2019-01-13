@@ -31,6 +31,7 @@ public class CommandNick implements CommandExecutor {
                 Daedwin.getInstance().getConfig().set(p.getName(), null);
                 Daedwin.getInstance().saveConfig();
                 player.setNickname(null);
+                player.setHasNickname(false);
                 p.setDisplayName(p.getName());
                 p.setPlayerListName(p.getName());
                 p.sendMessage(ChatColor.GREEN + "You have reset your nickname.");
@@ -39,6 +40,7 @@ public class CommandNick implements CommandExecutor {
 
             p.sendMessage(ChatColor.GREEN + "You have changed your nickname to " + nick);
             player.setNickname(nick);
+            player.setHasNickname(true);
             p.setDisplayName(nick);
             p.setPlayerListName(nick);
 
@@ -61,6 +63,7 @@ public class CommandNick implements CommandExecutor {
                 Daedwin.getInstance().getConfig().set(target.getName(), null);
                 Daedwin.getInstance().saveConfig();
                 targetPlayer.setNickname(null);
+                targetPlayer.setHasNickname(false);
                 target.setDisplayName(target.getName());
                 target.setPlayerListName(target.getName());
                 p.sendMessage(ChatColor.GREEN + "Removed " + ChatColor.YELLOW + target.getName() + ChatColor.GREEN + "'s nickname.");
@@ -71,6 +74,7 @@ public class CommandNick implements CommandExecutor {
             target.sendMessage(ChatColor.GREEN + "Your nickname is now " + nick);
 
             targetPlayer.setNickname(nick);
+            targetPlayer.setHasNickname(false);
             target.setDisplayName(nick);
             target.setPlayerListName(nick);
 
