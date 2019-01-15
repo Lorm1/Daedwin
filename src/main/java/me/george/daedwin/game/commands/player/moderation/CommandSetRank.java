@@ -38,7 +38,7 @@ public class CommandSetRank implements CommandExecutor {
 
             UUID targetUUID = DatabaseAPI.getPlayerUUID(targetName);
 
-            if (Constants.ADMINS.contains(targetName) || DatabaseAPI.getPlayerRank(targetUUID).equals(Rank.ADMIN) && !(sender instanceof ConsoleCommandSender)) {
+            if (Constants.ADMINS.contains(targetName) || DatabaseAPI.getPlayerRank(targetUUID).equals(Rank.ADMIN) && (!(sender instanceof ConsoleCommandSender) || !(player.isAdmin()))) {
                 p.sendMessage(ChatColor.RED + "You cannot set this player's rank.");
                 return true;
             }
