@@ -125,3 +125,7 @@ commands:
     description: Messages a player.
     usage: /message <player> <message>
     aliases: [msg, w, whisper, to]
+  setnation:
+    description: Sets a player's nation.
+    usage: /setnation <player> <nation>
+    aliases: [sn, setn, snation]

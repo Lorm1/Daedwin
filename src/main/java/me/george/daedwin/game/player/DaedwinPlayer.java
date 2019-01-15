@@ -3,6 +3,7 @@ package me.george.daedwin.game.player;
 import lombok.Getter;
 import lombok.Setter;
 import me.george.daedwin.Constants;
+import me.george.daedwin.game.nation.Nation;
 import me.george.daedwin.game.rank.Rank;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -57,6 +58,10 @@ public class DaedwinPlayer {
     @Getter
     @Setter
     Rank rank;
+
+    @Getter
+    @Setter
+    Nation nation;
 
     @Getter
     @Setter

@@ -9,6 +9,7 @@ import me.george.daedwin.game.rank.Rank;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
+import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -101,6 +102,13 @@ public class PlayerConnection implements Listener {
 
         for (Player player : Daedwin._hiddenPlayers) {
             p.hidePlayer(player);
+        }
+
+        if (!p.hasPlayedBefore()) {
+            p.sendMessage(ChatColor.WHITE.toString() + ChatColor.BOLD + "Welcome to " + ChatColor.BLUE.toString() + ChatColor.BOLD + "Myths of Daedwin.\n");
+            p.playSound(p.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 5, 5);
+
+            p.teleport(daedwinPlayer.getNation().getSpawnLocation());
         }
     }
 

@@ -1,6 +1,7 @@
 package me.george.daedwin.database;
 
 import me.george.daedwin.Daedwin;
+import me.george.daedwin.game.nation.Nation;
 import me.george.daedwin.game.player.DaedwinPlayer;
 import me.george.daedwin.game.rank.Rank;
 import me.george.daedwin.utils.Utils;
@@ -81,23 +82,23 @@ public class DatabaseAPI {
         throw new NullPointerException("Player: " + playerName + " has never played before.");
     }
 
-    public static Rank getPlayerRank(String playerName) {
-        if (!playerExists(playerName)) throw new NullPointerException("Player: " + playerName + " has never played before.");
+    public static Nation getPlayerNation(UUID uuid) {
+        if (!playerExists(uuid)) throw new NullPointerException("Player with UUID: " + uuid.toString() + " has never played before.");
 
         PreparedStatement sts;
         try {
-            sts = prepareStatement("SELECT RANK FROM player_info WHERE NAME = ?");
-            sts.setString(1, playerName);
+            sts = prepareStatement("SELECT NATION FROM player_info WHERE UUID = ?");
+            sts.setString(1, uuid.toString());
 
             ResultSet rs = sts.executeQuery();
 
             if (rs.next()) {
-                return Rank.valueOf(rs.getString("RANK"));
+                return Nation.valueOf(rs.getString("NATION"));
             }
-        } catch(SQLException e) {
+        } catch (SQLException e) {
             e.printStackTrace();
         }
-        throw new NullPointerException("Player: " + playerName + " has never played before.");
+        throw new NullPointerException("Player with UUID: " + uuid.toString() + " has never played before.");
     }
 
     public static Rank getPlayerRank(UUID uuid) {
@@ -122,7 +123,7 @@ public class DatabaseAPI {
     public static void loadPlayer(DaedwinPlayer daedwinPlayer) { // is online
         try {
             if (!playerExists(daedwinPlayer.getPlayer().getUniqueId())) {
-                PreparedStatement ps = prepareStatement("INSERT INTO player_info(UUID, NAME, RANK, GOLD, ECASH, JOIN_DATE, LAST_LOGIN, LAST_LOGOUT, IS_BANNED, IS_MUTED) VALUES ('" + daedwinPlayer.getPlayer().getUniqueId().toString() + "'," + "'" + daedwinPlayer.getPlayer().getName() + "', DEFAULT, DEFAULT, DEFAULT, DEFAULT, DEFAULT, DEFAULT, DEFAULT, DEFAULT);");
+                PreparedStatement ps = prepareStatement("INSERT INTO player_info(UUID, NAME, NATION, RANK, GOLD, ECASH, JOIN_DATE, LAST_LOGIN, IS_BANNED, IS_MUTED) VALUES ('" + daedwinPlayer.getPlayer().getUniqueId().toString() + "'," + "'" + daedwinPlayer.getPlayer().getName() + "', DEFAULT, DEFAULT, DEFAULT, DEFAULT, DEFAULT, DEFAULT, DEFAULT, DEFAULT);");
                 ps.executeUpdate();
                 ps.close();
 
@@ -136,15 +137,14 @@ public class DatabaseAPI {
 
             rs.next();
 
-            String playerName = rs.getString("NAME");
             String rank = rs.getString("RANK");
+            String nation = rs.getString("NATION");
 
             int gold = rs.getInt("GOLD");
             int ecash = rs.getInt("ECASH");
 
             Timestamp joinDate = rs.getTimestamp("JOIN_DATE");
             Timestamp LAST_LOGIN = new Timestamp(System.currentTimeMillis()); // login
-            Timestamp LAST_LOGOUT = rs.getTimestamp("LAST_LOGOUT");
 
             Boolean isPlayerBanned = rs.getBoolean("IS_BANNED");
             Boolean isPlayerMuted = rs.getBoolean("IS_MUTED");
@@ -155,6 +155,7 @@ public class DatabaseAPI {
 //            String BANNED_BY = rs.getString("BANNED)_BY");
 
             // Load player data
+            daedwinPlayer.setNation(Nation.valueOf(nation));
             daedwinPlayer.setRank(Rank.valueOf(rank));
 
             daedwinPlayer.setGold(gold);
@@ -162,7 +163,6 @@ public class DatabaseAPI {
 
             daedwinPlayer.setJoinDate(joinDate);
             daedwinPlayer.setLastLogin(LAST_LOGIN);
-            daedwinPlayer.setLastLogout(LAST_LOGOUT);
             daedwinPlayer.setIsMuted(isPlayerMuted);
 
 //            rpgPlayer.setIsBanned(isPlayerBanned); // we can have it, but not necessary atm.
@@ -171,6 +171,7 @@ public class DatabaseAPI {
 //                rpgPlayer.setBanDuration(Daedwin.getInstance().getBanManager().getTimeLeft(rpgPlayer.getPlayer().getUniqueId()));
 //                rpgPlayer.setBanReason(Daedwin.getInstance().getBanManager().getReason(rpgPlayer.getPlayer().getUniqueId()));
 //            }
+            daedwinPlayer.getPlayer().setDisplayName(daedwinPlayer.getNation().getColor() + daedwinPlayer.getPlayer().getName());
 
             String nick = Daedwin.getInstance().getConfig().getString(daedwinPlayer.getName());
             if (nick != null) {
@@ -203,20 +204,21 @@ public class DatabaseAPI {
             ResultSet rs = statement.executeQuery();
 
             if (rs.next()) {
-                PreparedStatement ps = prepareStatement("UPDATE player_info SET NAME = ?, RANK = ?, GOLD = ?, ECASH = ?, JOIN_DATE = ?, LAST_LOGIN = ?, LAST_LOGOUT = ?, IS_MUTED = ? WHERE UUID ='" + daedwinPlayer.getPlayer().getUniqueId().toString() + "';");
+                PreparedStatement ps = prepareStatement("UPDATE player_info SET NAME = ?, NATION = ?, RANK = ?, GOLD = ?, ECASH = ?, JOIN_DATE = ?, LAST_LOGIN = ?, IS_MUTED = ? WHERE UUID ='" + daedwinPlayer.getPlayer().getUniqueId().toString() + "';");
 
                 ps.setString(1, daedwinPlayer.getPlayer().getName());
-                ps.setString(2, String.valueOf(daedwinPlayer.getRank()));
+                ps.setString(2, String.valueOf(daedwinPlayer.getNation()));
+                ps.setString(3, String.valueOf(daedwinPlayer.getRank()));
 
-                ps.setInt(3, daedwinPlayer.getGold());
-                ps.setInt(4, daedwinPlayer.getEcash());
+                ps.setInt(4, daedwinPlayer.getGold());
+                ps.setInt(5, daedwinPlayer.getEcash());
 
-                ps.setTimestamp(5, daedwinPlayer.getJoinDate());
-                ps.setTimestamp(6, daedwinPlayer.getLastLogin());
-                ps.setTimestamp(7, daedwinPlayer.getLastLogout());
+                ps.setTimestamp(6, daedwinPlayer.getJoinDate());
+                ps.setTimestamp(7, daedwinPlayer.getLastLogin());
+                ps.setTimestamp(8, daedwinPlayer.getLastLogout());
 
-//                ps.setBoolean(8, daedwinPlayer.getIsB);
-                ps.setBoolean(8, daedwinPlayer.getIsMuted());
+//                ps.setBoolean(9, daedwinPlayer.getIsB);
+                ps.setBoolean(9, daedwinPlayer.getIsMuted());
 
                 ps.executeUpdate();
                 ps.close();
@@ -243,6 +245,7 @@ public class DatabaseAPI {
                 rs.next();
 
                 String playerName = rs.getString("NAME");
+                String nation = rs.getString("NATION");
                 String rank = rs.getString("RANK");
 
                 Integer gold = rs.getInt("GOLD");
@@ -250,30 +253,9 @@ public class DatabaseAPI {
 
                 Timestamp joinDate = rs.getTimestamp("JOIN_DATE");
                 Timestamp LAST_LOGIN = new Timestamp(System.currentTimeMillis()); // login
-                Timestamp LAST_LOGOUT = rs.getTimestamp("LAST_LOGOUT");
 
                 Boolean isPlayerBanned = rs.getBoolean("IS_BANNED");
                 Boolean isPlayerMuted = rs.getBoolean("IS_MUTED");
-
-//                PreparedStatement ps = prepareStatement("SELECT * FROM BANNED_PLAYERS WHERE UUID = ?");
-//                ps.setString(1, toGet.toString());
-//
-//                ResultSet set = ps.executeQuery();
-//
-//                set.next();
-//
-//                String banReason = rs.getString("BAN_REASON");
-//                long banDuration = rs.getLong("BAN_DURATION");
-//
-//                PreparedStatement sts = prepareStatement("SELECT * FROM MUTED_PLAYERS WHERE UUID = ?");
-//                ps.setString(1, toGet.toString());
-//
-//                ResultSet resultSet = sts.executeQuery();
-//
-//                resultSet.next();
-//
-//                String muteReason = resultSet.getString("MUTE_REASON");
-//                long muteDuration = resultSet.getLong("MUTE_DURATION");
 
                 player.sendMessage(ChatColor.AQUA + "Retrieving data for player " + ChatColor.YELLOW + playerName + ChatColor.AQUA + "...");
 
@@ -282,6 +264,7 @@ public class DatabaseAPI {
                 player.sendMessage("");
 
                 player.sendMessage(ChatColor.GRAY + "Name: " + ChatColor.YELLOW + playerName);
+                player.sendMessage(ChatColor.GRAY + "Nation: " + Nation.valueOf(nation).getPrefix());
                 player.sendMessage(ChatColor.GRAY + "UUID: " + toGet.toString());
                 player.sendMessage(ChatColor.GRAY + "Nickname: " + (Bukkit.getPlayer(toGet).isOnline() ? DaedwinPlayer.getDaedwinPlayers().get(toGet).getNickname() : ChatColor.RED + "Unavailable (Player not Online)"));
 
@@ -303,8 +286,6 @@ public class DatabaseAPI {
                 player.sendMessage(ChatColor.YELLOW.toString() + ChatColor.STRIKETHROUGH + "---------------------------------------------------");
 
                 rs.close();
-//                set.close();
-//                resultSet.close();
                 return;
             } else {
                 Utils.log.info("Could not grab and show this player's data as he has never played before.");

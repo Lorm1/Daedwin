@@ -37,6 +37,7 @@ public class CommandSetRank implements CommandExecutor {
             }
 
             UUID targetUUID = DatabaseAPI.getPlayerUUID(targetName);
+            DaedwinPlayer target = DaedwinPlayer.getDaedwinPlayers().get(targetUUID);
 
             if (Constants.ADMINS.contains(targetName) || DatabaseAPI.getPlayerRank(targetUUID).equals(Rank.ADMIN) && (!(sender instanceof ConsoleCommandSender) || !(player.isAdmin()))) {
                 p.sendMessage(ChatColor.RED + "You cannot set this player's rank.");
@@ -48,6 +49,7 @@ public class CommandSetRank implements CommandExecutor {
 
                 Daedwin.getInstance().getRankManager().setRank(targetUUID, rank);
                 p.sendMessage(ChatColor.GREEN + "Set " + ChatColor.YELLOW + targetName + ChatColor.GREEN + "'s rank to " + Rank.getColor(rank) + rank.name());
+                target.getPlayer().sendMessage(ChatColor.GREEN + "You are now a " + target.getNation().getColor() + target.getRank().getPrefix());
             } else {
                 p.sendMessage(ChatColor.RED + "Invalid rank.");
                 for (Rank rank : Rank.values()) {
@@ -68,6 +70,7 @@ public class CommandSetRank implements CommandExecutor {
             }
 
             UUID targetUUID = DatabaseAPI.getPlayerUUID(targetName);
+            DaedwinPlayer target = DaedwinPlayer.getDaedwinPlayers().get(targetUUID);
 
             if (Constants.ADMINS.contains(targetName) || DatabaseAPI.getPlayerRank(targetUUID).equals(Rank.ADMIN) && !(sender instanceof ConsoleCommandSender)) {
                 sender.sendMessage(ChatColor.RED + "You cannot set this player's rank.");
@@ -78,7 +81,8 @@ public class CommandSetRank implements CommandExecutor {
                 Rank rank = Rank.valueOf(args[1].toUpperCase());
 
                 Daedwin.getInstance().getRankManager().setRank(targetUUID, rank);
-                sender.sendMessage(ChatColor.GREEN + "Set " + ChatColor.YELLOW + targetName + ChatColor.GREEN + "'s rank to " + Rank.getColor(rank) + rank.name());
+                sender.sendMessage(ChatColor.GREEN + "Set " + ChatColor.YELLOW + targetName + ChatColor.GREEN + "'s rank to " + target.getRank().getPrefix());
+                target.getPlayer().sendMessage(ChatColor.GREEN + "You are now a " + target.getNation().getColor() + target.getRank().getPrefix());
             } else {
                 sender.sendMessage(ChatColor.RED + "Invalid rank.");
                 for (Rank rank : Rank.values()) {
