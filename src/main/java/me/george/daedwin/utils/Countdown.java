@@ -1,4 +1,4 @@
-package me.george.daedwin.utils.cooldown;
+package me.george.daedwin.utils;
 
 import org.bukkit.plugin.Plugin;
 import org.bukkit.scheduler.BukkitRunnable;

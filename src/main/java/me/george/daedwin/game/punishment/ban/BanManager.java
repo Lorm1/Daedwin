@@ -50,9 +50,9 @@ public class BanManager {
         if (Bukkit.getPlayer(uuid) != null) {
             Player target = Bukkit.getPlayer(uuid);
             String banMessage = ChatColor.DARK_PURPLE.toString() + ChatColor.BOLD + "Myths of Daedwin\n\n" + ChatColor.RED.toString() + ChatColor.UNDERLINE + "You have been Banned.\n\n"
-                    + ChatColor.BLUE.toString() + ChatColor.UNDERLINE + "Reason" + ChatColor.AQUA + ": "
+                    + ChatColor.BLUE.toString() + ChatColor.UNDERLINE + "Reason" + ChatColor.BLUE + ": "
                     + ChatColor.DARK_RED + reason + "\n\n"
-                    + ChatColor.GRAY.toString() + ChatColor.UNDERLINE + "Expires: " + ChatColor.RED + getTimeLeft(uuid);
+                    + ChatColor.GRAY.toString() + ChatColor.UNDERLINE + "Expires" + ChatColor.GRAY + ": " + ChatColor.RED + getTimeLeft(uuid);
 
             target.kickPlayer(banMessage);
         }
