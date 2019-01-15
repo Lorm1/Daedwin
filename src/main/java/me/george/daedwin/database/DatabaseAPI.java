@@ -174,7 +174,7 @@ public class DatabaseAPI {
             daedwinPlayer.getPlayer().setDisplayName(daedwinPlayer.getNation().getColor() + daedwinPlayer.getPlayer().getName());
 
             String nick = Daedwin.getInstance().getConfig().getString(daedwinPlayer.getName());
-            if (nick != null) {
+            if (daedwinPlayer.getHasNickname()) {
                 nick = ChatColor.translateAlternateColorCodes('&', nick);
 
                 daedwinPlayer.getPlayer().setDisplayName(nick);

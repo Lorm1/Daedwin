@@ -3,6 +3,7 @@ package me.george.daedwin.game.commands.player.moderation;
 import me.george.daedwin.game.player.DaedwinPlayer;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Location;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -18,9 +19,27 @@ public class CommandTeleport implements CommandExecutor {
 
             if (!player.isAdmin()) return true;
 
+            if (cmd.getLabel().equalsIgnoreCase("teleportloc") || cmd.getLabel().equalsIgnoreCase("tploc") || cmd.getLabel().equalsIgnoreCase("tplocation")) {
+                if (args.length != 3) {
+                    p.sendMessage(ChatColor.RED + "Invalid Coordinates.");
+                    p.sendMessage(ChatColor.RED + "/tploc <x> <y> <z>");
+                    return true;
+                }
+
+                Location location;
+                try {
+                    location = new Location(p.getWorld(), Double.valueOf(args[0]), Double.valueOf(args[1]), Double.valueOf(args[2]));
+                    p.teleport(location);
+                } catch (Exception e) {
+                    p.sendMessage(ChatColor.RED + "Invalid Coordinates.");
+                    p.sendMessage(ChatColor.RED + "/tploc <x> <y> <z>");
+                    return true;
+                }
+            }
+
             if (args.length == 1) { // /tp <player>
                 Player target = Bukkit.getPlayer(args[0]);
-                if (target.isOnline()) {
+                if (target != null) {
                     p.teleport(target.getLocation());
                     p.sendMessage(ChatColor.GREEN + "Teleported you to " + ChatColor.YELLOW + target.getDisplayName());
                 } else {
