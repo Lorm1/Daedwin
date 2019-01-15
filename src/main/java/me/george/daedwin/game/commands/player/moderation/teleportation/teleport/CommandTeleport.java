@@ -1,9 +1,8 @@
-package me.george.daedwin.game.commands.player.moderation;
+package me.george.daedwin.game.commands.player.moderation.teleportation.teleport;
 
 import me.george.daedwin.game.player.DaedwinPlayer;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.Location;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -12,30 +11,12 @@ import org.bukkit.entity.Player;
 
 public class CommandTeleport implements CommandExecutor {
     @Override
-    public boolean onCommand(CommandSender sender, Command cmd, String s, String[] args) {
+    public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
         if (sender instanceof Player) {
             Player p = (Player) sender;
             DaedwinPlayer player = DaedwinPlayer.getDaedwinPlayers().get(p.getUniqueId());
 
             if (!player.isAdmin()) return true;
-
-            if (cmd.getLabel().equalsIgnoreCase("teleportloc") || cmd.getLabel().equalsIgnoreCase("tploc") || cmd.getLabel().equalsIgnoreCase("tplocation")) {
-                if (args.length != 3) {
-                    p.sendMessage(ChatColor.RED + "Invalid Coordinates.");
-                    p.sendMessage(ChatColor.RED + "/tploc <x> <y> <z>");
-                    return true;
-                }
-
-                Location location;
-                try {
-                    location = new Location(p.getWorld(), Double.valueOf(args[0]), Double.valueOf(args[1]), Double.valueOf(args[2]));
-                    p.teleport(location);
-                } catch (Exception e) {
-                    p.sendMessage(ChatColor.RED + "Invalid Coordinates.");
-                    p.sendMessage(ChatColor.RED + "/tploc <x> <y> <z>");
-                    return true;
-                }
-            }
 
             if (args.length == 1) { // /tp <player>
                 Player target = Bukkit.getPlayer(args[0]);
@@ -51,12 +32,12 @@ public class CommandTeleport implements CommandExecutor {
                 Player target2 = Bukkit.getPlayer(args[1]);
 
                 if (target1 == null) {
-                    p.sendMessage(ChatColor.RED + "Player " + ChatColor.YELLOW + target1.getName() + ChatColor.RED + " is offline.");
+                    p.sendMessage(ChatColor.RED + "That player is offline.");
                     return true;
                 }
 
                 if (target2 == null) {
-                    p.sendMessage(ChatColor.RED + "Player " + ChatColor.YELLOW + target2.getName() + ChatColor.RED + " is offline.");
+                    p.sendMessage(ChatColor.RED + "That player is offline");
                     return true;
                 }
 

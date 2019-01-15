@@ -1,4 +1,4 @@
-package me.george.daedwin.game.commands.player.moderation.warp;
+package me.george.daedwin.game.commands.player.moderation.teleportation.warp;
 
 import me.george.daedwin.Daedwin;
 import me.george.daedwin.game.player.DaedwinPlayer;

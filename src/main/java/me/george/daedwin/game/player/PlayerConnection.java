@@ -2,10 +2,11 @@ package me.george.daedwin.game.player;
 
 import me.george.daedwin.Constants;
 import me.george.daedwin.Daedwin;
-import me.george.daedwin.server.Setup;
 import me.george.daedwin.database.DatabaseAPI;
-import me.george.daedwin.manager.LogoutManager;
+import me.george.daedwin.game.nation.Nation;
 import me.george.daedwin.game.rank.Rank;
+import me.george.daedwin.manager.LogoutManager;
+import me.george.daedwin.server.Setup;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
@@ -75,7 +76,6 @@ public class PlayerConnection implements Listener {
         e.setJoinMessage(null);
 
         DatabaseAPI.loadPlayer(daedwinPlayer);
-
         DaedwinPlayer.getDaedwinPlayers().put(p.getUniqueId(), daedwinPlayer);
 
         for (Player player : Bukkit.getOnlinePlayers()) {
@@ -105,10 +105,10 @@ public class PlayerConnection implements Listener {
         }
 
         if (!p.hasPlayedBefore()) {
-            p.sendMessage(ChatColor.WHITE.toString() + ChatColor.BOLD + "Welcome to " + ChatColor.BLUE.toString() + ChatColor.BOLD + "Myths of Daedwin.\n");
+            p.sendMessage(ChatColor.WHITE.toString() + ChatColor.BOLD + "Welcome to " + ChatColor.BLUE.toString() + ChatColor.BOLD + "Myths of Daedwin\n");
             p.playSound(p.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 5, 5);
 
-            p.teleport(daedwinPlayer.getNation().getSpawnLocation());
+            p.teleport(Nation.HUMAN.getSpawnLocation());
         }
     }
 

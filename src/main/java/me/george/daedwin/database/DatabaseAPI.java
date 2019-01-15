@@ -171,10 +171,8 @@ public class DatabaseAPI {
 //                rpgPlayer.setBanDuration(Daedwin.getInstance().getBanManager().getTimeLeft(rpgPlayer.getPlayer().getUniqueId()));
 //                rpgPlayer.setBanReason(Daedwin.getInstance().getBanManager().getReason(rpgPlayer.getPlayer().getUniqueId()));
 //            }
-            daedwinPlayer.getPlayer().setDisplayName(daedwinPlayer.getNation().getColor() + daedwinPlayer.getPlayer().getName());
-
             String nick = Daedwin.getInstance().getConfig().getString(daedwinPlayer.getName());
-            if (daedwinPlayer.getHasNickname()) {
+            if (nick != null) {
                 nick = ChatColor.translateAlternateColorCodes('&', nick);
 
                 daedwinPlayer.getPlayer().setDisplayName(nick);
@@ -183,11 +181,13 @@ public class DatabaseAPI {
                 daedwinPlayer.setHasNickname(true);
             } else {
                 daedwinPlayer.setHasNickname(false);
+                daedwinPlayer.getPlayer().setDisplayName(daedwinPlayer.getNation().getColor() + daedwinPlayer.getPlayer().getName());
+                daedwinPlayer.getPlayer().setPlayerListName(daedwinPlayer.getNation().getColor() + daedwinPlayer.getPlayer().getName());
             }
 
             rs.close();
 
-            Utils.log.info("Loaded data for Player " + daedwinPlayer.getPlayer().getName());
+            Utils.log.info("Loaded data for Player: " + daedwinPlayer.getPlayer().getName());
 
             return;
         } catch (SQLException e) {
@@ -215,15 +215,14 @@ public class DatabaseAPI {
 
                 ps.setTimestamp(6, daedwinPlayer.getJoinDate());
                 ps.setTimestamp(7, daedwinPlayer.getLastLogin());
-                ps.setTimestamp(8, daedwinPlayer.getLastLogout());
 
-//                ps.setBoolean(9, daedwinPlayer.getIsB);
-                ps.setBoolean(9, daedwinPlayer.getIsMuted());
+//                ps.setBoolean(8, daedwinPlayer.getIsB);
+                ps.setBoolean(8, daedwinPlayer.getIsMuted());
 
                 ps.executeUpdate();
                 ps.close();
 
-                System.out.println("Successfully saved " + daedwinPlayer.getPlayer().getName() + "'s data.");
+                Utils.log.info("Successfully saved " + daedwinPlayer.getPlayer().getName() + "'s data.");
                 return;
             } else {
                 loadPlayer(daedwinPlayer);

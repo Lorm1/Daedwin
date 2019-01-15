@@ -1,4 +1,4 @@
-package me.george.daedwin.game.commands.player.moderation.warp;
+package me.george.daedwin.game.commands.player.moderation.teleportation.warp;
 
 import me.george.daedwin.Daedwin;
 import me.george.daedwin.game.player.DaedwinPlayer;
@@ -9,7 +9,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
 
-public class CommandDelWarp implements CommandExecutor {
+public class CommandSetWarp implements CommandExecutor {
 
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
@@ -21,18 +21,15 @@ public class CommandDelWarp implements CommandExecutor {
 
         if (args.length == 0) {
             p.sendMessage(ChatColor.RED + "You did not specify a Warp.");
-            return true;
+            return false;
         } else if (args.length == 1) {
-
-            if (Daedwin.getInstance().getConfig().getConfigurationSection("Warps." + args[0]) == null) {
-                p.sendMessage(ChatColor.RED + "Warp " + args[0] + " does not exist.");
-                return true;
-            }
-
-            Daedwin.getInstance().getConfig().set("Warps." + args[0], null);
+            Daedwin.getInstance().getConfig().set("Warps." + args[0] + ".world", p.getLocation().getWorld().getName());
+            Daedwin.getInstance().getConfig().set("Warps." + args[0] + ".x", p.getLocation().getX());
+            Daedwin.getInstance().getConfig().set("Warps." + args[0] + ".y", p.getLocation().getY());
+            Daedwin.getInstance().getConfig().set("Warps." + args[0] + ".z", p.getLocation().getZ());
             Daedwin.getInstance().saveConfig();
 
-            p.sendMessage(ChatColor.GREEN + "Removed warp " + ChatColor.YELLOW + args[0]);
+            p.sendMessage(ChatColor.GREEN + "Created Warp " + ChatColor.YELLOW + args[0]);
         } else {
             p.sendMessage(ChatColor.RED + "Invalid Usage.");
             return false;
@@ -40,4 +37,3 @@ public class CommandDelWarp implements CommandExecutor {
         return true;
     }
 }
-

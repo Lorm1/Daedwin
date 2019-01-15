@@ -39,7 +39,7 @@ public class CommandSetRank implements CommandExecutor {
             UUID targetUUID = DatabaseAPI.getPlayerUUID(targetName);
             DaedwinPlayer target = DaedwinPlayer.getDaedwinPlayers().get(targetUUID);
 
-            if (Constants.ADMINS.contains(targetName) || DatabaseAPI.getPlayerRank(targetUUID).equals(Rank.ADMIN) && (!(sender instanceof ConsoleCommandSender) || !(player.isAdmin()))) {
+            if (Constants.ADMINS.contains(targetName) || DatabaseAPI.getPlayerRank(targetUUID).equals(Rank.ADMIN) && (!(sender instanceof ConsoleCommandSender) || !(player.isAdmin()) || p.getUniqueId() == targetUUID)) {
                 p.sendMessage(ChatColor.RED + "You cannot set this player's rank.");
                 return true;
             }

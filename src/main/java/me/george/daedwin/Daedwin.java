@@ -7,7 +7,10 @@ import me.george.daedwin.game.commands.entity.CommandSpawnEntity;
 import me.george.daedwin.game.commands.player.CommandList;
 import me.george.daedwin.game.commands.player.CommandLogout;
 import me.george.daedwin.game.commands.player.CommandMessage;
-import me.george.daedwin.game.commands.player.moderation.*;
+import me.george.daedwin.game.commands.player.moderation.CommandNick;
+import me.george.daedwin.game.commands.player.moderation.CommandSetNation;
+import me.george.daedwin.game.commands.player.moderation.CommandSetRank;
+import me.george.daedwin.game.commands.player.moderation.CommandWhoIs;
 import me.george.daedwin.game.commands.player.moderation.chat.CommandClearChat;
 import me.george.daedwin.game.commands.player.moderation.chat.CommandMuteChat;
 import me.george.daedwin.game.commands.player.moderation.chat.CommandShout;
@@ -29,9 +32,11 @@ import me.george.daedwin.game.commands.player.moderation.state.CommandFeed;
 import me.george.daedwin.game.commands.player.moderation.state.CommandFreeze;
 import me.george.daedwin.game.commands.player.moderation.state.CommandHeal;
 import me.george.daedwin.game.commands.player.moderation.state.CommandVanish;
-import me.george.daedwin.game.commands.player.moderation.warp.CommandDelWarp;
-import me.george.daedwin.game.commands.player.moderation.warp.CommandSetWarp;
-import me.george.daedwin.game.commands.player.moderation.warp.CommandWarp;
+import me.george.daedwin.game.commands.player.moderation.teleportation.teleport.CommandTeleport;
+import me.george.daedwin.game.commands.player.moderation.teleportation.teleport.CommandTeleportLocation;
+import me.george.daedwin.game.commands.player.moderation.teleportation.warp.CommandDelWarp;
+import me.george.daedwin.game.commands.player.moderation.teleportation.warp.CommandSetWarp;
+import me.george.daedwin.game.commands.player.moderation.teleportation.warp.CommandWarp;
 import me.george.daedwin.game.commands.server.CommandMaintenance;
 import me.george.daedwin.game.nation.NationManager;
 import me.george.daedwin.game.player.DaedwinPlayer;
@@ -141,6 +146,7 @@ public class Daedwin extends JavaPlugin {
         this.getCommand("give").setExecutor(new CommandGive());
         this.getCommand("message").setExecutor(new CommandMessage());
         this.getCommand("setnation").setExecutor(new CommandSetNation());
+        this.getCommand("teleportlocation").setExecutor(new CommandTeleportLocation());
     }
 
     private void setupServer() {
