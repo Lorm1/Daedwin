@@ -35,10 +35,12 @@ public class Farming implements Listener {
             playersFarming.add(p.getUniqueId());
             isCounting = true;
 
+            Location location = p.getLocation();
+
             new Countdown(farmableBlock.getFarmingTime(), Daedwin.getInstance()) {
                 @Override
                 public void count(int current) {
-                    Location location = p.getLocation();
+                    Location loc = p.getLocation();
 
                     if (!playersFarming.contains(p.getUniqueId())) {
                         this.task.cancel();
@@ -75,7 +77,7 @@ public class Farming implements Listener {
                         block.getWorld().playSound(block.getLocation(), Sound.BLOCK_GRASS_BREAK, 5, 5);
                     }
 
-                    if (p.getLocation().distance(location) >= 4) {
+                    if (location.distance(loc) >= 4) {
                         this.task.cancel();
                         isCounting = false;
 
@@ -104,8 +106,9 @@ public class Farming implements Listener {
             } else {
                 block.setType(farmableBlock.getMaterial());
             }
-            block.getWorld().playEffect(block.getLocation().add(0, 1, 0), Effect.STEP_SOUND, farmableBlock.getMaterial(), 2);
+            block.getWorld().playEffect(block.getLocation().add(0, 1, 0), Effect.VILLAGER_PLANT_GROW, 2);
         }, 20 * farmableBlock.getRespawnTime());
+        block.getWorld().playEffect(block.getLocation().add(0, 1, 0), Effect.VILLAGER_PLANT_GROW, 2);
     }
 
     @EventHandler
