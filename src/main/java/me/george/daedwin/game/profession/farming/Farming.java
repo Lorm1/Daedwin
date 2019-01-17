@@ -7,6 +7,8 @@ import me.george.daedwin.utils.Countdown;
 import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
+import org.bukkit.block.data.Ageable;
+import org.bukkit.block.data.BlockData;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -94,8 +96,15 @@ public class Farming implements Listener {
     public void addCooldown(FarmableBlock farmableBlock, Block block) {
         block.setType(farmableBlock.getChangeTo());
         Bukkit.getScheduler().scheduleSyncDelayedTask(Daedwin.getInstance(), () -> {
-            block.setType(farmableBlock.getMaterial());
-            block.getWorld().playEffect(block.getLocation().add(0, 2.5, 0), Effect.VILLAGER_PLANT_GROW, 1);
+            if (farmableBlock.getMaterial().equals(Material.WHEAT)) {
+                block.setType(farmableBlock.getMaterial());
+                BlockData blockData = (Ageable) block.getBlockData();
+                if (((Ageable) blockData).getAge() != ((Ageable) blockData).getMaximumAge()) ((Ageable) blockData).setAge(((Ageable) blockData).getMaximumAge());
+                block.setBlockData(blockData);// fully grown wheat
+            } else {
+                block.setType(farmableBlock.getMaterial());
+            }
+            block.getWorld().playEffect(block.getLocation().add(0, 1, 0), Effect.STEP_SOUND, farmableBlock.getMaterial(), 2);
         }, 20 * farmableBlock.getRespawnTime());
     }
 

@@ -32,7 +32,7 @@ public class CommandDelWarp implements CommandExecutor {
             Daedwin.getInstance().getConfig().set("Warps." + args[0], null);
             Daedwin.getInstance().saveConfig();
 
-            p.sendMessage(ChatColor.GREEN + "Removed warp " + ChatColor.YELLOW + args[0]);
+            p.sendMessage(ChatColor.GREEN + "Deleted Warp " + ChatColor.YELLOW + args[0]);
         } else {
             p.sendMessage(ChatColor.RED + "Invalid Usage.");
             return false;
