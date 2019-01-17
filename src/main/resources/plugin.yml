@@ -4,6 +4,7 @@ main: me.george.daedwin.Daedwin
 prefix: Daedwin
 authors: [George_Angel]
 description: Myths of Daedwin
+api-version: 1.13
 
 commands:
   mutechat:
@@ -133,3 +134,7 @@ commands:
     description: Teleport to specific coordinates.
     usage: /teleportlocation <x> <y> <z>
     aliases: [tploc, teleportlocation, tplocation, teleportloc, teleportlocation]
+  professions:
+    description: Admin command that adds every profession item to the caster's inventory.
+    usage: /profession
+    aliases: [profession, prof, proff]

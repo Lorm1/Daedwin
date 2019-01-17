@@ -7,10 +7,7 @@ import me.george.daedwin.game.commands.entity.CommandSpawnEntity;
 import me.george.daedwin.game.commands.player.CommandList;
 import me.george.daedwin.game.commands.player.CommandLogout;
 import me.george.daedwin.game.commands.player.CommandMessage;
-import me.george.daedwin.game.commands.player.moderation.CommandNick;
-import me.george.daedwin.game.commands.player.moderation.CommandSetNation;
-import me.george.daedwin.game.commands.player.moderation.CommandSetRank;
-import me.george.daedwin.game.commands.player.moderation.CommandWhoIs;
+import me.george.daedwin.game.commands.player.moderation.*;
 import me.george.daedwin.game.commands.player.moderation.chat.CommandClearChat;
 import me.george.daedwin.game.commands.player.moderation.chat.CommandMuteChat;
 import me.george.daedwin.game.commands.player.moderation.chat.CommandShout;
@@ -40,8 +37,8 @@ import me.george.daedwin.game.commands.player.moderation.teleportation.warp.Comm
 import me.george.daedwin.game.commands.server.CommandMaintenance;
 import me.george.daedwin.game.nation.NationManager;
 import me.george.daedwin.game.player.DaedwinPlayer;
-import me.george.daedwin.game.player.PlayerCommand;
 import me.george.daedwin.game.player.PlayerConnection;
+import me.george.daedwin.game.profession.farming.Farming;
 import me.george.daedwin.game.punishment.PunishmentManager;
 import me.george.daedwin.game.rank.RankManager;
 import me.george.daedwin.game.world.Restrictions;
@@ -107,7 +104,7 @@ public class Daedwin extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new Chat(), this);
         getServer().getPluginManager().registerEvents(new Restrictions(), this);
         getServer().getPluginManager().registerEvents(new Setup(), this);
-        getServer().getPluginManager().registerEvents(new PlayerCommand(), this);
+        getServer().getPluginManager().registerEvents(new Farming(), this);
     }
 
     private void registerCommands() {
@@ -147,6 +144,7 @@ public class Daedwin extends JavaPlugin {
         this.getCommand("message").setExecutor(new CommandMessage());
         this.getCommand("setnation").setExecutor(new CommandSetNation());
         this.getCommand("teleportlocation").setExecutor(new CommandTeleportLocation());
+        this.getCommand("professions").setExecutor(new CommandProfessions());
     }
 
     private void setupServer() {
