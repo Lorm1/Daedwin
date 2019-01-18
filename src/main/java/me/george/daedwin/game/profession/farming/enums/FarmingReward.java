@@ -13,7 +13,7 @@ public enum FarmingReward {
     MELON(new ItemStack(Material.MELON_SLICE), ChatColor.LIGHT_PURPLE + "Melon Slice", Arrays.asList(ChatColor.GRAY.toString() +
             ChatColor.ITALIC + "A freshly cut melon slice.")),
     PUMPKIN(new ItemStack(Material.PUMPKIN_PIE), ChatColor.GOLD + "Pumpkin Slice", Arrays.asList(ChatColor.GRAY.toString() +
-            ChatColor.ITALIC + "A freshly cut pumpkin slice.")),
+            ChatColor.ITALIC + "A freshly cut pumpkin.")),
     WHEAT(new ItemStack(Material.WHEAT), ChatColor.YELLOW + "Wheat", Arrays.asList(ChatColor.GRAY.toString() +
             ChatColor.ITALIC + "A freshly cut bunch of wheat.")),
     CARROT(new ItemStack(Material.CARROT), ChatColor.RED + "Carrot", Arrays.asList(ChatColor.GRAY.toString() +

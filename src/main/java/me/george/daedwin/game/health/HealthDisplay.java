@@ -39,8 +39,8 @@ public class HealthDisplay {
         for (Player p : Bukkit.getOnlinePlayers()) {
             DaedwinPlayer player = DaedwinPlayer.getDaedwinPlayers().get(p.getUniqueId());
 
-            BossBar bar = Bukkit.createBossBar(ChatColor.RED.toString() + ChatColor.BOLD + "HP: " + ChatColor.RED +
-                    p.getHealth() + " / " + p.getMaxHealth(), BarColor.GREEN, BarStyle.SOLID);
+            BossBar bar = Bukkit.createBossBar(ChatColor.RED.toString() + ChatColor.BOLD + "HP: " + ChatColor.RED + p.getHealth() + " / " + p.getMaxHealth(),
+                    BarColor.GREEN, BarStyle.SOLID);
 
             bar.addPlayer(p);
         }

@@ -72,6 +72,7 @@ public class Farming implements Listener {
                         if (current > 0) {
                             p.sendMessage(ChatColor.DARK_GREEN + "" + ChatColor.BOLD + ">> " + ChatColor.GREEN + "" +
                                     ChatColor.BOLD + "Farming... " + ChatColor.GOLD + "" + current + ChatColor.GREEN + " seconds left.");
+                            p.sendActionBar(ChatColor.GREEN + "Farming");
                         }
 
                         block.getWorld().playEffect(block.getLocation(), Effect.VILLAGER_PLANT_GROW, 5, 5);
@@ -86,8 +87,8 @@ public class Farming implements Listener {
 
                         p.playEffect(p.getLocation(), Effect.SMOKE, 1);
                         p.playSound(p.getLocation(), Sound.ENTITY_ENDER_DRAGON_FLAP, 3F, 3F);
-                        p.sendMessage(ChatColor.RED.toString() + ChatColor.UNDERLINE + "Farming cancelled.");
-                        p.sendActionBar(ChatColor.RED  + "Farming interrupted...");
+                        p.sendMessage(ChatColor.RED + "Farming " + ChatColor.UNDERLINE + "cancelled.");
+                        p.sendActionBar(ChatColor.RED  + "Interrupted");
                     }
                 }
             }.start();

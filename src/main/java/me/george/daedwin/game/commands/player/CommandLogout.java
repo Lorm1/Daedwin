@@ -17,32 +17,20 @@ public class CommandLogout implements CommandExecutor {
     boolean isSummoning = false;
 
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
-        /*if (cmd.getName().equalsIgnoreCase("logout")) {*/
         if (sender instanceof Player) {
             Player p = (Player) sender;
-            DaedwinPlayer player = DaedwinPlayer.getDaedwinPlayers().get(p.getUniqueId());
 
-            Location loc = p.getLocation(); // starting location
+            Location loc = p.getLocation();
 
             new Countdown(5, Daedwin.getInstance()) {
 
                 @Override
                 public void count(int current) {
-                    isSummoning = true; // logging out in progress
+                    isSummoning = true;
 
-                    Location location = p.getLocation(); // ? new location ?
+                    Location location = p.getLocation();
 
-                    // if (!isSummoning) {
-//                                this.task.cancel();
-//
-//                                TTABUtils.sendActionBar(player, ChatColor.RED + "Logout Process " + ChatColor.RED + "" + ChatColor.UNDERLINE + "Cancelled.");
-//
-//                                player.sendMessage(ChatColor.RED + "" + ChatColor.BOLD + "Logout " + ChatColor.RED + "" + ChatColor.UNDERLINE + "CANCELED.");
-//
-//                                player.playSound(player.getLocation(), Sound.BLOCK_ANVIL_LAND, 5F, 5F);
-                    // }
-
-                    if (/*loc.getBlock().getZ() != location.getBlock().getZ() || */ loc.getBlock().getX() != location.getBlock().getX()) { // check if the player has moved, and if so, cancel the logout process.
+                    if (loc.getBlock().getX() != location.getBlock().getX()) {
                         isSummoning = false;
 
                         this.task.cancel();
@@ -53,15 +41,15 @@ public class CommandLogout implements CommandExecutor {
                         p.playSound(p.getLocation(), Sound.BLOCK_ANVIL_LAND, 5F, 5F);
                     }
 
-                    if (isSummoning) { // do the process normally
+                    if (isSummoning) {
                         p.sendMessage(ChatColor.RED + "" + ChatColor.BOLD + "Logging out " + ChatColor.RED + "in " + ChatColor.RED.toString() + ChatColor.BOLD + current + ChatColor.RED + " seconds.");
 
                         p.playSound(p.getLocation(), Sound.UI_BUTTON_CLICK, 5F, 5F);
 
-                        p.sendTitle("", ChatColor.RED + "Logging out...", 20 * 1, 20 * 1, 20 * 1);
+                        p.sendTitle("", ChatColor.RED + "Logging out in " + current + "s...", 20 * 1, 20 * 2, 20 * 1);
                         p.sendActionBar(ChatColor.RED + "Do not move!");
 
-                        if (current == 0) { // disconnect the player after saving his data
+                        if (current == 0) {
                             p.sendMessage(ChatColor.GREEN + "Logging out...");
                             LogoutManager.handleLogout(DaedwinPlayer.getDaedwinPlayers().get(p.getUniqueId()), ChatColor.GREEN + "You have " + ChatColor.GREEN + ChatColor.BOLD + "Logged Out.");
                         }
@@ -71,5 +59,4 @@ public class CommandLogout implements CommandExecutor {
         }
         return true;
     }
-    /*}*/
 }
