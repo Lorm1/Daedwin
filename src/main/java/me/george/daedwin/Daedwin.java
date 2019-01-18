@@ -8,6 +8,7 @@ import me.george.daedwin.game.commands.player.CommandList;
 import me.george.daedwin.game.commands.player.CommandLogout;
 import me.george.daedwin.game.commands.player.CommandMessage;
 import me.george.daedwin.game.commands.player.moderation.*;
+import me.george.daedwin.game.commands.player.moderation.chat.CommandAlert;
 import me.george.daedwin.game.commands.player.moderation.chat.CommandClearChat;
 import me.george.daedwin.game.commands.player.moderation.chat.CommandMuteChat;
 import me.george.daedwin.game.commands.player.moderation.chat.CommandShout;
@@ -35,6 +36,7 @@ import me.george.daedwin.game.commands.player.moderation.teleportation.warp.Comm
 import me.george.daedwin.game.commands.player.moderation.teleportation.warp.CommandSetWarp;
 import me.george.daedwin.game.commands.player.moderation.teleportation.warp.CommandWarp;
 import me.george.daedwin.game.commands.server.CommandMaintenance;
+import me.george.daedwin.game.health.HealthDisplay;
 import me.george.daedwin.game.nation.NationManager;
 import me.george.daedwin.game.player.DaedwinPlayer;
 import me.george.daedwin.game.player.PlayerConnection;
@@ -145,9 +147,11 @@ public class Daedwin extends JavaPlugin {
         this.getCommand("setnation").setExecutor(new CommandSetNation());
         this.getCommand("teleportlocation").setExecutor(new CommandTeleportLocation());
         this.getCommand("professions").setExecutor(new CommandProfessions());
+        this.getCommand("alert").setExecutor(new CommandAlert());
     }
 
     private void setupServer() {
+        HealthDisplay.setup();
         setupManagers();
     }
 
