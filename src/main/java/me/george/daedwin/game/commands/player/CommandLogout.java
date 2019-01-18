@@ -1,11 +1,9 @@
 package me.george.daedwin.game.commands.player;
 
 import me.george.daedwin.Daedwin;
-import me.george.daedwin.manager.LogoutManager;
 import me.george.daedwin.game.player.DaedwinPlayer;
-import me.george.daedwin.utils.ActionBar.ActionBar;
+import me.george.daedwin.manager.LogoutManager;
 import me.george.daedwin.utils.Countdown;
-import me.george.daedwin.utils.TitleAPI;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Sound;
@@ -50,7 +48,7 @@ public class CommandLogout implements CommandExecutor {
                         this.task.cancel();
 
                         p.sendMessage(ChatColor.RED + "" + ChatColor.BOLD + "Logout " + ChatColor.RED + "" + ChatColor.UNDERLINE + "Cancelled.");
-                        ActionBar.sendActionBar(p, ChatColor.RED + "Logout Cancelled.");
+                        p.sendActionBar(ChatColor.RED + "Logout Cancelled.");
 
                         p.playSound(p.getLocation(), Sound.BLOCK_ANVIL_LAND, 5F, 5F);
                     }
@@ -60,8 +58,8 @@ public class CommandLogout implements CommandExecutor {
 
                         p.playSound(p.getLocation(), Sound.UI_BUTTON_CLICK, 5F, 5F);
 
-                        TitleAPI.send(p, "", ChatColor.RED + "Logging out...", 1, 1, 1);
-                        ActionBar.sendActionBar(p, ChatColor.RED + "Do not move!");
+                        p.sendTitle("", ChatColor.RED + "Logging out...", 1, 1, 1);
+                        p.sendActionBar(ChatColor.RED + "Do not move!");
 
                         if (current == 0) { // disconnect the player after saving his data
                             p.sendMessage(ChatColor.GREEN + "Logging out...");

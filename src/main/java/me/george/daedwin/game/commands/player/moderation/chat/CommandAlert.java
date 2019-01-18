@@ -1,8 +1,6 @@
 package me.george.daedwin.game.commands.player.moderation.chat;
 
 import me.george.daedwin.Constants;
-import me.george.daedwin.utils.ActionBar.ActionBar;
-import me.george.daedwin.utils.TitleAPI;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Sound;
@@ -30,8 +28,8 @@ public class CommandAlert implements CommandExecutor {
 
                 for (Player p : Bukkit.getOnlinePlayers()) {
                     p.playSound(p.getLocation(), Sound.BLOCK_ANVIL_PLACE, 5, 5);
-                    TitleAPI.send(p, ChatColor.RED + "[ALERT]", ChatColor.GOLD + message, 1, 3, 4);
-                    ActionBar.sendActionBar(p, ChatColor.RED + "Alert!");
+                    p.sendTitle(ChatColor.RED + "[ALERT]", ChatColor.GOLD + message, 1, 3, 4);
+                    p.sendActionBar(ChatColor.RED + "Alert!");
                 }
             }
         } else {

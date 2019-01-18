@@ -36,7 +36,6 @@ import me.george.daedwin.game.commands.player.moderation.teleportation.warp.Comm
 import me.george.daedwin.game.commands.player.moderation.teleportation.warp.CommandSetWarp;
 import me.george.daedwin.game.commands.player.moderation.teleportation.warp.CommandWarp;
 import me.george.daedwin.game.commands.server.CommandMaintenance;
-import me.george.daedwin.game.health.HealthDisplay;
 import me.george.daedwin.game.nation.NationManager;
 import me.george.daedwin.game.player.DaedwinPlayer;
 import me.george.daedwin.game.player.PlayerConnection;
@@ -151,7 +150,6 @@ public class Daedwin extends JavaPlugin {
     }
 
     private void setupServer() {
-        HealthDisplay.setup();
         setupManagers();
     }
 

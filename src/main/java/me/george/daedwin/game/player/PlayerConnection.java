@@ -8,8 +8,6 @@ import me.george.daedwin.game.nation.Nation;
 import me.george.daedwin.game.rank.Rank;
 import me.george.daedwin.manager.LogoutManager;
 import me.george.daedwin.server.Setup;
-import me.george.daedwin.utils.ActionBar.ActionBar;
-import me.george.daedwin.utils.TitleAPI;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
@@ -111,14 +109,14 @@ public class PlayerConnection implements Listener {
             p.sendMessage(ChatColor.WHITE.toString() + ChatColor.BOLD + "Welcome to " + ChatColor.BLUE.toString() + ChatColor.BOLD + "Myths of Daedwin\n");
             p.playSound(p.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 5, 5);
 
-            ActionBar.sendActionBar(p, ChatColor.GREEN + "Welcome!");
-            TitleAPI.send(p, ChatColor.WHITE.toString() + ChatColor.BOLD + "Welcome to", ChatColor.BLUE.toString() + ChatColor.BOLD +
+            p.sendActionBar(ChatColor.GREEN + "Welcome!");
+            p.sendTitle(ChatColor.WHITE.toString() + ChatColor.BOLD + "Welcome to", ChatColor.BLUE.toString() + ChatColor.BOLD +
                     "Myths of Daedwin", 2, 3, 3);
 
             p.teleport(Nation.HUMAN.getSpawnLocation());
         } else {
-            ActionBar.sendActionBar(p, ChatColor.GREEN + "Welcome!");
-            TitleAPI.send(p, ChatColor.WHITE + "Welcome back,",ChatColor.GRAY + p.getName(), 2, 3, 3);
+            p.sendActionBar(ChatColor.GREEN + "Welcome!");
+            p.sendTitle(ChatColor.WHITE + "Welcome back,",ChatColor.GRAY + p.getName(), 2, 3, 3);
         }
 
         HealthDisplay.setup();
