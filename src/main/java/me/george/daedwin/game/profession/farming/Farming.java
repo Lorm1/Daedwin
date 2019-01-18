@@ -33,6 +33,7 @@ public class Farming implements Listener {
             }
 
             playersFarming.add(p.getUniqueId());
+
             isCounting = true;
 
             Location location = p.getLocation();
@@ -86,6 +87,7 @@ public class Farming implements Listener {
                         p.playEffect(p.getLocation(), Effect.SMOKE, 1);
                         p.playSound(p.getLocation(), Sound.ENTITY_ENDER_DRAGON_FLAP, 3F, 3F);
                         p.sendMessage(ChatColor.RED.toString() + ChatColor.UNDERLINE + "Farming cancelled.");
+                        p.sendActionBar(ChatColor.RED  + "Farming interrupted...");
                     }
                 }
             }.start();
@@ -97,6 +99,7 @@ public class Farming implements Listener {
 
     public void addCooldown(FarmableBlock farmableBlock, Block block) {
         block.setType(farmableBlock.getChangeTo());
+
         Bukkit.getScheduler().scheduleSyncDelayedTask(Daedwin.getInstance(), () -> {
             if (farmableBlock.getMaterial().equals(Material.WHEAT)) {
                 block.setType(farmableBlock.getMaterial());
@@ -108,12 +111,14 @@ public class Farming implements Listener {
             }
             block.getWorld().playEffect(block.getLocation().add(0, 1, 0), Effect.VILLAGER_PLANT_GROW, 2);
         }, 20 * farmableBlock.getRespawnTime());
+
         block.getWorld().playEffect(block.getLocation().add(0, 1, 0), Effect.VILLAGER_PLANT_GROW, 2);
     }
 
     @EventHandler
     public void onInteract(PlayerInteractEvent e) {
         Player p = e.getPlayer();
+
         Action action = e.getAction();
         Block block = e.getClickedBlock();
 

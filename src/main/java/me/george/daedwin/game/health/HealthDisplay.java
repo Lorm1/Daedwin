@@ -1,5 +1,6 @@
 package me.george.daedwin.game.health;
 
+import me.george.daedwin.game.player.DaedwinPlayer;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.boss.BarColor;
@@ -36,7 +37,11 @@ public class HealthDisplay {
 
         // bossbar
         for (Player p : Bukkit.getOnlinePlayers()) {
-            BossBar bar = Bukkit.createBossBar(ChatColor.RED + "HP " + p.getHealth() + " / " + p.getMaxHealth(), BarColor.GREEN, BarStyle.SOLID);
+            DaedwinPlayer player = DaedwinPlayer.getDaedwinPlayers().get(p.getUniqueId());
+
+            BossBar bar = Bukkit.createBossBar(ChatColor.RED.toString() + ChatColor.BOLD + "HP: " + ChatColor.RED +
+                    p.getHealth() + " / " + p.getMaxHealth(), BarColor.GREEN, BarStyle.SOLID);
+
             bar.addPlayer(p);
         }
     }

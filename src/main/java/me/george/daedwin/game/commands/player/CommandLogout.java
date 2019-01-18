@@ -58,7 +58,7 @@ public class CommandLogout implements CommandExecutor {
 
                         p.playSound(p.getLocation(), Sound.UI_BUTTON_CLICK, 5F, 5F);
 
-                        p.sendTitle("", ChatColor.RED + "Logging out...", 1, 1, 1);
+                        p.sendTitle("", ChatColor.RED + "Logging out...", 20 * 1, 20 * 1, 20 * 1);
                         p.sendActionBar(ChatColor.RED + "Do not move!");
 
                         if (current == 0) { // disconnect the player after saving his data

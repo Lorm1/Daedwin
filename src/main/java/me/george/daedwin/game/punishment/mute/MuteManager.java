@@ -55,6 +55,7 @@ public class MuteManager {
                     + " " + ChatColor.RED.toString() + ChatColor.UNDERLINE + "Expires" + ChatColor.RED + ": " + ChatColor.DARK_RED + getTimeLeft(uuid);
 
             target.sendMessage(muteMessage);
+            target.sendTitle(ChatColor.RED + "You have been muted.", null, 20 * 1, 20 * 2, 20 * 2);
 
             DaedwinPlayer.getDaedwinPlayers().get(target.getUniqueId()).setIsMuted(true);
         }

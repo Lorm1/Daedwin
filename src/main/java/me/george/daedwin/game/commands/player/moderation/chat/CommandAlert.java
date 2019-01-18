@@ -28,8 +28,10 @@ public class CommandAlert implements CommandExecutor {
 
                 for (Player p : Bukkit.getOnlinePlayers()) {
                     p.playSound(p.getLocation(), Sound.BLOCK_ANVIL_PLACE, 5, 5);
-                    p.sendTitle(ChatColor.RED + "[ALERT]", ChatColor.GOLD + message, 1, 3, 4);
-                    p.sendActionBar(ChatColor.RED + "Alert!");
+
+                    p.sendTitle(ChatColor.GRAY + "[" + ChatColor.RED + "ALERT" + ChatColor.GRAY + "]",
+                            ChatColor.GOLD + ChatColor.translateAlternateColorCodes('&', message), 15, 75, 25);
+                    p.sendActionBar(ChatColor.RED + "ALERT");
                 }
             }
         } else {

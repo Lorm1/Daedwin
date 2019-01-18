@@ -116,7 +116,7 @@ public class PlayerConnection implements Listener {
             p.teleport(Nation.HUMAN.getSpawnLocation());
         } else {
             p.sendActionBar(ChatColor.GREEN + "Welcome!");
-            p.sendTitle(ChatColor.WHITE + "Welcome back,",ChatColor.GRAY + p.getName(), 2, 3, 3);
+            p.sendTitle(ChatColor.WHITE + "Welcome back,",ChatColor.GRAY + p.getName(), 20 * 2, 20 * 3, 20 * 3);
         }
 
         HealthDisplay.setup();
