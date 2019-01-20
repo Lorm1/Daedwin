@@ -5,7 +5,7 @@ import me.george.daedwin.Daedwin;
 import me.george.daedwin.database.DatabaseAPI;
 import me.george.daedwin.game.rank.Rank;
 import me.george.daedwin.game.player.DaedwinPlayer;
-import me.george.daedwin.game.punishment.TimeUnit;
+import me.george.daedwin.utils.TimeUnit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;

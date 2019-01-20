@@ -2,7 +2,7 @@ package me.george.daedwin.game.punishment.ban;
 
 import me.george.daedwin.database.DatabaseAPI;
 import me.george.daedwin.game.punishment.PunishmentManager;
-import me.george.daedwin.game.punishment.TimeUnit;
+import me.george.daedwin.utils.TimeUnit;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;

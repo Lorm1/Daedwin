@@ -1,4 +1,4 @@
-package me.george.daedwin.game.punishment;
+package me.george.daedwin.utils;
 
 import java.util.HashMap;
 

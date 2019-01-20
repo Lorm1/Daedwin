@@ -11,10 +11,8 @@ public class PunishmentManager {
         setupManagers();
     }
 
-    @Getter
-    BanManager banManager;
-    @Getter
-    MuteManager muteManager;
+    @Getter BanManager banManager;
+    @Getter MuteManager muteManager;
 
     public void setupManagers() {
         banManager = new BanManager(this);
