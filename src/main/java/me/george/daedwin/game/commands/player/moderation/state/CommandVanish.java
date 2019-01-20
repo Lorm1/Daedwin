@@ -21,13 +21,20 @@ public class CommandVanish implements CommandExecutor {
         if (args.length == 0) {
             if (!Daedwin._hiddenPlayers.contains(p)) {
                 Daedwin._hiddenPlayers.add(p);
-                for (Player pl : Bukkit.getOnlinePlayers()) pl.hidePlayer(p);
+                for (Player pl : Bukkit.getOnlinePlayers()) {
+                    pl.hidePlayer(p);
+                    p.setPlayerListName(null);
+                }
 
                 p.sendMessage(ChatColor.AQUA.toString() + ChatColor.BOLD + "VANISH - " + ChatColor.GREEN.toString() + ChatColor.BOLD + "ON");
                 return true;
             } else {
                 Daedwin._hiddenPlayers.remove(p);
-                for (Player pl : Bukkit.getOnlinePlayers()) pl.showPlayer(p);
+                for (Player pl : Bukkit.getOnlinePlayers()) {
+                    DaedwinPlayer dp = DaedwinPlayer.getDaedwinPlayers().get(pl.getUniqueId());
+                    pl.showPlayer(p);
+                    p.setPlayerListName(p.getDisplayName());
+                }
 
                 p.sendMessage(ChatColor.AQUA.toString() + ChatColor.BOLD + "VANISH - " + ChatColor.RED.toString() + ChatColor.BOLD + "OFF");
                 return true;
@@ -45,14 +52,21 @@ public class CommandVanish implements CommandExecutor {
                 p.sendMessage(ChatColor.GREEN + "Vanished player " + ChatColor.YELLOW + target.getName());
                 target.sendMessage(ChatColor.GREEN  + "You were vanished by " + ChatColor.YELLOW + p.getName());
 
-                for (Player pl : Bukkit.getOnlinePlayers()) pl.hidePlayer(target);
+                for (Player pl : Bukkit.getOnlinePlayers()) {
+                    pl.hidePlayer(target);
+                    p.setPlayerListName(null);
+
+                }
                 return true;
             } else {
                 Daedwin._hiddenPlayers.remove(p);
                 p.sendMessage(ChatColor.RED + "Unvanished player " + ChatColor.YELLOW + target.getName());
                 target.sendMessage(ChatColor.RED + "You were unvanished by " + ChatColor.YELLOW + p.getName());
 
-                for (Player pl : Bukkit.getOnlinePlayers()) pl.showPlayer(target);
+                for (Player pl : Bukkit.getOnlinePlayers()) {
+                    pl.showPlayer(target);
+                    p.setPlayerListName(p.getDisplayName());
+                }
             }
         } else {
             p.sendMessage(ChatColor.RED + "Invalid Usage.");

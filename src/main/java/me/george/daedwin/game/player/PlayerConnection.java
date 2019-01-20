@@ -103,6 +103,7 @@ public class PlayerConnection implements Listener {
 
         for (Player player : Daedwin._hiddenPlayers) {
             p.hidePlayer(player);
+            player.setPlayerListName(null);
         }
 
         if (!p.hasPlayedBefore()) {
@@ -120,6 +121,9 @@ public class PlayerConnection implements Listener {
         }
 
         HealthDisplay.setup();
+
+        p.setPlayerListHeaderFooter(ChatColor.BLUE.toString() + ChatColor.BOLD + "Myths of Daedwin",
+                ChatColor.GRAY + "Lv." + ChatColor.BLUE + "0\n" + ChatColor.GRAY + "Rank: " + Rank.getColor(daedwinPlayer.getRank()) + daedwinPlayer.getRank().name());
     }
 
     @EventHandler
