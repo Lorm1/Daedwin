@@ -31,9 +31,7 @@ public class CommandKick implements CommandExecutor {
                     return true;
                 }
 
-                DaedwinPlayer daedwinTarget = DaedwinPlayer.getDaedwinPlayers().get(target.getUniqueId());
-
-                LogoutManager.handleLogout(daedwinTarget, "You have been Kicked.");
+                LogoutManager.handleLogout(target, "You have been Kicked.");
 
                 for (Player pl : Bukkit.getOnlinePlayers()) {
                     DaedwinPlayer pla = DaedwinPlayer.getDaedwinPlayers().get(pl.getUniqueId());
@@ -56,9 +54,7 @@ public class CommandKick implements CommandExecutor {
                     reason += args[i] + " ";
                 }
 
-                DaedwinPlayer daedwinTarget = DaedwinPlayer.getDaedwinPlayers().get(target.getUniqueId());
-
-                LogoutManager.handleLogout(daedwinTarget, reason);
+                LogoutManager.handleLogout(target, reason);
 
                 for (Player pl : Bukkit.getOnlinePlayers()) {
                     DaedwinPlayer pla = DaedwinPlayer.getDaedwinPlayers().get(pl.getUniqueId());
@@ -83,9 +79,7 @@ public class CommandKick implements CommandExecutor {
                     return true;
                 }
 
-                DaedwinPlayer daedwinTarget = DaedwinPlayer.getDaedwinPlayers().get(target.getUniqueId());
-
-                LogoutManager.handleLogout(daedwinTarget, "You have been Kicked.");
+                LogoutManager.handleLogout(target, "You have been Kicked.");
 
                 for (Player pl : Bukkit.getOnlinePlayers()) {
                     DaedwinPlayer pla = DaedwinPlayer.getDaedwinPlayers().get(pl.getUniqueId());
@@ -108,9 +102,7 @@ public class CommandKick implements CommandExecutor {
                     reason += args[i] + " ";
                 }
 
-                DaedwinPlayer daedwinTarget = DaedwinPlayer.getDaedwinPlayers().get(target.getUniqueId());
-
-                LogoutManager.handleLogout(daedwinTarget, reason);
+                LogoutManager.handleLogout(target, reason);
 
                 for (Player pl : Bukkit.getOnlinePlayers()) {
                     DaedwinPlayer pla = DaedwinPlayer.getDaedwinPlayers().get(pl.getUniqueId());

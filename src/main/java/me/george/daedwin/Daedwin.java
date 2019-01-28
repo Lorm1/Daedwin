@@ -1,5 +1,6 @@
 package me.george.daedwin;
 
+import com.sk89q.worldguard.WorldGuard;
 import me.george.daedwin.database.Database;
 import me.george.daedwin.game.chat.Chat;
 import me.george.daedwin.game.commands.entity.CommandClearMobs;
@@ -47,6 +48,7 @@ import me.george.daedwin.manager.FileManager;
 import me.george.daedwin.server.Setup;
 import me.george.daedwin.utils.ConcurrentSet;
 import org.bukkit.entity.Player;
+import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.Set;
@@ -56,6 +58,16 @@ public class Daedwin extends JavaPlugin {
     private static Daedwin instance = null;
     public static Daedwin getInstance() {
         return instance;
+    }
+    public WorldGuard worldGuard;
+
+    private WorldGuard getWorldGuard() {
+        Plugin plugin = getServer().getPluginManager().getPlugin("WorldGuard");
+
+        if (plugin == null || !(plugin instanceof WorldGuard)) {
+            return null;
+        }
+        return (WorldGuard) plugin;
     }
 
     private FileManager fileManager;
@@ -74,6 +86,7 @@ public class Daedwin extends JavaPlugin {
 
     public void onEnable() {
         instance = this;
+        worldGuard = getWorldGuard();
 
         setupServer();
 

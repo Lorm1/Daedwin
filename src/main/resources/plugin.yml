@@ -4,6 +4,7 @@ main: me.george.daedwin.Daedwin
 prefix: Daedwin
 authors: [George_Angel]
 description: Myths of Daedwin
+depend: [WorldGuard]
 api-version: 1.13
 
 commands:

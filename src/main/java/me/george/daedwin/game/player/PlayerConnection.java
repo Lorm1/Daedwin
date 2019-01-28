@@ -19,60 +19,77 @@ import org.bukkit.event.player.AsyncPlayerPreLoginEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerLoginEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 
 import java.sql.Timestamp;
+import java.util.UUID;
 
 public class PlayerConnection implements Listener {
 
     @EventHandler
     public void onAsyncLogin(AsyncPlayerPreLoginEvent e) {
+        UUID uuid = e.getUniqueId();
 
+        String banMessage = ChatColor.BLUE.toString() + ChatColor.BOLD.toString() + ChatColor.UNDERLINE + "Myths of Daedwin\n\n\n"
+                + ChatColor.RED.toString() + ChatColor.UNDERLINE + "You have been Banned.\n\n"
+                + ChatColor.BLUE.toString() + ChatColor.UNDERLINE + "Reason" + ChatColor.BLUE + ": " + ChatColor.GRAY +
+                Daedwin.getInstance().getPunishmentManager().getBanManager().getReason(uuid) + "\n\n"
+                + ChatColor.GOLD.toString() + ChatColor.UNDERLINE + "Expires" + ChatColor.GOLD + ": " + ChatColor.DARK_RED +
+                Daedwin.getInstance().getPunishmentManager().getBanManager().getTimeLeft(uuid) + "\n\n\n"
+                + ChatColor.GRAY + "Find out more at: " + ChatColor.BLUE.toString() + ChatColor.UNDERLINE + Constants.SITE_NAME;
+
+        if (Daedwin.getInstance().getPunishmentManager().getBanManager().isBanned(uuid)) {
+            e.disallow(AsyncPlayerPreLoginEvent.Result.KICK_OTHER, banMessage);
+            return;
+        }
+
+//        if (e.getLoginResult() == AsyncPlayerPreLoginEvent.Result.KICK_FULL) {
+//            if (Daedwin.getInstance().getRankManager().getRank(uuid).equals(Rank.ADMIN) ||
+//                    Daedwin.getInstance().getRankManager().getRank(uuid).equals(Rank.MOD) ||
+//                    Daedwin.getInstance().getRankManager().getRank(uuid).equals(Rank.DONATOR)/*p.isOp() || Constants.ADMINS.contains(p.getName()) || p.hasPermission("rpg.bypass")*/) {
+//                e.allow();
+//            }
+//        }
     }
 
     @EventHandler
     public void onLogin(PlayerLoginEvent e) {
         Player p = e.getPlayer();
+        DaedwinPlayer daedwinPlayer = DaedwinPlayer.getInstanceOfPlayer(p);
 
-        String banMessage = ChatColor.BLUE.toString() + ChatColor.BOLD.toString() + ChatColor.UNDERLINE + "Myths of Daedwin\n\n\n"
-                + ChatColor.RED.toString() + ChatColor.UNDERLINE + "You have been Banned.\n\n"
-                + ChatColor.BLUE.toString() + ChatColor.UNDERLINE + "Reason" + ChatColor.BLUE + ": " + ChatColor.GRAY + Daedwin.getInstance().getPunishmentManager().getBanManager().getReason(p.getUniqueId()) + "\n\n"
-                + ChatColor.GOLD.toString() + ChatColor.UNDERLINE + "Expires" + ChatColor.GOLD + ": " + ChatColor.DARK_RED + Daedwin.getInstance().getPunishmentManager().getBanManager().getTimeLeft(p.getUniqueId()) + "\n\n\n"
-                + ChatColor.GRAY + "Find out more at: " + ChatColor.BLUE.toString() + ChatColor.UNDERLINE + Constants.SITE_NAME;
-
-//        Bukkit.getScheduler().runTaskAsynchronously(Daedwin.getInstance(), () -> {
-        if (Daedwin.getInstance().getPunishmentManager().getBanManager().isBanned(p.getUniqueId())/*daedwinPlayer.isBanned*/) {
-            e.disallow(PlayerLoginEvent.Result.KICK_OTHER, banMessage/*ChatColor.RED + "You have been Banned. \n"
-                        + ChatColor.AQUA.toString() + ChatColor.BOLD + "Reason: "
-                        + ChatColor.WHITE + Daedwin.getInstance().getBanManager().getReason(p.getUniqueId())
-                        + "\n\n" + ChatColor.GOLD.toString() + ChatColor.UNDERLINE
-                        + "Duration: " + ChatColor.RED
-                        + Daedwin.getInstance().getBanManager().getTimeLeft(p.getUniqueId())*/);
-            return;
+        if (e.getResult() == PlayerLoginEvent.Result.KICK_FULL) {
+            if (daedwinPlayer.isStaff() || daedwinPlayer.isDonator) {
+                e.allow();
+                p.sendMessage(ChatColor.GREEN + "You were allowed to join because of your status.");
+            }
         }
-//        });
 
         if (Setup.MAINTENANCE_MODE && !Daedwin.getInstance().getFileManager().getWhitelistedPlayers().contains(p.getName().toLowerCase())) {
-            e.disallow(PlayerLoginEvent.Result.KICK_OTHER, ChatColor.BLUE.toString() + ChatColor.BOLD.toString() + ChatColor.UNDERLINE + "Myths of Daedwin\n\n\n"
+            e.disallow(PlayerLoginEvent.Result.KICK_OTHER, ChatColor.BLUE.toString() + ChatColor.BOLD.toString()
+                    + ChatColor.UNDERLINE + "Myths of Daedwin\n\n\n"
                     + ChatColor.RED.toString() + ChatColor.UNDERLINE + "Maintenance Mode\n\n\n"
                     + ChatColor.GRAY + "Find out more at: " + ChatColor.BLUE.toString() + ChatColor.UNDERLINE + Constants.SITE_NAME);
             return;
         }
 
-        if (e.getResult() == PlayerLoginEvent.Result.KICK_FULL) {
-            if (Daedwin.getInstance().getRankManager().getRank(p.getUniqueId()).equals(Rank.ADMIN) ||
-                    Daedwin.getInstance().getRankManager().getRank(p.getUniqueId()).equals(Rank.MOD) ||
-                    p.isOp() || Daedwin.getInstance().getRankManager().getRank(p.getUniqueId()).equals(Rank.DONATOR)/*p.isOp() || Constants.ADMINS.contains(p.getName()) || p.hasPermission("rpg.bypass")*/) {
-                e.allow();
-
-                p.sendMessage(ChatColor.GREEN + "You were allowed to join due to your status.");
-            }
-        }
+////        Bukkit.getScheduler().runTaskAsynchronously(Daedwin.getInstance(), () -> {
+//        if (Daedwin.getInstance().getPunishmentManager().getBanManager().isBanned(p.getUniqueId())/*daedwinPlayer.isBanned*/) {
+//            e.disallow(PlayerLoginEvent.Result.KICK_OTHER, banMessage/*ChatColor.RED + "You have been Banned. \n"
+//                        + ChatColor.AQUA.toString() + ChatColor.BOLD + "Reason: "
+//                        + ChatColor.WHITE + Daedwin.getInstance().getBanManager().getReason(p.getUniqueId())
+//                        + "\n\n" + ChatColor.GOLD.toString() + ChatColor.UNDERLINE
+//                        + "Duration: " + ChatColor.RED
+//                        + Daedwin.getInstance().getBanManager().getTimeLeft(p.getUniqueId())*/);
+//            return;
+//        }
+//        });
     }
 
     @EventHandler
     public void onJoin(PlayerJoinEvent e) {
         Player p = e.getPlayer();
-        DaedwinPlayer daedwinPlayer = new DaedwinPlayer(p);
+        DaedwinPlayer daedwinPlayer = DaedwinPlayer.getInstanceOfPlayer(p);
 
         e.setJoinMessage(null);
 
@@ -114,10 +131,18 @@ public class PlayerConnection implements Listener {
             p.sendTitle(ChatColor.WHITE.toString() + ChatColor.BOLD + "Welcome to", ChatColor.BLUE.toString() + ChatColor.BOLD +
                     "Myths of Daedwin", 2, 3, 3);
 
-            p.teleport(Nation.HUMAN.getSpawnLocation());
+            p.teleport(Nation.HUMAN.getSpawnLocation()); // change to a proper tutorial area at some point
+
+            p.addPotionEffect(new PotionEffect(PotionEffectType.CONFUSION, 20 * 5, 50));
+            p.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 20 * 3, 35));
         } else {
+            p.playSound(p.getLocation(), Sound.BLOCK_STONE_BUTTON_CLICK_ON, 5, 5);
+
             p.sendActionBar(ChatColor.GREEN + "Welcome!");
             p.sendTitle(ChatColor.BLUE + "Welcome back,",ChatColor.WHITE + p.getName(), 20 * 2, 20 * 3, 20 * 3);
+
+            p.addPotionEffect(new PotionEffect(PotionEffectType.CONFUSION, 20 * 1, 50));
+            p.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 20 * 1, 50));
         }
 
         HealthDisplay.setup();
@@ -129,7 +154,7 @@ public class PlayerConnection implements Listener {
     @EventHandler
     public void onQuit(PlayerQuitEvent e) {
         Player p = e.getPlayer();
-        DaedwinPlayer daedwinPlayer = DaedwinPlayer.getDaedwinPlayers().get(p.getUniqueId());
+        DaedwinPlayer daedwinPlayer = DaedwinPlayer.getInstanceOfPlayer(p);
 
         e.setQuitMessage(null);
 
@@ -144,7 +169,7 @@ public class PlayerConnection implements Listener {
 
         daedwinPlayer.setLastLogout(new Timestamp(System.currentTimeMillis()));
 
-        LogoutManager.handleLogout(daedwinPlayer);
+        LogoutManager.handleLogout(p);
 
         DaedwinPlayer.getDaedwinPlayers().remove(daedwinPlayer.getPlayer().getUniqueId(), daedwinPlayer);
 

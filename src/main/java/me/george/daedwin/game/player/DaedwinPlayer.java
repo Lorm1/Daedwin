@@ -84,15 +84,27 @@ public class DaedwinPlayer {
     public DaedwinPlayer(UUID uuid) {
         this.uuid = uuid;
         this.player = Bukkit.getPlayer(this.uuid);
+        daedwinPlayers.put(uuid, this);
     }
 
     public DaedwinPlayer(Player player) {
         this.player = player;
         this.uuid = player.getUniqueId();
+        daedwinPlayers.put(player.getUniqueId(), this);
     }
 
     public DaedwinPlayer(OfflinePlayer player) {
         this.uuid = player.getUniqueId();
+    }
+
+    public static DaedwinPlayer getInstanceOfPlayer(Player player) {
+        if(!daedwinPlayers.containsKey(player.getUniqueId())) {
+            return new DaedwinPlayer(player);
+        }
+        else if(daedwinPlayers.containsKey(player.getUniqueId())) {
+            return daedwinPlayers.get(player.getName());
+        }
+        return null;
     }
 
 

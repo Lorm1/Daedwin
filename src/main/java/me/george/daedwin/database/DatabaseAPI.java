@@ -118,10 +118,67 @@ public class DatabaseAPI {
         throw new NullPointerException("Player with UUID: " + uuid.toString() + " has never played before.");
     }
 
-    public static void loadPlayer(DaedwinPlayer daedwinPlayer) { // is online
+    public static int getPlayerLevel(UUID uuid) {
+        if (!playerExists(uuid)) throw new NullPointerException("Player with UUID: " + uuid.toString() + " has never played before.");
+
+        PreparedStatement sts;
+        try {
+            sts = prepareStatement("SELECT LEVEL FROM player_info WHERE UUID = ?");
+            sts.setString(1, uuid.toString());
+
+            ResultSet rs = sts.executeQuery();
+
+            if (rs.next()) {
+                return rs.getInt("LEVEL");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        throw new NullPointerException("Player with UUID: + " + uuid.toString() + " has never played before.");
+    }
+
+    public static int getPlayerGold(UUID uuid) {
+        if (!playerExists(uuid)) throw new NullPointerException("Player with UUID: " + uuid.toString() + " has never played before.");
+
+        PreparedStatement sts;
+        try {
+            sts = prepareStatement("SELECT LEVEL FROM player_info WHERE UUID = ?");
+            sts.setString(1, uuid.toString());
+
+            ResultSet rs = sts.executeQuery();
+
+            if (rs.next()) {
+                return rs.getInt("GOLD");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        throw new NullPointerException("Player with UUID: + " + uuid.toString() + " has never played before.");
+    }
+
+    public static int getPlayerEcash(UUID uuid) {
+        if (!playerExists(uuid)) throw new NullPointerException("Player with UUID: " + uuid.toString() + " has never played before.");
+
+        PreparedStatement sts;
+        try {
+            sts = prepareStatement("SELECT LEVEL FROM player_info WHERE UUID = ?");
+            sts.setString(1, uuid.toString());
+
+            ResultSet rs = sts.executeQuery();
+
+            if (rs.next()) {
+                return rs.getInt("ECASH");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        throw new NullPointerException("Player with UUID: + " + uuid.toString() + " has never played before.");
+    }
+
+    public static void loadPlayer(DaedwinPlayer daedwinPlayer) {
         try {
             if (!playerExists(daedwinPlayer.getPlayer().getUniqueId())) {
-                PreparedStatement ps = prepareStatement("INSERT INTO player_info(UUID, NAME, NATION, RANK, GOLD, ECASH, JOIN_DATE, LAST_LOGIN, IS_BANNED, IS_MUTED) VALUES ('" + daedwinPlayer.getPlayer().getUniqueId().toString() + "'," + "'" + daedwinPlayer.getPlayer().getName() + "', DEFAULT, DEFAULT, DEFAULT, DEFAULT, DEFAULT, DEFAULT, DEFAULT, DEFAULT);");
+                PreparedStatement ps = prepareStatement("INSERT INTO player_info(UUID, NAME, NATION, RANK, LEVEL, GOLD, ECASH, JOIN_DATE, LAST_LOGIN, IS_BANNED, IS_MUTED) VALUES ('" + daedwinPlayer.getPlayer().getUniqueId().toString() + "'," + "'" + daedwinPlayer.getPlayer().getName() + "',DEFAULT, DEFAULT, DEFAULT, DEFAULT, DEFAULT, DEFAULT, DEFAULT, DEFAULT, DEFAULT);");
                 ps.executeUpdate();
                 ps.close();
 
@@ -136,6 +193,9 @@ public class DatabaseAPI {
             rs.next();
 
             String rank = rs.getString("RANK");
+
+            int level = rs.getInt("LEVEL");
+
             String nation = rs.getString("NATION");
 
             int gold = rs.getInt("GOLD");
@@ -156,19 +216,13 @@ public class DatabaseAPI {
             daedwinPlayer.setNation(Nation.valueOf(nation));
             daedwinPlayer.setRank(Rank.valueOf(rank));
 
+            daedwinPlayer.setLevel(level);
             daedwinPlayer.setGold(gold);
             daedwinPlayer.setEcash(ecash);
 
             daedwinPlayer.setJoinDate(joinDate);
             daedwinPlayer.setLastLogin(LAST_LOGIN);
             daedwinPlayer.setIsMuted(isPlayerMuted);
-
-//            rpgPlayer.setIsBanned(isPlayerBanned); // we can have it, but not necessary atm.
-
-//            if (isPlayerBanned) {
-//                rpgPlayer.setBanDuration(Daedwin.getInstance().getBanManager().getTimeLeft(rpgPlayer.getPlayer().getUniqueId()));
-//                rpgPlayer.setBanReason(Daedwin.getInstance().getBanManager().getReason(rpgPlayer.getPlayer().getUniqueId()));
-//            }
             String nick = Daedwin.getInstance().getConfig().getString(daedwinPlayer.getName());
             if (nick != null) {
                 nick = ChatColor.translateAlternateColorCodes('&', nick);
@@ -202,20 +256,21 @@ public class DatabaseAPI {
             ResultSet rs = statement.executeQuery();
 
             if (rs.next()) {
-                PreparedStatement ps = prepareStatement("UPDATE player_info SET NAME = ?, NATION = ?, RANK = ?, GOLD = ?, ECASH = ?, JOIN_DATE = ?, LAST_LOGIN = ?, IS_MUTED = ? WHERE UUID ='" + daedwinPlayer.getPlayer().getUniqueId().toString() + "';");
+                PreparedStatement ps = prepareStatement("UPDATE player_info SET NAME = ?, NATION = ?, RANK = ?, LEVEL = ?, GOLD = ?, ECASH = ?, JOIN_DATE = ?, LAST_LOGIN = ?, IS_MUTED = ? WHERE UUID ='" + daedwinPlayer.getPlayer().getUniqueId().toString() + "';");
 
                 ps.setString(1, daedwinPlayer.getPlayer().getName());
                 ps.setString(2, String.valueOf(daedwinPlayer.getNation()));
                 ps.setString(3, String.valueOf(daedwinPlayer.getRank()));
 
-                ps.setInt(4, daedwinPlayer.getGold());
-                ps.setInt(5, daedwinPlayer.getEcash());
+                ps.setInt(4, daedwinPlayer.getLevel());
+                ps.setInt(5, daedwinPlayer.getGold());
+                ps.setInt(6, daedwinPlayer.getEcash());
 
-                ps.setTimestamp(6, daedwinPlayer.getJoinDate());
-                ps.setTimestamp(7, daedwinPlayer.getLastLogin());
+                ps.setTimestamp(7, daedwinPlayer.getJoinDate());
+                ps.setTimestamp(8, daedwinPlayer.getLastLogin());
 
-//                ps.setBoolean(8, daedwinPlayer.getIsB);
-                ps.setBoolean(8, daedwinPlayer.getIsMuted());
+//                ps.setBoolean(9, daedwinPlayer.getIsB);
+                ps.setBoolean(9, daedwinPlayer.getIsMuted());
 
                 ps.executeUpdate();
                 ps.close();
