@@ -1,6 +1,5 @@
 package me.george.daedwin;
 
-import com.sk89q.worldguard.WorldGuard;
 import me.george.daedwin.database.Database;
 import me.george.daedwin.game.chat.Chat;
 import me.george.daedwin.game.commands.entity.CommandClearMobs;
@@ -48,7 +47,6 @@ import me.george.daedwin.manager.FileManager;
 import me.george.daedwin.server.Setup;
 import me.george.daedwin.utils.ConcurrentSet;
 import org.bukkit.entity.Player;
-import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.Set;
@@ -58,16 +56,6 @@ public class Daedwin extends JavaPlugin {
     private static Daedwin instance = null;
     public static Daedwin getInstance() {
         return instance;
-    }
-    public WorldGuard worldGuard;
-
-    private WorldGuard getWorldGuard() {
-        Plugin plugin = getServer().getPluginManager().getPlugin("WorldGuard");
-
-        if (plugin == null || !(plugin instanceof WorldGuard)) {
-            return null;
-        }
-        return (WorldGuard) plugin;
     }
 
     private FileManager fileManager;
@@ -86,31 +74,18 @@ public class Daedwin extends JavaPlugin {
 
     public void onEnable() {
         instance = this;
-        worldGuard = getWorldGuard();
 
         setupServer();
 
-        Database.getInstance().connect();
-
         getLogger().info("Enabling Daedwin v." + Constants.SERVER_VERSION);
-
-        // Config
-        getConfig().options().copyDefaults();
-        saveDefaultConfig();
-
-        // Register events and commands
-        registerEvents();
-        registerCommands();
     }
 
     public void onDisable() {
         instance = null;
 
-        // Database.getInstance().disconnect(); // Doesn't really serve much, it's fine to leave it open.
+        closeServer();
 
         getLogger().info("Disabling Daedwin v." + Constants.SERVER_VERSION);
-
-        clearCache();
     }
 
     private void registerEvents() {
@@ -164,6 +139,20 @@ public class Daedwin extends JavaPlugin {
 
     private void setupServer() {
         setupManagers();
+        Database.getInstance().connect();
+
+        // Config
+        getConfig().options().copyDefaults();
+        saveDefaultConfig();
+
+        // Register events and commands
+        registerEvents();
+        registerCommands();
+    }
+
+    private void closeServer() {
+        clearCache();
+        // Database.getInstance().disconnect();
     }
 
     private void setupManagers() {

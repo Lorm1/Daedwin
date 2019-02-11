@@ -89,12 +89,13 @@ public class PlayerConnection implements Listener {
     @EventHandler
     public void onJoin(PlayerJoinEvent e) {
         Player p = e.getPlayer();
+        DatabaseAPI.loadPlayer(p);
+
         DaedwinPlayer daedwinPlayer = DaedwinPlayer.getInstanceOfPlayer(p);
 
-        e.setJoinMessage(null);
-
-        DatabaseAPI.loadPlayer(daedwinPlayer);
         DaedwinPlayer.getDaedwinPlayers().put(p.getUniqueId(), daedwinPlayer);
+
+        e.setJoinMessage(null);
 
         for (Player player : Bukkit.getOnlinePlayers()) {
             DaedwinPlayer pl = DaedwinPlayer.getDaedwinPlayers().get(player.getUniqueId());

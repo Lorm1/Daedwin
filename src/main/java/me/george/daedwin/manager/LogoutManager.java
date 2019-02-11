@@ -24,7 +24,7 @@ public class LogoutManager {
 
         Bukkit.getScheduler().runTaskAsynchronously(Daedwin.getInstance(), () -> {
             // Handle general unregistering of stuff here and save player data as well. (Nothing to unregister atm)
-            DatabaseAPI.savePlayer(daedwinPlayer);
+            DatabaseAPI.savePlayer(player);
         });
 
         DaedwinPlayer.getDaedwinPlayers().remove(daedwinPlayer.getPlayer().getUniqueId(), daedwinPlayer);
@@ -49,7 +49,7 @@ public class LogoutManager {
 
         Bukkit.getScheduler().runTaskAsynchronously(Daedwin.getInstance(), () -> {
             // Handle general unregistering of stuff here and save player data as well. (Nothing to unregister atm)
-            DatabaseAPI.savePlayer(daedwinPlayer);
+            DatabaseAPI.savePlayer(player);
         });
 
         DaedwinPlayer.getDaedwinPlayers().remove(daedwinPlayer.getPlayer().getUniqueId(), daedwinPlayer);

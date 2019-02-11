@@ -6,6 +6,7 @@ import me.george.daedwin.game.player.DaedwinPlayer;
 import me.george.daedwin.game.rank.Rank;
 import me.george.daedwin.utils.Utils;
 import org.bukkit.ChatColor;
+import org.bukkit.entity.Player;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -175,18 +176,20 @@ public class DatabaseAPI {
         throw new NullPointerException("Player with UUID: + " + uuid.toString() + " has never played before.");
     }
 
-    public static void loadPlayer(DaedwinPlayer daedwinPlayer) {
+    public static void loadPlayer(Player player) {
         try {
-            if (!playerExists(daedwinPlayer.getPlayer().getUniqueId())) {
-                PreparedStatement ps = prepareStatement("INSERT INTO player_info(UUID, NAME, NATION, RANK, LEVEL, GOLD, ECASH, JOIN_DATE, LAST_LOGIN, IS_BANNED, IS_MUTED) VALUES ('" + daedwinPlayer.getPlayer().getUniqueId().toString() + "'," + "'" + daedwinPlayer.getPlayer().getName() + "',DEFAULT, DEFAULT, DEFAULT, DEFAULT, DEFAULT, DEFAULT, DEFAULT, DEFAULT, DEFAULT);");
+            if (!playerExists(player.getUniqueId())) {
+                PreparedStatement ps = prepareStatement("INSERT INTO player_info(UUID, NAME, NATION, RANK, LEVEL, GOLD, ECASH, JOIN_DATE, LAST_LOGIN, IS_BANNED, IS_MUTED) VALUES ('" + player.getUniqueId().toString() + "'," + "'" + player.getName() + "',DEFAULT, DEFAULT, DEFAULT, DEFAULT, DEFAULT, DEFAULT, DEFAULT, DEFAULT, DEFAULT);");
                 ps.executeUpdate();
                 ps.close();
 
-                Utils.log.info("Created Data for Player " + daedwinPlayer.getPlayer().getName() + " and added to the Database.");
+                Utils.log.info("Created Data for Player " + player.getName() + " and added to the Database.");
             }
 
+            DaedwinPlayer daedwinPlayer = DaedwinPlayer.getInstanceOfPlayer(player);
+
             PreparedStatement statement = prepareStatement("SELECT * FROM player_info WHERE UUID = ?");
-            statement.setString(1, daedwinPlayer.getPlayer().getUniqueId().toString());
+            statement.setString(1, player.getUniqueId().toString());
 
             ResultSet rs = statement.executeQuery();
 
@@ -247,8 +250,9 @@ public class DatabaseAPI {
         }
     }
 
-    public static void savePlayer(DaedwinPlayer daedwinPlayer) {
+    public static void savePlayer(Player player) {
         try {
+            DaedwinPlayer daedwinPlayer = DaedwinPlayer.getInstanceOfPlayer(player);
 
             PreparedStatement statement = prepareStatement("SELECT * FROM player_info WHERE UUID = ?");
             statement.setString(1, daedwinPlayer.getPlayer().getUniqueId().toString());
@@ -278,8 +282,8 @@ public class DatabaseAPI {
                 Utils.log.info("Successfully saved " + daedwinPlayer.getPlayer().getName() + "'s data.");
                 return;
             } else {
-                loadPlayer(daedwinPlayer);
-                savePlayer(daedwinPlayer);
+                loadPlayer(player);
+                savePlayer(player);
             }
         } catch (Exception e) {
             e.printStackTrace();
